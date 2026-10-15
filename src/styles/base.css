@@ -16,7 +16,7 @@ a:focus-visible { outline: 2px solid currentColor; outline-offset: 5px; }
 .site-header__nav { display: flex; gap: 36px; }
 .site-header__nav a { padding: 12px 0; }
 .site-header__edition { justify-self: end; font-weight: 400; }
-.intro__canvas { align-self: center; width: min(100%, 1660px); margin: -15px auto 0; text-align: center; }
+.intro__canvas { align-self: center; width: min(100%, 1660px); margin: -15px auto 0; text-align: center; will-change: transform; }
 .intro__eyebrow, .intro__index, .intro__next, .intro__preview figcaption, .work__topline, .work__opening-bottom span, .project-card__topline, .project-card__type, .project-card__status, .project-card__foot, .project-card__figure figcaption, .project-card__pending { font-family: 'DM Sans', Arial, sans-serif; }
 .intro__eyebrow { margin-bottom: 26px; font-size: 11px; letter-spacing: .19em; }
 .intro__title { font-size: clamp(66px, 6.45vw, 126px); font-weight: 400; line-height: 1.04; letter-spacing: -.083em; }
@@ -107,4 +107,4 @@ a:focus-visible { outline: 2px solid currentColor; outline-offset: 5px; }
   .project-card__description { margin-top: 20px; font-size: 15px; }
   .project-card__status { margin-top: 25px; }
 }
-@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .intro__canvas { will-change: auto; } }
