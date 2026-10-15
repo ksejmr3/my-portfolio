@@ -7,14 +7,12 @@ function SectionIntro({ index, eyebrow, title, body }) {
   return <header className="case-section__intro"><span>{index}</span><div><p>{eyebrow}</p><h2>{title}</h2>{body && <p className="case-section__body">{body}</p>}</div></header>
 }
 
-export default function HyundaiCaseStudy({ onBackToWork }) {
+export default function HyundaiCaseStudy() {
   const [activeImage, setActiveImage] = useState(null)
   const openImage = (image) => setActiveImage(image)
   const heroImage = { ...project.hero, label: 'FINAL UI / CURRENT BOARD', title: 'WIREFRAME & UI DESIGN' }
 
-  return <main className="case-study case-study--hyundai">
-    <header className="case-nav"><button type="button" onClick={onBackToWork}>← BACK TO SELECTED WORKS</button><span>01 / 03</span></header>
-
+  return <section className="case-study case-study--hyundai" id="hyundai-case-study" aria-label="Hyundai Motorstudio project case study">
     <section className="case-hero" aria-labelledby="hyundai-title">
       <div className="case-hero__meta"><p>{project.type}</p><p>PERIOD / {project.period}</p><p>TEAM PROJECT</p></div>
       <h1 id="hyundai-title">HYUNDAI<br /><em>MOTORSTUDIO</em></h1>
@@ -56,7 +54,7 @@ export default function HyundaiCaseStudy({ onBackToWork }) {
       <EvidenceFigure image={heroImage} onOpen={openImage} className="case-final__figure" />
     </section>
 
-    <footer className="case-closing"><div className="case-closing__message"><p>PROJECT SUMMARY</p><h2>경험을 찾고,<br /><em>방문을 계획하다.</em></h2><p>전시·시승·프로그램을 하나의 탐색 흐름으로 연결하고, 필요한 정보를 확인한 뒤 방문과 예약으로 이어지도록 설계했습니다.</p></div><button type="button" onClick={onBackToWork}>BACK TO SELECTED WORKS <span aria-hidden="true">↗</span></button></footer>
+    <footer className="case-closing"><div className="case-closing__message"><p>PROJECT SUMMARY</p><h2>경험을 찾고,<br /><em>방문을 계획하다.</em></h2><p>전시·시승·프로그램을 하나의 탐색 흐름으로 연결하고, 필요한 정보를 확인한 뒤 방문과 예약으로 이어지도록 설계했습니다.</p></div></footer>
     {activeImage && <ImageLightbox image={activeImage} onClose={() => setActiveImage(null)} />}
-  </main>
+  </section>
 }

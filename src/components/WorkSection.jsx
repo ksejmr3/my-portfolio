@@ -1,12 +1,13 @@
-import { useLayoutEffect, useRef } from 'react'
+import { Fragment, useLayoutEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import ProjectCard from './ProjectCard.jsx'
+import HyundaiCaseStudy from '../pages/HyundaiCaseStudy.jsx'
 import { projects } from '../data/projects.js'
 
 if (!gsap.plugins.ScrollTrigger) gsap.registerPlugin(ScrollTrigger)
 
-export default function WorkSection({ onNavigate }) {
+export default function WorkSection() {
   const sectionRef = useRef(null)
   const openingRef = useRef(null)
 
@@ -72,10 +73,19 @@ export default function WorkSection({ onNavigate }) {
             }))
         })
 
+        let refreshFrame = 0
+        const resizeObserver = new ResizeObserver(() => {
+          cancelAnimationFrame(refreshFrame)
+          refreshFrame = requestAnimationFrame(() => ScrollTrigger.refresh())
+        })
+        resizeObserver.observe(sectionRef.current)
+
         const frame = requestAnimationFrame(() => ScrollTrigger.refresh())
 
         return () => {
           cancelAnimationFrame(frame)
+          cancelAnimationFrame(refreshFrame)
+          resizeObserver.disconnect()
           animations.forEach((animation) => animation.kill())
         }
       })
@@ -93,7 +103,10 @@ export default function WorkSection({ onNavigate }) {
         <h2 id="work-title">selected <em>works.</em></h2>
         <div className="work__opening-bottom"><p>조사와 해석에서 화면 설계까지.<br />세 가지 프로젝트를 소개합니다.</p><span>SCROLL TO EXPLORE ↓</span></div>
       </div>
-      <div className="work__projects">{projects.map((project) => <ProjectCard project={project} key={project.id} onNavigate={onNavigate} />)}</div>
+      <div className="work__projects">{projects.map((project) => <Fragment key={project.id}>
+        <ProjectCard project={project} />
+        {project.id === 'hyundai-motorstudio' && <HyundaiCaseStudy />}
+      </Fragment>)}</div>
     </section>
   )
 }
