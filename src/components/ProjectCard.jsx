@@ -1,4 +1,10 @@
-export default function ProjectCard({ project }) {
+export default function ProjectCard({ project, onNavigate }) {
+  const isHyundai = project.id === 'hyundai-motorstudio'
+  const goToCaseStudy = (event) => {
+    event.preventDefault()
+    onNavigate?.('/work/hyundai-motorstudio')
+  }
+
   return (
     <article className={`project-card project-card--${project.id}`} id={project.id} aria-labelledby={`${project.id}-title`}>
       <div className="project-card__media">
@@ -13,7 +19,7 @@ export default function ProjectCard({ project }) {
       </div>
       <div className="project-card__content">
         <div className="project-card__topline"><span>{project.number} / 03</span><span>SELECTED WORK</span></div>
-        <div className="project-card__story"><p className="project-card__type">{project.type}</p><h3 id={`${project.id}-title`}>{project.name}</h3><p className="project-card__description">{project.description}</p><span className="project-card__status">CASE STUDY / IN PREPARATION</span></div>
+        <div className="project-card__story"><p className="project-card__type">{project.type}</p><h3 id={`${project.id}-title`}>{project.name}</h3><p className="project-card__description">{project.description}</p>{isHyundai ? <a className="project-card__status project-card__case-link" href="/work/hyundai-motorstudio" onClick={goToCaseStudy}>VIEW CASE STUDY <span aria-hidden="true">↗</span></a> : <span className="project-card__status">CASE STUDY / IN PREPARATION</span>}</div>
         <p className="project-card__foot">KIM JIYOUNG / PORTFOLIO V2</p>
       </div>
     </article>

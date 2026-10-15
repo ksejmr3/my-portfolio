@@ -6,7 +6,7 @@ import { projects } from '../data/projects.js'
 
 if (!gsap.plugins.ScrollTrigger) gsap.registerPlugin(ScrollTrigger)
 
-export default function WorkSection() {
+export default function WorkSection({ onNavigate }) {
   const sectionRef = useRef(null)
   const openingRef = useRef(null)
 
@@ -93,7 +93,7 @@ export default function WorkSection() {
         <h2 id="work-title">selected <em>works.</em></h2>
         <div className="work__opening-bottom"><p>조사와 해석에서 화면 설계까지.<br />세 가지 프로젝트를 소개합니다.</p><span>SCROLL TO EXPLORE ↓</span></div>
       </div>
-      <div className="work__projects">{projects.map((project) => <ProjectCard project={project} key={project.id} />)}</div>
+      <div className="work__projects">{projects.map((project) => <ProjectCard project={project} key={project.id} onNavigate={onNavigate} />)}</div>
     </section>
   )
 }
