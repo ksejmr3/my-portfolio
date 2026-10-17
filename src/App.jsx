@@ -1,10 +1,11 @@
 import IntroSection from './components/IntroSection.jsx'
-import WorkSection from './components/WorkSection.jsx'
+import IntroWorkSequence from './components/IntroWorkSequence.jsx'
+import WorkSection, { WorkOpening } from './components/WorkSection.jsx'
 
 export default function App() {
   return (
     <main>
-      <IntroSection />
+      <IntroWorkSequence intro={<IntroSection />} opening={<WorkOpening />} />
       <WorkSection />
     </main>
   )

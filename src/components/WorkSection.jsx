@@ -7,34 +7,27 @@ import { projects } from '../data/projects.js'
 
 if (!gsap.plugins.ScrollTrigger) gsap.registerPlugin(ScrollTrigger)
 
+export function WorkOpening() {
+  return (
+    <section className="work work--transition" id="work" aria-labelledby="work-title">
+      <div className="work__opening">
+        <div className="work__topline work__topline--transition"><span>01 — 03</span><span>UX/UI · WEB REDESIGN</span></div>
+        <h2 id="work-title"><span className="work__title-word work__title-word--selected">selected</span>{' '}<em className="work__title-word work__title-word--works">works.</em></h2>
+        <div className="work__opening-bottom"><p className="work__description--transition">조사와 해석에서 화면 설계까지.<br />세 가지 프로젝트를 소개합니다.</p><span className="work__scroll-cue--transition">SCROLL TO EXPLORE ↓</span></div>
+      </div>
+    </section>
+  )
+}
+
 export default function WorkSection() {
   const sectionRef = useRef(null)
-  const openingRef = useRef(null)
 
   useLayoutEffect(() => {
     const context = gsap.context(() => {
       const media = gsap.matchMedia()
 
       media.add('(min-width: 701px) and (prefers-reduced-motion: no-preference)', () => {
-        const openingItems = Array.from(openingRef.current.children)
-        const animations = [
-          gsap.fromTo(openingItems,
-            { autoAlpha: 0, y: 24 },
-            {
-              autoAlpha: 1,
-              y: 0,
-              duration: 0.55,
-              stagger: 0.09,
-              ease: 'power1.out',
-              scrollTrigger: {
-                trigger: openingRef.current,
-                start: 'top 78%',
-                end: 'top 40%',
-                toggleActions: 'play none none reverse',
-                invalidateOnRefresh: true,
-              },
-            }),
-        ]
+        const animations = []
 
         sectionRef.current.querySelectorAll('.project-card').forEach((card) => {
           const mediaPanel = card.querySelector('.project-card__media')
@@ -97,12 +90,7 @@ export default function WorkSection() {
   }, [])
 
   return (
-    <section className="work" id="work" aria-labelledby="work-title" ref={sectionRef}>
-      <div className="work__opening" ref={openingRef}>
-        <div className="work__topline"><span>01 — 03</span><span>UX/UI · WEB REDESIGN</span></div>
-        <h2 id="work-title">selected <em>works.</em></h2>
-        <div className="work__opening-bottom"><p>조사와 해석에서 화면 설계까지.<br />세 가지 프로젝트를 소개합니다.</p><span>SCROLL TO EXPLORE ↓</span></div>
-      </div>
+    <section className="work work--projects-section" aria-labelledby="work-title" ref={sectionRef}>
       <div className="work__projects">{projects.map((project) => <Fragment key={project.id}>
         <ProjectCard project={project} />
         {project.id === 'hyundai-motorstudio' && <HyundaiCaseStudy />}
