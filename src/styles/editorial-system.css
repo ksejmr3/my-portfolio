@@ -27,29 +27,31 @@
   width: min(100%, 1560px);
   padding-top: 12px;
   border-top: 1px solid color-mix(in srgb, currentColor 52%, transparent);
-  font: 10px/1.2 'DM Sans', Arial, sans-serif;
+  font: 500 12px/1.45 var(--font-latin, 'Inter', Arial, sans-serif);
   letter-spacing: .13em;
 }
 
 .editorial-system .editorial-display {
-  font-family: 'Manrope', Arial, sans-serif;
+  font-family: var(--font-latin, 'Inter', Arial, sans-serif);
   font-size: clamp(68px, 9.5vw, 182px);
-  font-weight: 400;
-  line-height: .82;
-  letter-spacing: -.095em;
+  font-weight: 600;
+  line-height: .9;
+  letter-spacing: -.045em;
 }
 
 .editorial-system .editorial-display em,
 .editorial-system em {
-  font-family: 'Playfair Display', Georgia, serif;
+  font-family: var(--font-accent, 'Lora', Georgia, serif);
   font-weight: 400;
+  font-style: italic;
 }
 
 .editorial-system .editorial-caption {
   max-width: 500px;
-  font-size: clamp(15px, 1.08vw, 19px);
-  line-height: 1.62;
-  letter-spacing: -.04em;
+  font-family: var(--font-korean, sans-serif);
+  font-size: clamp(16px, 1.08vw, 19px);
+  line-height: 1.72;
+  letter-spacing: -.01em;
 }
 
 .editorial-system .editorial-media {
@@ -68,6 +70,6 @@
     --editorial-gutter: 20px;
     --editorial-section-space: 82px;
   }
-  .editorial-system .editorial-meta { grid-template-columns: 42px 1fr; font-size: 8px; }
-  .editorial-system .editorial-display { font-size: clamp(54px, 14vw, 94px); line-height: .86; }
+  .editorial-system .editorial-meta { grid-template-columns: 42px 1fr; font-size: 11px; }
+  .editorial-system .editorial-display { font-size: clamp(54px, 14vw, 94px); line-height: .92; }
 }

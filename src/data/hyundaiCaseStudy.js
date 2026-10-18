@@ -17,6 +17,7 @@ export const hyundaiCaseStudy = {
   type: 'UX/UI WEBSITE RENEWAL · TEAM PROJECT',
   period: '2026.09.01 — 09.30',
   overview: '전시·시승·프로그램을 찾는 순간부터 방문과 예약까지, 모빌리티 경험을 하나의 탐색 흐름으로 잇는 웹사이트 리뉴얼입니다.',
+  contributionSummary: '4인 팀 프로젝트에서 UX 기획과 탐색 구조 구체화에 참여했습니다. 메인페이지의 Vehicle Exhibition 콘텐츠, 전시 서브페이지의 디자인·인터랙션, 경험 찾기 STEP 1~3 탐색 흐름을 담당했습니다.',
   hero: { src: board, alt: '현대 모터스튜디오 와이어프레임과 UI 디자인 보드' },
   research: [
     { label: 'STEEP ANALYSIS', title: 'MARKET & EXPERIENCE SHIFT', summary: '제품 판매를 넘어 브랜드·공간·미래 모빌리티 경험으로 확장되는 환경을 살폈습니다.', src: steep, alt: '자동차 산업과 브랜드 경험을 다섯 관점에서 분석한 STEEP 보드' },

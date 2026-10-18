@@ -4,7 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 gsap.registerPlugin(ScrollTrigger)
 
-export default function IntroWorkSequence({ intro, opening }) {
+export default function IntroWorkSequence({ intro, profile, opening }) {
   const sequenceRef = useRef(null)
 
   useLayoutEffect(() => {
@@ -16,15 +16,19 @@ export default function IntroWorkSequence({ intro, opening }) {
         const stage = select('.intro-work-sequence__stage')[0]
         const transitionPlane = select('.intro__transition-plane')
         const workItems = select('.work__topline--transition, .work__title-word, .work__description--transition, .work__scroll-cue--transition')
+        const profileSection = select('.profile-intro')[0]
+        const profileItems = select('.profile-intro__portrait, .profile-intro__content')
 
         gsap.set(workItems, { autoAlpha: 0 })
+        gsap.set(profileSection, { autoAlpha: 0 })
+        gsap.set(profileItems, { y: 24 })
 
         const timeline = gsap.timeline({
           defaults: { ease: 'none' },
           scrollTrigger: {
             trigger: stage,
             start: 'top top',
-            end: '+=160%',
+            end: '+=260%',
             pin: true,
             pinSpacing: true,
             anticipatePin: 1,
@@ -41,10 +45,14 @@ export default function IntroWorkSequence({ intro, opening }) {
           .to(select('.site-header, .intro__bottom--transition'), { autoAlpha: 0, duration: 16 }, 46)
           .fromTo(transitionPlane, { yPercent: 100 }, { yPercent: 0, duration: 16 }, 40)
           .to(select('.intro__title-line'), { autoAlpha: 0, duration: 14 }, 54)
-          .to(select('.work__topline--transition'), { autoAlpha: 1, y: 0, duration: 12 }, 56)
-          .fromTo(select('.work__title-word--selected'), { xPercent: -16, yPercent: 20 }, { autoAlpha: 1, xPercent: 0, yPercent: 0, duration: 22 }, 60)
-          .fromTo(select('.work__title-word--works'), { xPercent: 16, yPercent: 28 }, { autoAlpha: 1, xPercent: 0, yPercent: 0, duration: 20 }, 62)
-          .to(select('.work__description--transition, .work__scroll-cue--transition'), { autoAlpha: 1, y: 0, duration: 18 }, 82)
+          .to(profileSection, { autoAlpha: 1, duration: 10 }, 56)
+          .to(profileItems, { y: 0, duration: 14, stagger: .08 }, 58)
+          .to({}, { duration: 28 }, 74)
+          .to(profileSection, { autoAlpha: 0, duration: 12 }, 102)
+          .to(select('.work__topline--transition'), { autoAlpha: 1, y: 0, duration: 12 }, 114)
+          .fromTo(select('.work__title-word--selected'), { xPercent: -16, yPercent: 20 }, { autoAlpha: 1, xPercent: 0, yPercent: 0, duration: 22 }, 118)
+          .fromTo(select('.work__title-word--works'), { xPercent: 16, yPercent: 28 }, { autoAlpha: 1, xPercent: 0, yPercent: 0, duration: 20 }, 120)
+          .to(select('.work__description--transition, .work__scroll-cue--transition'), { autoAlpha: 1, y: 0, duration: 18 }, 140)
 
         const frame = requestAnimationFrame(() => ScrollTrigger.refresh())
         const refresh = () => ScrollTrigger.refresh()
@@ -55,6 +63,7 @@ export default function IntroWorkSequence({ intro, opening }) {
           images.forEach((image) => image.removeEventListener('load', refresh))
           timeline.kill()
           gsap.set(workItems, { clearProps: 'opacity,visibility,transform' })
+          gsap.set([profileSection, ...profileItems], { clearProps: 'opacity,visibility,transform' })
         }
       })
 
@@ -68,6 +77,7 @@ export default function IntroWorkSequence({ intro, opening }) {
     <div className="intro-work-sequence" ref={sequenceRef}>
       <div className="intro-work-sequence__stage">
         {intro}
+        {profile}
         {opening}
       </div>
     </div>
