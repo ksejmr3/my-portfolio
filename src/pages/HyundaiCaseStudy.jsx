@@ -9,71 +9,262 @@ function SectionIntro({ index, eyebrow, title, body }) {
   return <header className="case-section__intro"><span>{index}</span><div><p>{eyebrow}</p><h2>{title}</h2>{body && <p className="case-section__body">{body}</p>}</div></header>
 }
 
+function solvePhoneScreenMatrix(scale) {
+  const width = 430
+  const height = 980
+  const corners = [[120, 264], [1442, 83], [2740, 3028], [1417, 3330]].map(([x, y]) => [x * scale, y * scale])
+  const source = [[0, 0], [width, 0], [width, height], [0, height]]
+  const equations = []
+  source.forEach(([x, y], index) => {
+    const [u, v] = corners[index]
+    equations.push([x, y, 1, 0, 0, 0, -u * x, -u * y, u])
+    equations.push([0, 0, 0, x, y, 1, -v * x, -v * y, v])
+  })
+  for (let column = 0; column < 8; column += 1) {
+    let pivot = column
+    for (let row = column + 1; row < 8; row += 1) if (Math.abs(equations[row][column]) > Math.abs(equations[pivot][column])) pivot = row
+    ;[equations[column], equations[pivot]] = [equations[pivot], equations[column]]
+    const divisor = equations[column][column]
+    for (let cell = column; cell < 9; cell += 1) equations[column][cell] /= divisor
+    for (let row = 0; row < 8; row += 1) {
+      if (row === column) continue
+      const factor = equations[row][column]
+      for (let cell = column; cell < 9; cell += 1) equations[row][cell] -= factor * equations[column][cell]
+    }
+  }
+  const [a, c, e, b, d, f, g, h] = equations.map((row) => row[8])
+  return `matrix3d(${a}, ${b}, 0, ${g}, ${c}, ${d}, 0, ${h}, 0, 0, 1, 0, ${e}, ${f}, 0, 1)`
+}
+
+const DESIGN_SCROLL_VIEWPORTS_PER_SECOND = 0.27
+const DESIGN_SCROLL_ENDPOINT_PAUSE = 750
+
+function SelectedWorkMedia({ src, poster, label, title, className = '', mode = 'laptop', kind = 'video', playbackRate = 1 }) {
+  const figureRef = useRef(null)
+  const videoRef = useRef(null)
+  const mediaRef = useRef(null)
+  const viewportRef = useRef(null)
+  const mockupRef = useRef(null)
+  const phonePlaneRef = useRef(null)
+  const [reducedMotion, setReducedMotion] = useState(() => window.matchMedia('(prefers-reduced-motion: reduce)').matches)
+  const [isPlaying, setIsPlaying] = useState(false)
+  const [hasFailed, setHasFailed] = useState(false)
+  const isPhone = mode === 'phone'
+  const isLaptop = mode === 'laptop'
+
+  useLayoutEffect(() => {
+    if (!isPhone || !mockupRef.current || !phonePlaneRef.current) return
+    const updateMatrix = () => {
+      const scale = mockupRef.current.getBoundingClientRect().width / 2793
+      phonePlaneRef.current.style.transform = solvePhoneScreenMatrix(scale)
+    }
+    const observer = new ResizeObserver(updateMatrix)
+    observer.observe(mockupRef.current)
+    updateMatrix()
+    return () => observer.disconnect()
+  }, [isPhone])
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
+    const updateMotionPreference = () => setReducedMotion(mediaQuery.matches)
+    mediaQuery.addEventListener('change', updateMotionPreference)
+
+    const target = figureRef.current
+    const media = videoRef.current
+    if (!target) return () => mediaQuery.removeEventListener('change', updateMotionPreference)
+
+    let isVisible = false
+    const syncPlayback = () => {
+      if (!media || reducedMotion || !isVisible || hasFailed) {
+        media?.pause()
+        return
+      }
+      media.play().catch(() => setHasFailed(true))
+    }
+    const observer = new IntersectionObserver(([entry]) => {
+      isVisible = entry.isIntersecting
+      syncPlayback()
+    }, { threshold: 0.12 })
+    observer.observe(target)
+
+    return () => {
+      observer.disconnect()
+      media?.pause()
+      mediaQuery.removeEventListener('change', updateMotionPreference)
+    }
+  }, [reducedMotion, hasFailed, kind])
+
+  useEffect(() => {
+    const figure = figureRef.current
+    const content = mediaRef.current
+    if (!figure || kind !== 'design') return
+    if (reducedMotion) {
+      if (mediaRef.current) mediaRef.current.style.transform = 'translate3d(0, 0, 0)'
+      return
+    }
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
+    let isVisible = false
+    let frame = null
+    let activeElapsed = 0
+    let lastTime = 0
+    let distance = 0
+    let travelDuration = 0
+    const pauseAfter = DESIGN_SCROLL_ENDPOINT_PAUSE
+    const cycleDuration = () => (travelDuration + pauseAfter) * 2
+    const readMotion = () => {
+      if (!travelDuration) return { segment: 'start', progress: 0, elapsed: 0 }
+      const phase = activeElapsed % cycleDuration()
+      if (phase < pauseAfter) return { segment: 'start', progress: 0, elapsed: phase }
+      if (phase < pauseAfter + travelDuration) return { segment: 'forward', progress: (phase - pauseAfter) / travelDuration }
+      if (phase < travelDuration + pauseAfter * 2) return { segment: 'end', progress: 1, elapsed: phase - travelDuration - pauseAfter }
+      return { segment: 'reverse', progress: 1 - (phase - travelDuration - pauseAfter * 2) / travelDuration }
+    }
+    const measure = () => {
+      const motion = readMotion()
+      const viewportHeight = viewportRef.current?.clientHeight || figure.clientHeight
+      distance = Math.max(0, content.scrollHeight - viewportHeight)
+      const speed = viewportHeight * DESIGN_SCROLL_VIEWPORTS_PER_SECOND
+      travelDuration = distance > 0 && speed > 0 ? (distance / speed) * 1000 : 0
+      if (motion.segment === 'forward') activeElapsed = pauseAfter + motion.progress * travelDuration
+      else if (motion.segment === 'end') activeElapsed = pauseAfter + travelDuration + motion.elapsed
+      else if (motion.segment === 'reverse') activeElapsed = pauseAfter * 2 + travelDuration + (1 - motion.progress) * travelDuration
+      else activeElapsed = motion.elapsed
+      lastTime = 0
+      content.style.transform = `translate3d(0, ${-distance * motion.progress}px, 0)`
+    }
+    const draw = (time) => {
+      frame = null
+      if (!isVisible || document.hidden || !content) return
+      if (lastTime) activeElapsed += time - lastTime
+      lastTime = time
+      if (!travelDuration) {
+        content.style.transform = 'translate3d(0, 0, 0)'
+        frame = requestAnimationFrame(draw)
+        return
+      }
+      const phase = activeElapsed % cycleDuration()
+      const progress = phase < pauseAfter
+        ? 0
+        : phase < pauseAfter + travelDuration
+          ? (phase - pauseAfter) / travelDuration
+          : phase < travelDuration + pauseAfter * 2
+            ? 1
+            : 1 - (phase - travelDuration - pauseAfter * 2) / travelDuration
+      content.style.transform = `translate3d(0, ${-distance * progress}px, 0)`
+      frame = requestAnimationFrame(draw)
+    }
+    const start = () => {
+      if (frame === null && isVisible && !mediaQuery.matches && !document.hidden) frame = requestAnimationFrame(draw)
+    }
+    const stop = () => {
+      if (frame !== null) cancelAnimationFrame(frame)
+      frame = null
+      lastTime = 0
+    }
+    const resizeObserver = new ResizeObserver(measure)
+    if (viewportRef.current) resizeObserver.observe(viewportRef.current)
+    resizeObserver.observe(content)
+    const pageImage = content instanceof HTMLImageElement ? content : null
+    pageImage?.addEventListener('load', measure)
+    measure()
+    const observer = new IntersectionObserver(([entry]) => {
+      isVisible = entry.isIntersecting
+      if (isVisible) start()
+      else stop()
+    }, { threshold: 0.08 })
+    observer.observe(figure)
+    const handleVisibility = () => {
+      if (document.hidden) stop()
+      else start()
+    }
+    document.addEventListener('visibilitychange', handleVisibility)
+    return () => { observer.disconnect(); resizeObserver.disconnect(); pageImage?.removeEventListener('load', measure); stop(); document.removeEventListener('visibilitychange', handleVisibility) }
+  }, [kind, reducedMotion])
+
+  const mediaContent = kind === 'video'
+    ? <>
+      <img className={`case-selected-works__poster${isPlaying && !hasFailed ? ' is-hidden' : ''}`} src={poster} alt="" aria-hidden="true" />
+      <video ref={videoRef} src={src} poster={poster} muted loop playsInline preload="metadata" aria-label={title} onLoadedMetadata={(event) => { event.currentTarget.playbackRate = playbackRate }} onPlaying={() => { setIsPlaying(true); setHasFailed(false) }} onPause={() => setIsPlaying(false)} onError={() => setHasFailed(true)} />
+    </>
+    : <img ref={mediaRef} className="case-selected-works__design-page" src={src} alt={`${title} — Figma design preview`} loading="lazy" />
+
+  return <figure className={`case-selected-works__figure case-selected-works__figure--${mode} ${className}`} ref={figureRef}>
+    {isLaptop ? <div className="case-selected-works__mockup case-selected-works__mockup--laptop" ref={mockupRef}>
+      <div className="case-selected-works__screen case-selected-works__screen--laptop" ref={viewportRef}>{mediaContent}</div>
+      <img className="case-selected-works__mockup-frame" src="/images/mockups/laptop-mockup-alpha.png" alt="" aria-hidden="true" />
+    </div> : isPhone ? <div className="case-selected-works__mockup case-selected-works__mockup--phone" ref={mockupRef}>
+      <div className="case-selected-works__phone-plane" ref={phonePlaneRef}><div className="case-selected-works__screen case-selected-works__screen--phone" ref={viewportRef}>{mediaContent}</div></div>
+      <img className="case-selected-works__mockup-frame" src="/images/mockups/phone-mockup-alpha.png" alt="" aria-hidden="true" />
+    </div> : <div className="case-selected-works__screen case-selected-works__screen--plain">{mediaContent}</div>}
+    <figcaption><span>{label}</span><span>{title}</span></figcaption>
+  </figure>
+}
+
 const planningStages = [
   {
     number: '01',
     title: '시장·브랜드 리서치',
     subtitle: 'MARKET & BRAND RESEARCH',
-    body: '시장 환경과 경쟁 브랜드의 콘텐츠 구성을 비교하며 현대 모터스튜디오 웹사이트의 개선 방향을 검토했습니다. 특히 지점과 경험 유형이 분산된 정보 구조에 주목했고, 사용자가 관심 있는 콘텐츠를 중심으로 탐색할 수 있도록 UX 개선 방향을 구체화하는 기획 과정에 참여했습니다.',
+    body: 'STEEP·3C 분석과 자사·경쟁 서비스 비교로 브랜드 경험과 정보 구조의 맥락을 정리했습니다. 분석 기준을 세워 개선이 필요한 접점을 좁혔습니다.',
     images: [
-      { label: 'STEEP', detailTitle: 'STEEP 분석', detail: '사회·기술·경제·환경·정책 관점에서 브랜드 경험을 살펴본 결과, 온라인에서도 사용자가 공간과 콘텐츠를 직관적으로 탐색할 수 있는 디지털 접점이 필요하다고 보았습니다.', src: '/images/hyundai/planning/01-research/research-steep.png.png', alt: '현대 모터스튜디오 STEEP 분석 보드' },
-      { label: '3C', detailTitle: '3C 분석', detail: '브랜드·사용자·경쟁 환경을 함께 비교해 지점과 콘텐츠가 혼재된 구조를 경험 중심으로 재구성하고, 탐색부터 상세·예약까지 이어지는 흐름을 설계 방향으로 설정했습니다.', src: '/images/hyundai/planning/01-research/research-3c.png.png', alt: '현대 모터스튜디오 3C 분석 보드' },
+      { label: 'STEEP', detailTitle: 'STEEP 분석', detail: '사회·기술·경제·환경·정책 변화를 검토해 모빌리티 브랜드와 오프라인 경험이 확장되는 배경을 살폈습니다.', src: '/images/hyundai/planning/01-research/research-steep.png.png', alt: '현대 모터스튜디오 STEEP 분석 보드' },
+      { label: '3C', detailTitle: '3C 분석', detail: '고객·경쟁 환경·브랜드 관점에서 리뉴얼의 범위와 비교 기준을 정리했습니다.', src: '/images/hyundai/planning/01-research/research-3c.png.png', alt: '고객, 경쟁사, 자사를 비교한 3C 분석 보드' },
       { label: '시장 환경 및 근거 조사', detailTitle: '시장 환경 및 근거 조사', detail: '자동차 시장 변화와 브랜드 경험, 온·오프라인 경험의 연결을 살펴보기 위한 근거 자료를 정리했습니다.', src: '/images/hyundai/planning/01-research/research-background-evidence.png.png', alt: '현대 모터스튜디오 시장 환경 및 근거 조사 보드' },
-      { label: '경쟁사 분석', detailTitle: '경쟁사 분석', detail: '벤츠 뮤지엄·BMW·제네시스 웹사이트를 비교해, 주요 콘텐츠의 진입점과 정보 구조를 한 화면에서 이해하기 쉬운 방식으로 구성하는 사례를 확인했습니다.', src: '/images/hyundai/planning/01-research/research-competitor.png.png', alt: '현대 모터스튜디오 경쟁사 분석 보드' },
-      { label: '자사 분석', detailTitle: '자사 분석', detail: '기존 사이트는 지점·콘텐츠·예약 정보가 여러 영역에 분산되어, 사용자가 원하는 경험과 다음 행동을 빠르게 판단하기 어려운 지점을 확인했습니다.', src: '/images/hyundai/planning/01-research/research-brand-audit.png.png', alt: '현대 모터스튜디오 자사 분석 보드' },
+      { label: '경쟁사 분석', detailTitle: '경쟁사 분석', detail: 'Mercedes-Benz Museum, BMW Welt, Genesis Space의 콘텐츠 구성과 탐색 경로를 비교했습니다.', src: '/images/hyundai/planning/01-research/research-competitor.png.png', alt: '현대 모터스튜디오 경쟁사 웹사이트 비교 보드' },
+      { label: '자사 분석', detailTitle: '자사 분석', detail: '기존 사이트의 메뉴, 콘텐츠 진입점, 지점·예약 정보 배치를 조사해 개선 과제를 기록했습니다.', src: '/images/hyundai/planning/01-research/research-brand-audit.png.png', alt: '현대 모터스튜디오 자사 분석 보드' },
     ],
   },
   {
     number: '02',
     title: '사용자 리서치',
     subtitle: 'USER RESEARCH',
-    body: '팀에서 진행한 설문조사와 사용자 분석 결과를 바탕으로 콘텐츠 이해도와 정보 탐색 과정의 불편 요소를 정리했습니다. 사용자가 경험을 선택할 때 필요한 지점·일정·예약 정보를 쉽게 확인할 수 있도록 정보 우선순위와 화면 구성에 반영할 방향을 검토했습니다.',
+    body: '설문과 사용자 분석 자료를 검토해 콘텐츠 이해와 탐색 과정에서 반복되는 요구를 묶었습니다. 정량 응답과 정성 관찰을 함께 읽으며 우선 살펴볼 사용 맥락을 정리했습니다.',
     images: [
-      { label: '설문조사', detailTitle: '설문조사', detail: '기존 웹사이트 이용 경험을 바탕으로 콘텐츠·지점·일정·예약 정보의 이해도를 확인할 수 있도록 설문 문항을 구성했습니다.', src: '/images/hyundai/planning/02-user-research/user-survey-form.png.png', alt: '현대 모터스튜디오 사용자 설문조사 양식' },
-      { label: '설문 결과', detailTitle: '설문 결과', detail: '12개 응답에서 콘텐츠의 중요도·참여 가능 여부·운영 상태 이해도가 모두 평균 2점대에 머물렀습니다. 정보의 우선순위와 참여·운영 상태를 화면에서 구분하는 방향을 설정했습니다.', src: '/images/hyundai/planning/02-user-research/user-survey-results.png.png', alt: '현대 모터스튜디오 사용자 설문조사 결과' },
-      { label: '어피니티 다이어그램', detailTitle: '어피니티 다이어그램', detail: '사용자 관찰을 묶어 정리한 어피니티 다이어그램입니다.', src: '/images/hyundai/planning/02-user-research/user-affinity-diagram.png.png', alt: '현대 모터스튜디오 사용자 어피니티 다이어그램' },
+      { label: '설문조사', detailTitle: '설문조사', detail: '기존 웹사이트 이용 경험과 콘텐츠 이해도를 살펴보기 위해 설문을 진행했습니다.', src: '/images/hyundai/planning/02-user-research/user-survey-form.png.png', alt: '현대 모터스튜디오 사용자 설문조사 양식' },
+      { label: '설문 결과', detailTitle: '설문 결과', detail: '12개 응답에서 콘텐츠의 중요도·참여 가능 여부·운영 상태 이해도가 모두 평균 2점대였습니다. 이 결과를 문제 파악의 근거로 활용했습니다.', src: '/images/hyundai/planning/02-user-research/user-survey-results.png.png', alt: '현대 모터스튜디오 사용자 설문조사 결과' },
+      { label: '어피니티 다이어그램', detailTitle: '어피니티 다이어그램', detail: '사용자 관찰과 응답에서 공통으로 나타난 요구를 주제별로 묶었습니다.', src: '/images/hyundai/planning/02-user-research/user-affinity-diagram.png.png', alt: '현대 모터스튜디오 사용자 어피니티 다이어그램' },
     ],
   },
   {
     number: '03',
     title: 'UX 전략',
     subtitle: 'UX STRATEGY',
-    body: '퍼소나·저니맵·린 캔버스에서 정리한 문제를 실제 탐색 흐름으로 연결하는 데 집중했습니다. 특히 경험 찾기 페이지에서 사용자가 관심사를 단계적으로 선택하고 추천 결과를 확인하도록 STEP 1~3 구조와 콘텐츠 흐름을 구체화하고 구현했습니다.',
+    body: '퍼소나·저니맵·린 캔버스를 사용해 사용자 유형과 과업, 과정별 막힘을 시각화했습니다. 이를 바탕으로 페이지 개선 과제와 설계 가설을 정리했습니다.',
     images: [
-      { label: '사용자 퍼소나', detailTitle: '사용자 퍼소나', detail: '세 유형의 사용자는 원하는 경험을 빠르게 비교하고, 첫 화면에서 지점·일정·예약 정보를 파악하기를 원했습니다. 이를 바탕으로 경험 정보의 우선 노출과 탐색·예약 흐름의 연결을 검토했습니다.', src: '/images/hyundai/planning/03-ux-strategy/ux-persona-board.png.png', alt: '현대 모터스튜디오 사용자 퍼소나 전체 보드' },
-      { label: '저니맵', detailTitle: '저니맵', detail: '콘텐츠 탐색부터 상세 확인·예약·방문 결정까지의 흐름에서, 반복적인 확인과 예약 이탈 지점을 파악해 각 단계의 정보 연결 방식을 검토했습니다.', src: '/images/hyundai/planning/03-ux-strategy/ux-user-journey-map.png.png', alt: '현대 모터스튜디오 사용자 저니맵' },
-      { label: '린 캔버스', detailTitle: '린 캔버스', detail: '콘텐츠 탐색 이후 상세 정보와 예약으로 이어지는 과정의 이탈을 문제로 정의하고, 해결 가설과 검증 항목을 한 화면에 정리했습니다.', src: '/images/hyundai/planning/03-ux-strategy/ux-lean-canvas.png.png', alt: '현대 모터스튜디오 린 캔버스' },
+      { label: '사용자 퍼소나', detailTitle: '사용자 퍼소나', detail: '조사에서 확인한 요구를 사용자 유형과 방문 맥락으로 정리했습니다.', src: '/images/hyundai/planning/03-ux-strategy/ux-persona-board.png.png', alt: '현대 모터스튜디오 사용자 퍼소나 전체 보드' },
+      { label: '저니맵', detailTitle: '저니맵', detail: '탐색부터 예약·방문 결정까지의 주요 과업과 불편 지점을 여정 단계에 따라 표시했습니다.', src: '/images/hyundai/planning/03-ux-strategy/ux-user-journey-map.png.png', alt: '현대 모터스튜디오 사용자 저니맵' },
+      { label: '린 캔버스', detailTitle: '린 캔버스', detail: '문제 정의, 해결 가설과 확인할 항목을 한 화면에 정리했습니다.', src: '/images/hyundai/planning/03-ux-strategy/ux-lean-canvas.png.png', alt: '현대 모터스튜디오 린 캔버스' },
     ],
   },
   {
     number: '04',
     title: '정보 구조',
     subtitle: 'INFORMATION ARCHITECTURE',
-    body: '메뉴트리와 사용자 플로우를 검토하며 콘텐츠 탐색에서 상세 정보와 예약으로 이어지는 흐름을 정리했습니다. 이후 담당 페이지와 연결 화면을 구현하는 과정에서 콘텐츠 배치, 이동 경로, 버튼 연결 등을 확인하며 실제 사용 흐름을 보완했습니다.',
+    body: '메뉴트리와 사용자 플로우로 페이지 간 관계와 이동 경로를 정리하고, 각 화면에 필요한 정보를 요구사항으로 구체화했습니다.',
     images: [
-      { label: '팀 회의', detailTitle: '팀 회의', detail: '서브페이지의 이미지·콘텐츠 구성, 반응형 디자인, 로고와 소개 영역 등 화면별 작업 항목을 나누고 역할을 정리했습니다.', src: '/images/hyundai/planning/04-information-architecture/ia-team-meeting-notes.png.png', alt: '현대 모터스튜디오 정보 구조 팀 회의 기록' },
-      { label: '메뉴트리', detailTitle: '메뉴트리', detail: '지점별 경험 정보와 전시·프로그램·예약을 병렬로 구성하고, 각 지점에서 차량·시승, 전시·프로그램, 이용안내로 이어지는 메뉴 구조를 설계했습니다.', src: '/images/hyundai/planning/04-information-architecture/ia-menu-tree.png.png', alt: '현대 모터스튜디오 메뉴트리' },
-      { label: '사용자 플로우', detailTitle: '사용자 플로우', detail: '전시·프로그램 탐색, 지점과 일정 확인, 예약 시도로 이어지는 흐름을 정리해 반복 확인으로 인한 이탈 지점을 화면 연결의 기준으로 삼았습니다.', src: '/images/hyundai/planning/04-information-architecture/ia-user-flow.png.png', alt: '현대 모터스튜디오 사용자 플로우' },
-      { label: '요구사항 정의', detailTitle: '요구사항 정의', detail: '브랜드 경험 노출, 주요 콘텐츠 바로가기, 지점 정보 통합, 예약 CTA 등 화면별 요구사항을 우선순위와 함께 정리했습니다.', src: '/images/hyundai/planning/04-information-architecture/ia-requirements.png.png', alt: '현대 모터스튜디오 화면 요구사항 정의서' },
+      { label: '팀 회의', detailTitle: '팀 회의', detail: '페이지와 기능별 작업 항목을 나누고 팀 안에서 담당 범위를 조율했습니다.', src: '/images/hyundai/planning/04-information-architecture/ia-team-meeting-notes.png.png', alt: '현대 모터스튜디오 정보 구조 팀 회의 기록' },
+      { label: '메뉴트리', detailTitle: '메뉴트리', detail: '차량·시승, 전시·프로그램, 이용안내와 지점 콘텐츠의 위계와 연결 관계를 정리했습니다.', src: '/images/hyundai/planning/04-information-architecture/ia-menu-tree.png.png', alt: '현대 모터스튜디오 메뉴트리' },
+      { label: '사용자 플로우', detailTitle: '사용자 플로우', detail: '전시·프로그램 탐색, 지점·일정 확인, 예약 시도의 화면 간 이동을 정리했습니다.', src: '/images/hyundai/planning/04-information-architecture/ia-user-flow.png.png', alt: '현대 모터스튜디오 사용자 플로우' },
+      { label: '요구사항 정의', detailTitle: '요구사항 정의', detail: '주요 콘텐츠 노출, 지점 정보, 예약 CTA 등 화면별 필수 요소를 기록했습니다.', src: '/images/hyundai/planning/04-information-architecture/ia-requirements.png.png', alt: '현대 모터스튜디오 화면 요구사항 정의서' },
     ],
   },
   {
     number: '05',
     title: '비주얼 디렉션',
     subtitle: 'VISUAL DIRECTION',
-    body: '팀의 디자인 방향을 바탕으로 담당 전시 서브페이지의 시각적 구성을 구체화했습니다. 레퍼런스를 분석하고 Figma를 기준으로 이미지 배치, 타이포그래피, 여백과 화면 전환 방식을 조정해 브랜드의 공간·전시 경험을 전달하는 디자인을 발전시켰습니다.',
+    body: '팀의 시각 방향과 레퍼런스를 바탕으로 전시 서브페이지의 이미지 비중, 타이포그래피, 색상과 간격을 조율했습니다.',
     images: [
-      { label: '디자인 마인드맵', detailTitle: '디자인 마인드맵', detail: '모던함·고급스러움·역동성·자유로움과 전시·공간 경험을 핵심 키워드로 정리해, 컬러와 타이포그래피의 시각적 방향을 설정했습니다.', src: '/images/hyundai/planning/05-visual-direction/visual-mindmap.png.png', alt: '현대 모터스튜디오 디자인 마인드맵' },
+      { label: '디자인 마인드맵', detailTitle: '디자인 마인드맵', detail: '모던함·고급스러움·역동성·자유로움을 키워드로 묶고 컬러와 서체 방향을 정리했습니다.', src: '/images/hyundai/planning/05-visual-direction/visual-mindmap.png.png', alt: '현대 모터스튜디오 디자인 마인드맵' },
     ],
   },
   {
     number: '06',
     title: 'UI 디자인',
     subtitle: 'UI DESIGN',
-    body: '담당 전시 서브페이지와 경험 찾기 페이지의 UI를 실제 화면으로 구현하고, 스크롤·이미지 전환과 선택 상태 등 주요 인터랙션을 반복적으로 검수했습니다. 다른 팀원과 연결되는 페이지의 디자인 보완과 컴포넌트 이식 작업에도 참여하며 팀 프로젝트의 구현 완성도를 높였습니다.',
+    body: '정리한 구조를 담당 화면으로 구현하고, 반응형 레이아웃과 선택·전환·이동 동작을 점검해 설계와 실제 화면 사이의 차이를 보완했습니다.',
     images: [
-      { label: '와이어프레임', detailTitle: '와이어프레임', detail: '메인·전시·방문 전 정보 화면의 정보 위계와 콘텐츠 배치를 설계해, 탐색 과정에서 필요한 정보를 순서대로 확인하도록 구조화했습니다.', src: '/images/hyundai/planning/06-ui-design/design-wireframe.png.png', alt: '현대 모터스튜디오 와이어프레임' },
-      { label: '스타일 가이드', detailTitle: '스타일 가이드', detail: 'Red Hat Display와 SUIT의 서체 기준, 흑백·블루·레드 컬러 팔레트를 정리해 화면 전반의 시각적 일관성을 유지하도록 구성했습니다.', src: '/images/hyundai/planning/06-ui-design/design-style-guide.png.png', alt: '현대 모터스튜디오 스타일 가이드' },
+      { label: '와이어프레임', detailTitle: '와이어프레임', detail: '화면별 정보 위계와 콘텐츠 배치를 디자인 전에 정리했습니다.', src: '/images/hyundai/planning/06-ui-design/design-wireframe.png.png', alt: '현대 모터스튜디오 와이어프레임' },
+      { label: '스타일 가이드', detailTitle: '스타일 가이드', detail: 'Red Hat Display·SUIT 서체와 흑백·블루·레드 팔레트의 사용 기준을 정리했습니다.', src: '/images/hyundai/planning/06-ui-design/design-style-guide.png.png', alt: '현대 모터스튜디오 스타일 가이드' },
     ],
   },
 ]
@@ -100,10 +291,10 @@ const imageDisplay = {
 }
 
 const contributionItems = [
-  { number: '01', eyebrow: 'UX PLANNING', title: <>탐색의 기준을<br /><em>구체화하다.</em></>, body: '사용자가 원하는 경험을 찾는 과정에 주목하고, 지점과 콘텐츠 중심으로 분산된 정보를 관심사 기반 탐색 흐름으로 연결하는 기획에 참여했습니다. 콘텐츠 탐색에서 상세·예약으로 이어지는 사용자 흐름도 함께 검토했습니다.' },
-  { number: '02', eyebrow: 'CONTENT & DESIGN', title: <>전시 경험을<br /><em>화면으로 옮기다.</em></>, body: '메인페이지의 Vehicle Exhibition 콘텐츠를 담당하고, 전시 서브페이지에서는 공간과 전시 경험을 효과적으로 전달하기 위한 레이아웃과 시각적 구성을 구체화했습니다. Figma를 기준으로 이미지 배치, 타이포그래피, 간격을 조정했습니다.', images: [{ src: '/images/hyundai/contribution/exhibition-work-01.jpg.jpg', alt: '현대 모터스튜디오 전시 서브페이지 작업 화면을 검토하는 모습' }, { src: '/images/hyundai/contribution/exhibition-work-02.jpg.jpg', alt: '현대 모터스튜디오 전시 서브페이지 작업 사진' }] },
-  { number: '03', eyebrow: 'INTERACTION & DEVELOPMENT', title: <>설계한 흐름을<br /><em>작동하게 하다.</em></>, body: '기획과 디자인에서 설정한 경험을 실제 웹 인터랙션으로 연결했습니다. 전시 서브페이지의 스크롤 연출과 경험 찾기의 단계별 선택 흐름을 구현하고 반복적으로 검수했습니다. Vehicle Exhibition 인터랙션은 후속 개선에 참여했습니다.' },
-  { number: '04', eyebrow: 'COLLABORATION', title: <>연결된 화면을<br /><em>함께 다듬다.</em></>, body: '팀원들과 기획·디자인 방향을 공유하고, 담당 컴포넌트의 통합과 화면 연결을 점검했습니다. 기능 검수와 Git 기반 협업을 통해 구현 과정의 완성도를 높였습니다.', images: [{ src: '/images/hyundai/teamwork/team-work-process.jpg.jpg', alt: '현대 모터스튜디오 팀이 디자인과 구현 화면을 함께 작업하는 모습' }, { src: '/images/hyundai/teamwork/team-review-01.jpg.jpg', alt: '현대 모터스튜디오 팀 프로젝트 화면 검토 사진' }, { src: '/images/hyundai/teamwork/team-meeting-02.jpg.jpg', alt: '현대 모터스튜디오 팀 회의 사진' }, { src: '/images/hyundai/teamwork/team-final-presentation-02.jpg.jpg', alt: '현대 모터스튜디오 팀 프로젝트 최종 발표 사진' }] },
+  { number: '01', eyebrow: 'UX PLANNING', title: <>탐색의 기준을<br /><em>구체화하다.</em></>, body: '4인 팀의 UX 기획과 정보 구조 정리를 주도했습니다. 리서치 내용을 메뉴 트리, 요구사항, 사용자 흐름으로 구체화해 화면 설계의 기준을 정리했습니다.' },
+  { number: '02', eyebrow: 'CONTENT & DESIGN', title: <>전시 경험을<br /><em>화면으로 옮기다.</em></>, body: '전시 서브페이지를 디자인·구현하며 이미지 구성, 타이포그래피, 간격, 스크롤 전개를 다듬었습니다.', images: [{ src: '/images/hyundai/contribution/exhibition-work-01.jpg.jpg', alt: '현대 모터스튜디오 전시 서브페이지 작업 화면을 검토하는 모습' }, { src: '/images/hyundai/contribution/exhibition-work-02.jpg.jpg', alt: '현대 모터스튜디오 전시 서브페이지 작업 사진' }] },
+  { number: '03', eyebrow: 'INTERACTION & DEVELOPMENT', title: <>설계한 흐름을<br /><em>작동하게 하다.</em></>, body: 'Experience Finder STEP 1–3의 선택 인터랙션과 전시 페이지의 스크롤·콘텐츠 전환을 구현했습니다. 데스크톱과 모바일에서 동작을 확인하고 화면 차이를 보완했습니다.' },
+  { number: '04', eyebrow: 'COLLABORATION', title: <>연결된 화면을<br /><em>함께 다듬다.</em></>, body: '지점별 소개 페이지는 담당 팀원이 주도했고, 저는 초기 구조와 구현 기반을 지원했습니다. Git으로 변경 사항을 관리하고 담당 화면을 통합하며 팀원과 구현 내용을 맞췄습니다.', images: [{ src: '/images/hyundai/teamwork/team-work-process.jpg.jpg', alt: '현대 모터스튜디오 팀이 디자인과 구현 화면을 함께 작업하는 모습' }, { src: '/images/hyundai/teamwork/team-review-01.jpg.jpg', alt: '현대 모터스튜디오 팀 프로젝트 화면 검토 사진' }, { src: '/images/hyundai/teamwork/team-meeting-02.jpg.jpg', alt: '현대 모터스튜디오 팀 회의 사진' }, { src: '/images/hyundai/teamwork/team-final-presentation-02.jpg.jpg', alt: '현대 모터스튜디오 팀 프로젝트 최종 발표 사진' }] },
 ]
 
 function ProcessStage({ stage, isActive, isLightboxOpen, onOpen }) {
@@ -192,7 +383,8 @@ export default function HyundaiCaseStudy() {
     if (lightboxProcess) setActiveProcess(lightboxProcess)
     setLightboxProcess(null)
   }
-  const heroImage = { ...project.hero, label: 'FINAL UI / CURRENT BOARD', title: 'WIREFRAME & UI DESIGN' }
+  const heroImage = { ...project.hero, label: 'PROJECT BOARD / OVERVIEW', title: 'WIREFRAME & UI DESIGN' }
+  const { experienceFinder, exhibitionExperience, vehicleExhibition } = project.selectedWorks
 
   useEffect(() => {
     const mediaQuery = window.matchMedia('(min-width: 901px) and (prefers-reduced-motion: no-preference)')
@@ -342,8 +534,8 @@ export default function HyundaiCaseStudy() {
     </section>
 
     <section className="case-section case-section--dark case-section--challenge">
-      <SectionIntro index="02" eyebrow="CHALLENGE" title={<>FROM CONTENT DISCOVERY<br />TO A VISIT.</>} body="전시·시승·프로그램 정보가 분산된 흐름에서, 사용자가 관심 있는 경험을 찾고 지점·일정·예약 정보를 자연스럽게 확인하도록 하는 것이 목표였습니다." />
-      <div className="case-problems"><p>01 <strong>공간의 정체성과 실제 경험을 온라인에서 이해하기 어려움</strong></p><p>02 <strong>방문 목적에 맞는 콘텐츠와 지점 정보를 찾기 어려움</strong></p><p>03 <strong>콘텐츠 탐색에서 예약까지의 흐름이 분산됨</strong></p></div>
+      <SectionIntro index="02" eyebrow="CHALLENGE" title={<>SCATTERED CONTENT<br />DISCONNECTED VISITS.</>} body="자사 사이트와 비교 서비스를 살펴보며 콘텐츠 탐색, 지점 정보, 예약 안내가 각각 끊기는 지점을 확인했습니다." />
+      <div className="case-problems"><p>01 <strong>온라인에서 공간과 전시의 특징을 파악하기 어려움</strong></p><p>02 <strong>관심사와 방문 목적에 맞는 경험을 좁혀 찾기 어려움</strong></p><p>03 <strong>상세 콘텐츠 이후 지점·예약 정보로 이동하는 경로가 나뉨</strong></p></div>
     </section>
 
     <section className="case-section case-section--process" aria-labelledby="process-title">
@@ -369,7 +561,7 @@ export default function HyundaiCaseStudy() {
     </section>
 
     <section className="case-section case-section--warm case-insight-decisions" aria-label="INSIGHT & DESIGN DECISIONS">
-      <SectionIntro index="04" eyebrow="INSIGHT & DESIGN DECISIONS" title={<>FROM FRICTION<br /><em>TO FLOW.</em></>} body="사용자가 마주한 문제를 탐색, 전시 경험, 방문 행동을 잇는 세 가지 설계 판단으로 정리했습니다." />
+      <SectionIntro index="04" eyebrow="INSIGHT & DESIGN DECISIONS" title={<>FROM FRICTION<br /><em>TO FLOW.</em></>} body="리서치와 사용자 흐름에서 확인한 요구를 세 가지 화면 설계 기준으로 구체화했습니다." />
       <div className="case-insight-decisions__rows" aria-label="사용자 문제에서 설계 판단과 개선 경험으로 이어지는 세 가지 방향">
         {project.designDecisions.map((item) => <article className="case-insight-decisions__row" key={item.number}>
           <span className="case-insight-decisions__number" aria-hidden="true">{item.number}</span>
@@ -381,13 +573,51 @@ export default function HyundaiCaseStudy() {
         </article>)}
       </div>
     </section>
-    <section className="case-section case-final" aria-labelledby="final-ui-title">
-      <SectionIntro index="06" eyebrow="FINAL UI" title={<>THE EXPERIENCE,<br /><em>CONNECTED.</em></>} body="현재 확보된 보드는 와이어프레임과 UI 디자인을 함께 담고 있습니다. 독립된 최종 화면 export가 확보되면 이 영역을 화면별 사례로 확장할 예정입니다." />
-      <EvidenceFigure image={heroImage} onOpen={openImage} className="case-final__figure" />
+    <section className="case-section case-selected-works" aria-label="SELECTED WORKS">
+      <SectionIntro index="05" eyebrow="PROJECT OUTCOMES" title={<>SELECTED<br /><em>WORKS.</em></>} body="실제 구현 영상과 Figma 디자인을 구분해 각 담당 화면의 결과와 인터랙션 근거를 보여줍니다." />
+      <div className="case-selected-works__content">
+        <article className="case-selected-works__group case-selected-works__group--finder" aria-labelledby="selected-work-finder-title">
+          <header className="case-selected-works__heading">
+            <p className="case-selected-works__eyebrow">{experienceFinder.eyebrow}</p>
+            <h3 id="selected-work-finder-title">{experienceFinder.heading}</h3>
+            <p className="case-selected-works__summary">{experienceFinder.summary}</p>
+            <p className="case-selected-works__role"><span>MY ROLE</span>{experienceFinder.role}</p>
+          </header>
+          <SelectedWorkMedia src={experienceFinder.video} poster={experienceFinder.poster} label={experienceFinder.mediaLabel} title={experienceFinder.mediaTitle} className="case-selected-works__video--finder" mode="laptop" playbackRate={experienceFinder.playbackRate} />
+        </article>
+
+        <article className="case-selected-works__group case-selected-works__group--exhibition" aria-labelledby="selected-work-exhibition-title">
+          <header className="case-selected-works__heading">
+            <p className="case-selected-works__eyebrow">{exhibitionExperience.eyebrow}</p>
+            <h3 id="selected-work-exhibition-title">{exhibitionExperience.heading}</h3>
+            <p className="case-selected-works__summary">{exhibitionExperience.summary}</p>
+            <p className="case-selected-works__role"><span>MY ROLE</span>{exhibitionExperience.role}</p>
+          </header>
+          <SelectedWorkMedia src={exhibitionExperience.designPage} label="DESKTOP / FIGMA DESIGN SCROLL" title="전시 데스크톱 완성 디자인" className="case-selected-works__video--exhibition" mode="laptop" kind="design" />
+          <div className="case-selected-works__responsive">
+            <div className="case-selected-works__responsive-copy">
+              <p className="case-selected-works__eyebrow">RESPONSIVE EXPERIENCE</p>
+              <h4>작은 화면에서도<br />이어지는 전시 경험</h4>
+              <p>모바일 완성 디자인의 화면 구성과 스크롤 흐름을 보여주는 Figma 미리보기입니다.</p>
+            </div>
+            <SelectedWorkMedia mode="phone" kind="design" src={exhibitionExperience.mobileDesignPage} label="MOBILE / FIGMA DESIGN SCROLL" title="전시 모바일 디자인 미리보기" />
+          </div>
+        </article>
+
+        <article className="case-selected-works__group case-selected-works__group--vehicle" aria-labelledby="selected-work-vehicle-title">
+          <header className="case-selected-works__heading">
+            <p className="case-selected-works__eyebrow">{vehicleExhibition.eyebrow}</p>
+            <h3 id="selected-work-vehicle-title">{vehicleExhibition.heading}</h3>
+            <p className="case-selected-works__summary">{vehicleExhibition.summary}</p>
+            <p className="case-selected-works__role"><span>MY ROLE</span>{vehicleExhibition.role}</p>
+          </header>
+          <SelectedWorkMedia src={vehicleExhibition.video} poster={vehicleExhibition.poster} label={vehicleExhibition.mediaLabel} title={vehicleExhibition.mediaTitle} className="case-selected-works__video--vehicle" mode="laptop" playbackRate={vehicleExhibition.playbackRate} />
+        </article>
+      </div>
     </section>
 
     <section className="case-section case-contribution" aria-label="My Contribution">
-      <SectionIntro index="07" eyebrow="MY CONTRIBUTION" title={<>THE WORK<br /><em>I CONNECTED.</em></>} body="팀 프로젝트의 목표 안에서 UX 기획, 콘텐츠·전시 화면 디자인, 인터랙션 구현, 화면 통합과 검수에 참여한 역할을 정리했습니다." />
+      <SectionIntro index="06" eyebrow="MY CONTRIBUTION" title={<>THE WORK<br /><em>I CONNECTED.</em></>} body="프로젝트 전반의 기획 참여, 직접 맡은 디자인·구현, 협업 지원 범위를 구분했습니다." />
       <div className="case-contribution__items">
         {contributionItems.map((item) => <article className="case-contribution__item" key={item.number}>
           <div className="case-contribution__meta"><span>{item.number}</span><p>{item.eyebrow}</p></div>
@@ -400,7 +630,7 @@ export default function HyundaiCaseStudy() {
       </div>
     </section>
 
-    <footer className="case-closing"><div className="case-closing__message"><p>PROJECT SUMMARY</p><h2>경험을 찾고,<br /><em>방문을 계획하다.</em></h2><p>전시·시승·프로그램을 하나의 탐색 흐름으로 연결하고, 필요한 정보를 확인한 뒤 방문과 예약으로 이어지도록 설계했습니다.</p></div></footer>
+    <footer className="case-closing"><div className="case-closing__message"><p>PROJECT REFLECTION</p><h2>설계를 화면으로,<br /><em>화면을 흐름으로.</em></h2><p>여러 담당 화면을 하나의 경험으로 연결하려면, 기획 의도와 구현 기준을 팀 안에서 분명히 공유해야 한다는 점을 배웠습니다.</p></div></footer>
     {activeImage && <ImageLightbox image={activeImage} onClose={closeImage} />}
   </section>
 }
