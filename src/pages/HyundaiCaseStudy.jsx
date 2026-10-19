@@ -106,34 +106,6 @@ const contributionItems = [
   { number: '04', eyebrow: 'COLLABORATION', title: <>연결된 화면을<br /><em>함께 다듬다.</em></>, body: '팀원들과 기획·디자인 방향을 공유하고, 담당 컴포넌트의 통합과 화면 연결을 점검했습니다. 기능 검수와 Git 기반 협업을 통해 구현 과정의 완성도를 높였습니다.', images: [{ src: '/images/hyundai/teamwork/team-work-process.jpg.jpg', alt: '현대 모터스튜디오 팀이 디자인과 구현 화면을 함께 작업하는 모습' }, { src: '/images/hyundai/teamwork/team-review-01.jpg.jpg', alt: '현대 모터스튜디오 팀 프로젝트 화면 검토 사진' }, { src: '/images/hyundai/teamwork/team-meeting-02.jpg.jpg', alt: '현대 모터스튜디오 팀 회의 사진' }, { src: '/images/hyundai/teamwork/team-final-presentation-02.jpg.jpg', alt: '현대 모터스튜디오 팀 프로젝트 최종 발표 사진' }] },
 ]
 
-const keySolutions = [
-  {
-    number: '01',
-    eyebrow: 'EXPERIENCE DISCOVERY',
-    title: <>관심사에서<br /><em>경험으로.</em></>,
-    problem: '지점과 콘텐츠 유형이 분산되어 사용자가 원하는 경험을 비교하고 찾기 어려웠습니다.',
-    solution: '관심사와 목적에 따라 경험을 선택하고, 단계별 선택 결과를 바탕으로 추천 콘텐츠를 확인하는 탐색 흐름을 구성했습니다.',
-    contribution: '경험 찾기 STEP 1~3의 선택 상태, 추천 결과 및 화면 흐름 구현에 참여했습니다.',
-  },
-  {
-    number: '02',
-    eyebrow: 'EXHIBITION EXPERIENCE',
-    title: <>전시의 분위기를<br /><em>스크롤로.</em></>,
-    problem: '기존의 정보 중심 화면만으로는 전시 공간의 분위기와 경험을 충분히 전달하기 어려웠습니다.',
-    solution: '이미지와 타이포그래피, 스크롤 기반 인터랙션을 결합하여 전시 콘텐츠를 순차적으로 경험하도록 구성했습니다.',
-    contribution: '전시 서브페이지 디자인과 스크롤 인터랙션 구현, 이미지 전환 및 화면 연결 개선을 담당했습니다.',
-    evidence: { src: '/images/hyundai/contribution/exhibition-work-01.jpg.jpg', alt: '현대 모터스튜디오 전시 서브페이지 작업 화면을 검토하는 모습', caption: 'WORKING RECORD / EXHIBITION SUBPAGE' },
-  },
-  {
-    number: '03',
-    eyebrow: 'CONTENT TO ACTION',
-    title: <>정보에서 다음<br /><em>행동으로.</em></>,
-    problem: '전시·지점·상세 정보가 여러 위치에 분산되어 다음 행동을 판단하기 어려운 구조였습니다.',
-    solution: '관련 콘텐츠와 상세 정보를 연결하고, 사용자가 다음 화면으로 이동할 수 있도록 정보 구조와 페이지 연결을 정리했습니다.',
-    contribution: '지점별 소개 페이지 작업, 컴포넌트 이식 및 페이지 연결 보완에 참여했습니다.',
-  },
-]
-
 function ProcessStage({ stage, isActive, isLightboxOpen, onOpen }) {
   const [activeIndex, setActiveIndex] = useState(0)
   const [outgoingImage, setOutgoingImage] = useState(null)
@@ -293,25 +265,19 @@ export default function HyundaiCaseStudy() {
         const placeRoadCar = (progress) => {
           const roadPath = processRoadPathRef.current
           const roadCar = processRoadCarRef.current
-          const road = processRoadRef.current
-          const svg = roadPath?.ownerSVGElement
-          if (!roadPath || !roadCar || !road || !svg) return
-          const railProgress = 0.86 - (progress * 0.72)
+          if (!roadPath || !roadCar) return
           const pathLength = roadPath.getTotalLength()
-          const currentLength = pathLength * railProgress
+          // The road, lane markings, and car all share this path's SVG space.
+          // Leave a small distance at each end so the car enters and exits inside
+          // the continuous road rather than on its clipped extension.
+          const currentLength = pathLength * (0.06 + (progress * 0.88))
           const point = roadPath.getPointAtLength(currentLength)
-          const nextPoint = roadPath.getPointAtLength(Math.max(0, currentLength - 2))
-          const svgPoint = svg.createSVGPoint()
-          svgPoint.x = point.x
-          svgPoint.y = point.y
-          const screenPoint = svgPoint.matrixTransform(svg.getScreenCTM())
-          svgPoint.x = nextPoint.x
-          svgPoint.y = nextPoint.y
-          const nextScreenPoint = svgPoint.matrixTransform(svg.getScreenCTM())
-          const angle = Math.atan2(nextScreenPoint.y - screenPoint.y, nextScreenPoint.x - screenPoint.x) * (180 / Math.PI)
-          const roadRect = road.getBoundingClientRect()
-          roadCar.style.transform = `translate3d(${screenPoint.x - roadRect.left}px, ${screenPoint.y - roadRect.top}px, 0) translate(-50%, -50%) rotate(${angle}deg)`
-          roadCar.style.opacity = '.86'
+          const nextPoint = roadPath.getPointAtLength(Math.min(pathLength, currentLength + 2))
+          // The stone car image faces right at zero degrees. Its group rotates
+          // around the same point used by the road's centre path.
+          const angle = Math.atan2(nextPoint.y - point.y, nextPoint.x - point.x) * (180 / Math.PI)
+          roadCar.setAttribute('transform', `translate(${point.x} ${point.y}) rotate(${angle})`)
+          roadCar.setAttribute('opacity', '.86')
         }
         const readingDuration = 1
         const movementDuration = 5
@@ -385,41 +351,36 @@ export default function HyundaiCaseStudy() {
       <div className="case-process-horizontal" ref={processRef} aria-label="현대 모터스튜디오 기획 과정">
         <div className="case-process-road" ref={processRoadRef} aria-hidden="true">
           <div className="case-process-road__world">
-            <img className="case-process-road__image" src="/images/decorations/stone-road-transparent.png" alt="" />
-            <svg className="case-process-road__motion-path" viewBox="0 0 941 1672" preserveAspectRatio="none">
-              <path ref={processRoadPathRef} d="M 738 -8 C 704 67, 605 108, 549 237 C 483 387, 498 498, 551 608 C 608 729, 618 805, 547 916 C 462 1045, 299 1053, 253 1188 C 211 1310, 382 1386, 325 1493 C 273 1576, 180 1625, 137 1678" />
+            <svg className="case-process-road__motion-path" viewBox="0 0 2000 900" preserveAspectRatio="xMidYMid meet">
+              <path className="case-process-road__edge" d="M -120 684 C 175 603, 411 694, 679 654 S 1174 568, 1435 650 S 1788 731, 2120 638" />
+              <path className="case-process-road__surface" d="M -120 684 C 175 603, 411 694, 679 654 S 1174 568, 1435 650 S 1788 731, 2120 638" />
+              <path className="case-process-road__lane" d="M -120 684 C 175 603, 411 694, 679 654 S 1174 568, 1435 650 S 1788 731, 2120 638" />
+              <path className="case-process-road__guide" ref={processRoadPathRef} d="M -120 684 C 175 603, 411 694, 679 654 S 1174 568, 1435 650 S 1788 731, 2120 638" />
+              <g className="case-process-road__car" ref={processRoadCarRef} opacity="0">
+                <image href="/images/decorations/stone-car.png.png" x="-40.5" y="-32.5" width="84" height="57" />
+              </g>
             </svg>
           </div>
-          <img className="case-process-road__car" ref={processRoadCarRef} src="/images/decorations/stone-car.png.png" alt="" />
         </div>
-        <div className="case-process__track">{planningStages.map((stage) => <ProcessStage key={stage.number} stage={stage} isActive={activeProcess === stage.number} isLightboxOpen={Boolean(activeImage)} onOpen={openImage} />)}</div>
+        <div className="case-process__viewport">
+          <div className="case-process__track">{planningStages.map((stage) => <ProcessStage key={stage.number} stage={stage} isActive={activeProcess === stage.number} isLightboxOpen={Boolean(activeImage)} onOpen={openImage} />)}</div>
+        </div>
       </div>
     </section>
 
-    <section className="case-section case-section--warm case-section--insight" aria-labelledby="insight-title">
-      <SectionIntro index="04" eyebrow="USER INSIGHT / PROBLEM DEFINITION" title={<>OBSERVE.<br /><em>DEFINE. DIRECT.</em></>} body="사용자 조사와 분석을 바탕으로 핵심 문제를 정리하고, 경험·콘텐츠·예약을 연결하는 UX 개선 방향을 설정했습니다." />
-      <div className="case-insight-flow" aria-label="문제 정의와 UX 개선 방향">
-        <div className="case-insight-flow__intro"><span>RESEARCH → PROBLEM → DIRECTION</span><p>조사 보드의 근거를 세 가지 문제와 대응 방향으로 연결했습니다.</p></div>
-        <div className="case-insight-flow__items">{project.problemDirections.map((item) => <article className="case-insight-flow__item" key={item.number}><span>{item.number}</span><h3>{item.title}</h3><p className="case-insight-flow__problem">{item.problem}</p><p className="case-insight-flow__direction"><b>DIRECTION</b>{item.direction}</p></article>)}</div>
-      </div>
-    </section>
-
-    <section className="case-section case-solutions" aria-labelledby="solutions-title">
-      <SectionIntro index="05" eyebrow="KEY SOLUTIONS" title={<>FROM INSIGHT<br /><em>TO EXPERIENCE.</em></>} body="조사와 문제 정의에서 확인한 세 가지 과제를 실제 화면 흐름과 구현 역할로 연결했습니다." />
-      <div className="case-solutions__items">
-        {keySolutions.map((item) => <article className="case-solutions__item" key={item.number}>
-          <div className="case-solutions__meta"><span>{item.number}</span><p>{item.eyebrow}</p></div>
-          <h3>{item.title}</h3>
-          <div className="case-solutions__content">
-            <div><b>PROBLEM</b><p>{item.problem}</p></div>
-            <div><b>SOLUTION</b><p>{item.solution}</p></div>
-            <div><b>MY CONTRIBUTION</b><p>{item.contribution}</p></div>
+    <section className="case-section case-section--warm case-insight-decisions" aria-label="INSIGHT & DESIGN DECISIONS">
+      <SectionIntro index="04" eyebrow="INSIGHT & DESIGN DECISIONS" title={<>FROM FRICTION<br /><em>TO FLOW.</em></>} body="사용자가 마주한 문제를 탐색, 전시 경험, 방문 행동을 잇는 세 가지 설계 판단으로 정리했습니다." />
+      <div className="case-insight-decisions__rows" aria-label="사용자 문제에서 설계 판단과 개선 경험으로 이어지는 세 가지 방향">
+        {project.designDecisions.map((item) => <article className="case-insight-decisions__row" key={item.number}>
+          <span className="case-insight-decisions__number" aria-hidden="true">{item.number}</span>
+          <p className="case-insight-decisions__keyword">{item.keyword}</p>
+          <div className="case-insight-decisions__copy">
+            <h3 className="case-insight-decisions__statement">{item.statement}</h3>
+            <p className="case-insight-decisions__support">{item.support}</p>
           </div>
-          {item.evidence && <figure className="case-solutions__evidence"><img src={item.evidence.src} alt={item.evidence.alt} loading="lazy" decoding="async" /><figcaption>{item.evidence.caption}</figcaption></figure>}
         </article>)}
       </div>
     </section>
-
     <section className="case-section case-final" aria-labelledby="final-ui-title">
       <SectionIntro index="06" eyebrow="FINAL UI" title={<>THE EXPERIENCE,<br /><em>CONNECTED.</em></>} body="현재 확보된 보드는 와이어프레임과 UI 디자인을 함께 담고 있습니다. 독립된 최종 화면 export가 확보되면 이 영역을 화면별 사례로 확장할 예정입니다." />
       <EvidenceFigure image={heroImage} onOpen={openImage} className="case-final__figure" />
