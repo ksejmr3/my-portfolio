@@ -369,18 +369,24 @@ export default function HyundaiCaseStudy() {
   const [activeProcess, setActiveProcess] = useState(null)
   const [lightboxProcess, setLightboxProcess] = useState(null)
   const [usesHorizontalProcess, setUsesHorizontalProcess] = useState(false)
+  const activeProcessRef = useRef(null)
   const processRef = useRef(null)
   const processRoadRef = useRef(null)
   const processRoadPathRef = useRef(null)
   const processRoadCarRef = useRef(null)
+  const setVisibleProcess = (processNumber) => {
+    if (activeProcessRef.current === processNumber) return
+    activeProcessRef.current = processNumber
+    setActiveProcess(processNumber)
+  }
   const openImage = (image, processNumber = null) => {
     setLightboxProcess(processNumber)
-    if (processNumber) setActiveProcess(processNumber)
+    if (processNumber) setVisibleProcess(processNumber)
     setActiveImage(image)
   }
   const closeImage = () => {
     setActiveImage(null)
-    if (lightboxProcess) setActiveProcess(lightboxProcess)
+    if (lightboxProcess) setVisibleProcess(lightboxProcess)
     setLightboxProcess(null)
   }
   const heroImage = { ...project.hero, label: 'PROJECT BOARD / OVERVIEW', title: 'WIREFRAME & UI DESIGN' }
@@ -411,7 +417,7 @@ export default function HyundaiCaseStudy() {
         })
         .filter(({ visible }) => visible > 0)
       if (!visiblePanels.length) {
-        setActiveProcess(null)
+        setVisibleProcess(null)
         return
       }
       const activePanel = visiblePanels.reduce((nearest, candidate) => {
@@ -419,7 +425,7 @@ export default function HyundaiCaseStudy() {
         const candidateDistance = Math.abs(((candidate.rect.top + candidate.rect.bottom) / 2) - viewportCenter)
         return candidateDistance < nearestDistance ? candidate : nearest
       })
-      setActiveProcess(activePanel.panel.querySelector('.case-process__index')?.textContent.match(/PROCESS (\d+)/)?.[1] ?? null)
+      setVisibleProcess(activePanel.panel.querySelector('.case-process__index')?.textContent.match(/PROCESS (\d+)/)?.[1] ?? null)
     }
     const scheduleUpdate = () => {
       if (!frame) frame = requestAnimationFrame(updateActiveProcess)
@@ -471,40 +477,33 @@ export default function HyundaiCaseStudy() {
           roadCar.setAttribute('transform', `translate(${point.x} ${point.y}) rotate(${angle})`)
           roadCar.setAttribute('opacity', '.86')
         }
-        const readingDuration = 1
-        const movementDuration = 5
-        const timelineDuration = readingDuration + movementDuration + readingDuration
-        const animation = gsap.timeline({
-          defaults: { ease: 'none' },
+        const animation = gsap.to(track, {
+          x: () => -travelDistance(),
+          ease: 'none',
           scrollTrigger: {
             trigger: stage,
             start: 'top top',
-            // Preserve the former horizontal movement distance while adding
-            // an equal reading interval before PROCESS 01 begins to move.
-            end: () => `+=${Math.max(travelDistance() * 1.6 * (timelineDuration / (movementDuration + readingDuration)), 1)}`,
+            // Keep vertical input directly coupled to the horizontal track.
+            // There is no dwell or panel snap between PROCESS stages.
+            end: () => `+=${Math.max(travelDistance() * 1.1, window.innerHeight)}`,
             pin: true,
             scrub: true,
             invalidateOnRefresh: true,
-            onEnter: () => setActiveProcess('01'),
-            onEnterBack: () => setActiveProcess('06'),
-            onLeave: () => setActiveProcess(null),
-            onLeaveBack: () => setActiveProcess(null),
+            onEnter: () => setVisibleProcess('01'),
+            onEnterBack: () => setVisibleProcess('06'),
+            onLeave: () => setVisibleProcess(null),
+            onLeaveBack: () => setVisibleProcess(null),
             onUpdate: (trigger) => {
               placeRoadCar(trigger.progress)
               const panelWidthValue = stage.clientWidth
               const gap = Number.parseFloat(getComputedStyle(track).gap) || 0
-              const movementProgress = Math.min(1, Math.max(0, ((trigger.progress * timelineDuration) - readingDuration) / movementDuration))
-              const viewportCenter = (travelDistance() * movementProgress) + (panelWidthValue / 2)
+              const viewportCenter = (travelDistance() * trigger.progress) + (panelWidthValue / 2)
               const panelIndex = Math.min(planningStages.length - 1, Math.max(0, Math.round((viewportCenter - (panelWidthValue / 2)) / (panelWidthValue + gap))))
-              setActiveProcess(planningStages[panelIndex].number)
+              setVisibleProcess(planningStages[panelIndex].number)
             },
             onRefresh: (trigger) => placeRoadCar(trigger.progress),
           },
         })
-        animation
-          .to({}, { duration: readingDuration })
-          .to(track, { x: () => -travelDistance(), duration: movementDuration })
-          .to({}, { duration: readingDuration })
         placeRoadCar(0)
         const refreshForWidthChange = () => {
           if (syncPanelWidth()) ScrollTrigger.refresh()
@@ -536,6 +535,54 @@ export default function HyundaiCaseStudy() {
     <section className="case-section case-section--dark case-section--challenge">
       <SectionIntro index="02" eyebrow="CHALLENGE" title={<>SCATTERED CONTENT<br />DISCONNECTED VISITS.</>} body="자사 사이트와 비교 서비스를 살펴보며 콘텐츠 탐색, 지점 정보, 예약 안내가 각각 끊기는 지점을 확인했습니다." />
       <div className="case-problems"><p>01 <strong>온라인에서 공간과 전시의 특징을 파악하기 어려움</strong></p><p>02 <strong>관심사와 방문 목적에 맞는 경험을 좁혀 찾기 어려움</strong></p><p>03 <strong>상세 콘텐츠 이후 지점·예약 정보로 이동하는 경로가 나뉨</strong></p></div>
+    </section>
+
+    <section className="case-section case-selected-works" aria-label="SELECTED WORKS">
+      <SectionIntro index="05" eyebrow="PROJECT OUTCOMES" title={<>SELECTED<br /><em>WORKS.</em></>} body="실제 구현 영상과 Figma 디자인을 구분해 각 담당 화면의 결과와 인터랙션 근거를 보여줍니다." />
+      <div className="case-selected-works__content">
+        <article className="case-selected-works__group case-selected-works__group--finder" aria-labelledby="selected-work-finder-title">
+          <header className="case-selected-works__heading">
+            <p className="case-selected-works__eyebrow">{experienceFinder.eyebrow}</p>
+            <h3 id="selected-work-finder-title">{experienceFinder.heading}</h3>
+            <p className="case-selected-works__summary">{experienceFinder.summary}</p>
+            <p className="case-selected-works__role"><span>MY ROLE</span>{experienceFinder.role}</p>
+          </header>
+          <SelectedWorkMedia src={experienceFinder.video} poster={experienceFinder.poster} label={experienceFinder.mediaLabel} title={experienceFinder.mediaTitle} className="case-selected-works__video--finder" mode="laptop" playbackRate={experienceFinder.playbackRate} />
+        </article>
+
+        <article className="case-selected-works__group case-selected-works__group--exhibition" aria-labelledby="selected-work-exhibition-title">
+          <header className="case-selected-works__heading">
+            <p className="case-selected-works__eyebrow">{exhibitionExperience.eyebrow}</p>
+            <h3 id="selected-work-exhibition-title">{exhibitionExperience.heading}</h3>
+            <p className="case-selected-works__summary">{exhibitionExperience.summary}</p>
+            <p className="case-selected-works__role"><span>MY ROLE</span>{exhibitionExperience.role}</p>
+          </header>
+          <div className="case-selected-works__exhibition-visuals">
+            <div className="case-selected-works__exhibition-desktop">
+              <p className="case-selected-works__device-label">DESKTOP EXPERIENCE</p>
+              <SelectedWorkMedia src={exhibitionExperience.designPage} label="DESKTOP / FIGMA DESIGN SCROLL" title="전시 데스크톱 완성 디자인" className="case-selected-works__video--exhibition" mode="laptop" kind="design" />
+            </div>
+            <div className="case-selected-works__responsive">
+              <div className="case-selected-works__responsive-copy">
+                <p className="case-selected-works__device-label">MOBILE EXPERIENCE</p>
+                <h4>작은 화면에서도<br />이어지는 전시 경험</h4>
+                <p>모바일 완성 디자인의 화면 구성과 스크롤 흐름을 보여주는 Figma 미리보기입니다.</p>
+              </div>
+              <SelectedWorkMedia mode="phone" kind="design" src={exhibitionExperience.mobileDesignPage} label="MOBILE / FIGMA DESIGN SCROLL" title="전시 모바일 디자인 미리보기" />
+            </div>
+          </div>
+        </article>
+
+        <article className="case-selected-works__group case-selected-works__group--vehicle" aria-labelledby="selected-work-vehicle-title">
+          <header className="case-selected-works__heading">
+            <p className="case-selected-works__eyebrow">{vehicleExhibition.eyebrow}</p>
+            <h3 id="selected-work-vehicle-title">{vehicleExhibition.heading}</h3>
+            <p className="case-selected-works__summary">{vehicleExhibition.summary}</p>
+            <p className="case-selected-works__role"><span>MY ROLE</span>{vehicleExhibition.role}</p>
+          </header>
+          <SelectedWorkMedia src={vehicleExhibition.video} poster={vehicleExhibition.poster} label={vehicleExhibition.mediaLabel} title={vehicleExhibition.mediaTitle} className="case-selected-works__video--vehicle" mode="laptop" playbackRate={vehicleExhibition.playbackRate} />
+        </article>
+      </div>
     </section>
 
     <section className="case-section case-section--process" aria-labelledby="process-title">
@@ -573,49 +620,6 @@ export default function HyundaiCaseStudy() {
         </article>)}
       </div>
     </section>
-    <section className="case-section case-selected-works" aria-label="SELECTED WORKS">
-      <SectionIntro index="05" eyebrow="PROJECT OUTCOMES" title={<>SELECTED<br /><em>WORKS.</em></>} body="실제 구현 영상과 Figma 디자인을 구분해 각 담당 화면의 결과와 인터랙션 근거를 보여줍니다." />
-      <div className="case-selected-works__content">
-        <article className="case-selected-works__group case-selected-works__group--finder" aria-labelledby="selected-work-finder-title">
-          <header className="case-selected-works__heading">
-            <p className="case-selected-works__eyebrow">{experienceFinder.eyebrow}</p>
-            <h3 id="selected-work-finder-title">{experienceFinder.heading}</h3>
-            <p className="case-selected-works__summary">{experienceFinder.summary}</p>
-            <p className="case-selected-works__role"><span>MY ROLE</span>{experienceFinder.role}</p>
-          </header>
-          <SelectedWorkMedia src={experienceFinder.video} poster={experienceFinder.poster} label={experienceFinder.mediaLabel} title={experienceFinder.mediaTitle} className="case-selected-works__video--finder" mode="laptop" playbackRate={experienceFinder.playbackRate} />
-        </article>
-
-        <article className="case-selected-works__group case-selected-works__group--exhibition" aria-labelledby="selected-work-exhibition-title">
-          <header className="case-selected-works__heading">
-            <p className="case-selected-works__eyebrow">{exhibitionExperience.eyebrow}</p>
-            <h3 id="selected-work-exhibition-title">{exhibitionExperience.heading}</h3>
-            <p className="case-selected-works__summary">{exhibitionExperience.summary}</p>
-            <p className="case-selected-works__role"><span>MY ROLE</span>{exhibitionExperience.role}</p>
-          </header>
-          <SelectedWorkMedia src={exhibitionExperience.designPage} label="DESKTOP / FIGMA DESIGN SCROLL" title="전시 데스크톱 완성 디자인" className="case-selected-works__video--exhibition" mode="laptop" kind="design" />
-          <div className="case-selected-works__responsive">
-            <div className="case-selected-works__responsive-copy">
-              <p className="case-selected-works__eyebrow">RESPONSIVE EXPERIENCE</p>
-              <h4>작은 화면에서도<br />이어지는 전시 경험</h4>
-              <p>모바일 완성 디자인의 화면 구성과 스크롤 흐름을 보여주는 Figma 미리보기입니다.</p>
-            </div>
-            <SelectedWorkMedia mode="phone" kind="design" src={exhibitionExperience.mobileDesignPage} label="MOBILE / FIGMA DESIGN SCROLL" title="전시 모바일 디자인 미리보기" />
-          </div>
-        </article>
-
-        <article className="case-selected-works__group case-selected-works__group--vehicle" aria-labelledby="selected-work-vehicle-title">
-          <header className="case-selected-works__heading">
-            <p className="case-selected-works__eyebrow">{vehicleExhibition.eyebrow}</p>
-            <h3 id="selected-work-vehicle-title">{vehicleExhibition.heading}</h3>
-            <p className="case-selected-works__summary">{vehicleExhibition.summary}</p>
-            <p className="case-selected-works__role"><span>MY ROLE</span>{vehicleExhibition.role}</p>
-          </header>
-          <SelectedWorkMedia src={vehicleExhibition.video} poster={vehicleExhibition.poster} label={vehicleExhibition.mediaLabel} title={vehicleExhibition.mediaTitle} className="case-selected-works__video--vehicle" mode="laptop" playbackRate={vehicleExhibition.playbackRate} />
-        </article>
-      </div>
-    </section>
-
     <section className="case-section case-contribution" aria-label="My Contribution">
       <SectionIntro index="06" eyebrow="MY CONTRIBUTION" title={<>THE WORK<br /><em>I CONNECTED.</em></>} body="프로젝트 전반의 기획 참여, 직접 맡은 디자인·구현, 협업 지원 범위를 구분했습니다." />
       <div className="case-contribution__items">

@@ -3,7 +3,7 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import ProjectCard from './ProjectCard.jsx'
 import HyundaiCaseStudy from '../pages/HyundaiCaseStudy.jsx'
-import VivienneCaseStudy from '../pages/VivienneCaseStudy.jsx'
+import PersonalProjectCaseStudy from './PersonalProjectCaseStudy.jsx'
 import { projects } from '../data/projects.js'
 
 if (!gsap.plugins.ScrollTrigger) gsap.registerPlugin(ScrollTrigger)
@@ -93,9 +93,10 @@ export default function WorkSection() {
   return (
     <section className="work work--projects-section" aria-labelledby="work-title" ref={sectionRef}>
       <div className="work__projects">{projects.map((project) => <Fragment key={project.id}>
-        <ProjectCard project={project} />
+        {project.id === 'vivienne-westwood'
+          ? <PersonalProjectCaseStudy />
+          : project.id === 'cos' ? null : <ProjectCard project={project} />}
         {project.id === 'hyundai-motorstudio' && <HyundaiCaseStudy />}
-        {project.id === 'vivienne-westwood' && <VivienneCaseStudy />}
       </Fragment>)}</div>
     </section>
   )
