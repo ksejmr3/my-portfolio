@@ -1,64 +1,87 @@
-import { useLayoutEffect, useRef } from 'react'
-import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import vivienneHero from '../assets/vivienne-westwood/implemented-hero.png'
+import { useEffect, useState } from 'react'
 
-gsap.registerPlugin(ScrollTrigger)
+const workNavigation = [
+  { id: 'hyundai-case-study', label: 'HYUNDAI MOTORSTUDIO', meta: 'TEAM PROJECT', href: '#hyundai-case-study' },
+  { id: 'vivienne-westwood', label: 'VIVIENNE WESTWOOD', meta: 'PERSONAL WORK', href: '#vivienne-westwood' },
+  { id: 'cos', label: 'COS', meta: 'PERSONAL WORK', href: '#cos' },
+  { id: 'clone-coding', label: 'CLONE CODING', meta: 'CODING PRACTICE', href: '#clone-coding' },
+]
 
 export default function IntroSection() {
-  const sectionRef = useRef(null)
-  const canvasRef = useRef(null)
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isWorkOpen, setIsWorkOpen] = useState(false)
+  const [activeSection, setActiveSection] = useState('intro')
 
-  useLayoutEffect(() => {
-    const context = gsap.context(() => {
-      const media = gsap.matchMedia()
+  useEffect(() => {
+    const sectionIds = ['intro', 'work', 'ai-video-contents', 'skill', 'about', 'contact', ...workNavigation.map(({ id }) => id)]
+    const sections = sectionIds.map((id) => document.getElementById(id)).filter(Boolean)
+    if (!sections.length || !('IntersectionObserver' in window)) return undefined
 
-      media.add('(min-width: 701px) and (prefers-reduced-motion: no-preference)', () => {
-        const timeline = gsap.timeline({
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top top',
-            end: 'bottom top',
-            scrub: true,
-            invalidateOnRefresh: true,
-          },
-        })
+    const observer = new IntersectionObserver((entries) => {
+      const current = entries.filter((entry) => entry.isIntersecting)
+        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0]
+      if (current?.target.id) setActiveSection(current.target.id)
+    }, { rootMargin: '-20% 0px -60% 0px', threshold: [0.01, 0.2, 0.5] })
 
-        timeline.to(canvasRef.current, {
-          yPercent: -22,
-          ease: 'none',
-        })
-
-        const frame = requestAnimationFrame(() => ScrollTrigger.refresh())
-
-        return () => {
-          cancelAnimationFrame(frame)
-          timeline.kill()
-        }
-      })
-
-      return () => media.revert()
-    }, sectionRef)
-
-    return () => context.revert()
+    sections.forEach((section) => observer.observe(section))
+    return () => observer.disconnect()
   }, [])
 
+  useEffect(() => {
+    const onKeyDown = (event) => {
+      if (event.key === 'Escape') {
+        setIsMenuOpen(false)
+        setIsWorkOpen(false)
+      }
+    }
+    window.addEventListener('keydown', onKeyDown)
+    return () => window.removeEventListener('keydown', onKeyDown)
+  }, [])
+
+  const closeNavigation = () => {
+    setIsMenuOpen(false)
+    setIsWorkOpen(false)
+  }
+
   return (
-    <section className="intro" id="intro" aria-labelledby="intro-title" ref={sectionRef}>
-      <header className="site-header">
-        <a className="site-header__brand" href="#intro" aria-label="김지영 포트폴리오 처음으로">KIM JIYOUNG</a>
-        <nav className="site-header__nav" aria-label="주요 메뉴"><a href="#intro" aria-current="page">INTRO</a><a href="#work">WORK</a></nav>
-        <span className="site-header__edition">PORTFOLIO / 2026</span>
-      </header>
-      <div className="intro__canvas" ref={canvasRef}>
-        <p className="intro__eyebrow">KIM JIYOUNG — DESIGN PORTFOLIO</p>
-        <h1 id="intro-title" className="intro__title"><span>DESIGNING</span><span><em>connected</em> EXPERIENCES.</span></h1>
-        <p className="intro__summary">흩어진 정보를 정리하고,<br />사람과 경험을 자연스럽게 잇는 화면을 설계합니다.</p>
-      </div>
-      <div className="intro__bottom">
-        <div className="intro__index"><span>01 / 03</span><span>SELECTED PROJECTS</span></div>
-        <figure className="intro__preview"><img src={vivienneHero} alt="Vivienne Westwood 웹사이트 리디자인 구현 화면 미리보기" /><figcaption>VIVIENNE WESTWOOD / IMPLEMENTED HERO</figcaption></figure>
-        <a className="intro__next" href="#work">EXPLORE WORK <span aria-hidden="true">↘</span></a>
+    <section className="intro" id="intro" aria-labelledby="intro-title">
+      <div className="intro__stage">
+        <header className={`site-header${isMenuOpen ? ' is-menu-open' : ''}`}>
+          <a className="site-header__brand" href="#intro" aria-label="포트폴리오 처음으로" onClick={closeNavigation}>KIM JIYOUNG</a>
+          <button className="site-header__menu-toggle" type="button" aria-expanded={isMenuOpen} aria-controls="site-navigation" onClick={() => setIsMenuOpen((current) => !current)}>
+            <span>{isMenuOpen ? 'CLOSE' : 'MENU'}</span><i aria-hidden="true" />
+          </button>
+          <nav className="site-header__nav" id="site-navigation" aria-label="주요 메뉴">
+            <a href="#intro" aria-current={activeSection === 'intro' ? 'page' : undefined} onClick={closeNavigation}>INTRO</a>
+            <div className={`site-header__work${isWorkOpen ? ' is-open' : ''}`}>
+              <a className="site-header__work-link" href="#work" aria-current={activeSection === 'work' ? 'page' : undefined} onClick={closeNavigation}>WORK</a>
+              <button className="site-header__work-toggle" type="button" aria-label={isWorkOpen ? 'WORK 하위 메뉴 닫기' : 'WORK 하위 메뉴 열기'} aria-expanded={isWorkOpen} aria-controls="work-navigation" onClick={() => setIsWorkOpen((current) => !current)}><span>PROJECTS</span></button>
+              <div className="site-header__work-menu" id="work-navigation">
+                {workNavigation.map((item) => (
+                  <a key={item.id} href={item.href} aria-current={activeSection === item.id ? 'page' : undefined} onClick={closeNavigation}>
+                    <strong>{item.label}</strong><small>{item.meta}</small>
+                  </a>
+                ))}
+              </div>
+            </div>
+            <a href="#ai-video-contents" aria-current={activeSection === 'ai-video-contents' ? 'page' : undefined} onClick={closeNavigation}>AI VIDEO</a>
+            <a href="#skill" aria-current={activeSection === 'skill' ? 'page' : undefined} onClick={closeNavigation}>SKILL</a>
+            <a href="#about" aria-current={activeSection === 'about' ? 'page' : undefined} onClick={closeNavigation}>ABOUT</a>
+            <a href="#contact" aria-current={activeSection === 'contact' ? 'page' : undefined} onClick={closeNavigation}>CONTACT</a>
+          </nav>
+          <span className="site-header__edition">PORTFOLIO / 2026</span>
+        </header>
+        <div className="intro__canvas">
+          <p className="intro__eyebrow intro__eyebrow--transition">KIM JIYOUNG · DESIGN PORTFOLIO</p>
+          <h1 id="intro-title" className="intro__title"><span className="intro__title-line intro__title-line--primary">DESIGNING</span><span className="intro__title-line intro__title-line--secondary"><em>connected</em> EXPERIENCES.</span></h1>
+          <p className="intro__summary intro__summary--transition">흩어진 정보를 정리하고,<br />화면과 경험이 자연스럽게 이어지는 흐름을 설계합니다.</p>
+        </div>
+        <div className="intro__bottom intro__bottom--transition">
+          <div className="intro__index intro__index--transition"><span>01 / 03</span><span>SELECTED PROJECTS</span></div>
+          <figure className="intro__preview intro__preview--transition"><img src="/images/personal-projects/vivienne-westwood-latest/02-hero.png" alt="Vivienne Westwood 최신 Figma Hero 화면 미리보기" /><figcaption>WORK PREVIEW / VIVIENNE WESTWOOD</figcaption></figure>
+          <a className="intro__next" href="#work" onClick={closeNavigation}>EXPLORE WORK <span aria-hidden="true">→</span></a>
+        </div>
+        <div className="intro__transition-plane" aria-hidden="true" />
       </div>
     </section>
   )

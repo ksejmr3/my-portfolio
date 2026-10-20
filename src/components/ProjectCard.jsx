@@ -14,7 +14,7 @@ export default function ProjectCard({ project }) {
       <div className="project-card__content">
         <div className="project-card__topline"><span>{project.number} / 03</span><span>SELECTED WORK</span></div>
         <div className="project-card__story"><p className="project-card__type">{project.type}</p><h3 id={`${project.id}-title`}>{project.name}</h3><p className="project-card__description">{project.description}</p>{project.id !== 'hyundai-motorstudio' && <span className="project-card__status">CASE STUDY / IN PREPARATION</span>}</div>
-        <p className="project-card__foot">KIM JIYOUNG / PORTFOLIO V2</p>
+        <p className="project-card__foot">KIM JIYOUNG / PORTFOLIO</p>
       </div>
     </article>
   )
