@@ -18,6 +18,12 @@ export default function SkillSection() {
 
       media.add('(prefers-reduced-motion: no-preference)', () => {
         const cards = gsap.utils.toArray('[data-skill-card]', section)
+        const syncTimelineProgress = (trigger) => {
+          // A refresh or reverse entry can follow a pinned section changing the
+          // document height. Keep the terminal autoAlpha state tied to the
+          // current scroll progress rather than the previous visit.
+          trigger.animation?.progress(trigger.progress, false)
+        }
         const timeline = gsap.timeline({
           scrollTrigger: {
             trigger: section,
@@ -25,6 +31,10 @@ export default function SkillSection() {
             end: 'bottom bottom',
             scrub: true,
             invalidateOnRefresh: true,
+            onEnter: syncTimelineProgress,
+            onEnterBack: syncTimelineProgress,
+            onUpdate: syncTimelineProgress,
+            onRefresh: syncTimelineProgress,
           },
         })
 
