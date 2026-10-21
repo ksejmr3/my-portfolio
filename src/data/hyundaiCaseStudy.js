@@ -1,4 +1,3 @@
-import board from '../assets/hyundai/main-ui-design-board.png'
 import steep from '../assets/hyundai/ux-steep-analysis.png'
 import threeC from '../assets/hyundai/ux-3c-analysis.png'
 import siteAnalysis from '../assets/hyundai/ux-site-analysis.png'
@@ -18,7 +17,7 @@ export const hyundaiCaseStudy = {
   period: '2026.09.01 — 09.30',
   overview: '전시·시승·프로그램 콘텐츠를 목적에 맞게 찾고, 필요한 지점 정보를 확인할 수 있도록 탐색 구조와 화면을 함께 개선한 웹사이트 리뉴얼입니다.',
   contributionSummary: '4인 팀이 기획·디자인·구현을 나누어 진행하고, 담당 화면을 하나의 웹 경험으로 통합했습니다.',
-  hero: { src: board, alt: '현대 모터스튜디오 와이어프레임과 UI 디자인 보드' },
+  hero: { src: '/images/hyundai/selected-works/experience-finder-current-poster.jpg', alt: '현대 모터스튜디오 메인 페이지와 경험 찾기 화면' },
   research: [
     { label: 'STEEP ANALYSIS', title: 'MARKET & EXPERIENCE SHIFT', summary: '제품 판매를 넘어 브랜드·공간·미래 모빌리티 경험으로 확장되는 환경을 살폈습니다.', src: steep, alt: '자동차 산업과 브랜드 경험을 다섯 관점에서 분석한 STEEP 보드' },
     { label: '3C ANALYSIS', title: 'BRAND AND MARKET CONTEXT', summary: '고객·경쟁사·자사의 관계 안에서 브랜드 경험과 웹사이트 개선의 방향을 검토했습니다.', src: threeC, alt: '고객, 경쟁사, 자사를 비교한 3C 분석 보드' },

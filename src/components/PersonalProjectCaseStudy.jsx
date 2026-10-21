@@ -244,6 +244,8 @@ export default function PersonalProjectCaseStudy() {
       media.add('(min-width: 901px) and (prefers-reduced-motion: no-preference)', () => {
         const syncPanels = () => track.style.setProperty('--personal-slide-width', `${viewport.clientWidth}px`)
         const getDistance = () => Math.max(0, track.scrollWidth - viewport.clientWidth)
+        let refreshFrame = 0
+        let viewportSize = ''
         syncPanels()
         const tween = gsap.to(track, {
           x: () => -getDistance(),
@@ -260,21 +262,34 @@ export default function PersonalProjectCaseStudy() {
           },
         })
 
-        const refresh = () => {
-          syncPanels()
-          ScrollTrigger.refresh()
+        const refresh = (force = false) => {
+          if (refreshFrame) cancelAnimationFrame(refreshFrame)
+          refreshFrame = requestAnimationFrame(() => {
+            refreshFrame = 0
+            const nextViewportSize = `${viewport.clientWidth}x${viewport.clientHeight}`
+            if (!force && nextViewportSize === viewportSize) return
+            viewportSize = nextViewportSize
+            syncPanels()
+            ScrollTrigger.refresh()
+          })
         }
-        const observer = new ResizeObserver(refresh)
+        viewportSize = `${viewport.clientWidth}x${viewport.clientHeight}`
+        const observer = new ResizeObserver(() => refresh())
         observer.observe(viewport)
-        observer.observe(track)
         const images = [...track.querySelectorAll('img')]
-        images.forEach((image) => image.addEventListener('load', refresh, { once: true }))
-        document.fonts?.ready.then(refresh)
-        requestAnimationFrame(refresh)
+        const imageLoadHandlers = new Map()
+        images.forEach((image) => {
+          const handler = () => refresh(true)
+          imageLoadHandlers.set(image, handler)
+          image.addEventListener('load', handler, { once: true })
+        })
+        document.fonts?.ready.then(() => refresh(true))
+        refresh(true)
 
         return () => {
           observer.disconnect()
-          images.forEach((image) => image.removeEventListener('load', refresh))
+          if (refreshFrame) cancelAnimationFrame(refreshFrame)
+          imageLoadHandlers.forEach((handler, image) => image.removeEventListener('load', handler))
           tween.scrollTrigger?.kill()
           tween.kill()
         }

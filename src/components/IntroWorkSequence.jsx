@@ -15,7 +15,7 @@ export default function IntroWorkSequence({ intro, profile, opening }) {
         const select = gsap.utils.selector(sequenceRef)
         const stage = select('.intro-work-sequence__stage')[0]
         const transitionPlane = select('.intro__transition-plane')
-        const workItems = select('.work__topline--transition, .work__title-word, .work__description--transition, .work__scroll-cue--transition')
+        const workItems = select('.work__topline--transition, .work__title-word, .work__description--transition')
         const profileSection = select('.profile-intro')[0]
         const profileItems = select('.profile-intro__portrait, .profile-intro__content')
 
@@ -52,7 +52,7 @@ export default function IntroWorkSequence({ intro, profile, opening }) {
           .to(select('.work__topline--transition'), { autoAlpha: 1, y: 0, duration: 12 }, 114)
           .fromTo(select('.work__title-word--selected'), { xPercent: -16, yPercent: 20 }, { autoAlpha: 1, xPercent: 0, yPercent: 0, duration: 22 }, 118)
           .fromTo(select('.work__title-word--works'), { xPercent: 16, yPercent: 28 }, { autoAlpha: 1, xPercent: 0, yPercent: 0, duration: 20 }, 120)
-          .to(select('.work__description--transition, .work__scroll-cue--transition'), { autoAlpha: 1, y: 0, duration: 18 }, 140)
+          .to(select('.work__description--transition'), { autoAlpha: 1, y: 0, duration: 18 }, 140)
 
         const frame = requestAnimationFrame(() => ScrollTrigger.refresh())
         const refresh = () => ScrollTrigger.refresh()

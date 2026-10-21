@@ -1,13 +1,14 @@
 .contact-section {
+  box-sizing: border-box;
   min-height: min(100svh, 980px);
-  padding: clamp(76px, 10vw, 152px) var(--case-gutter) 30px;
+  padding: clamp(76px, 10vw, 152px) var(--case-gutter) clamp(64px, 6vw, 104px);
   background: var(--color-bg-dark);
   color: #f4f4f0;
 }
 
 .contact-section__inner {
   width: min(100%, var(--content-wide));
-  min-height: calc(min(100svh, 980px) - clamp(106px, 10vw, 182px));
+  min-height: calc(min(100svh, 980px) - clamp(140px, 16vw, 256px));
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -112,8 +113,8 @@
 }
 
 @media (max-width: 700px) {
-  .contact-section { min-height: 88svh; padding: 78px 22px 24px; }
-  .contact-section__inner { min-height: calc(88svh - 102px); }
+  .contact-section { min-height: 88svh; padding: 78px 22px 52px; }
+  .contact-section__inner { min-height: calc(88svh - 130px); }
   .contact-section__eyebrow { margin-bottom: 32px; font-size: 9px; }
   .contact-section__header h2 { max-width: 100%; font-size: clamp(46px, 12.2vw, 76px); line-height: .98; letter-spacing: -.08em; }
   .contact-section__message { margin-top: 24px; font-size: 15px; }

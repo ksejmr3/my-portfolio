@@ -127,7 +127,7 @@ Playfair Display는 현재 일부 구현에서 사용되지만, 이후 공통 �
 | Hyundai PROCESS 01–06 | GSAP pin·scrub·가로 패널·도로 SVG·자동차 이동 | 유지 및 보호 |
 | Hyundai Selected Works | 영상 재생, 목업 내부 자동 스크롤 | 유지 |
 | VIVIENNE / COS | 목업 내부 Figma 자동 스크롤 | 유지 |
-| AI VIDEO CONTENTS | 네이티브 영상 controls, 화면 이탈 시 pause | 유지 |
+| AI VIDEO CONTENTS | 음소거·인라인·반복 재생, 화면 진입 시 재생 및 이탈 시 pause, reduced-motion에서는 자동재생 제외 | 유지 |
 | CLONE CODING | 일반 세로 스크롤, 카드 reveal | 유지 |
 | SKILL | sticky + GSAP scrub 기반 로고 카드 회전·하강 | 유지 |
 | ABOUT | 전체 Q&A 노출, 읽기 중심 세로 흐름 | 유지 |
@@ -176,13 +176,45 @@ Playfair Display는 현재 일부 구현에서 사용되지만, 이후 공통 �
 |---|---|---|---|
 | 영문 이탤릭 | Lora와 Playfair Display가 함께 사용됨 | Lora 중심 기준과 차이 | 검토 필요 |
 | 큰 제목 | 56px–190px 범위로 섹션별 편차가 큼 | 공통 Display 체계 필요 | 제안 |
-| 본문 | 일부 AI fact, 카드 설명이 12–15px | 본문 최소 기준보다 작음 | 검토 필요 |
-| Caption / Label | 다수 8–11px | Caption 13–14px, Label 12–13px 기준보다 작음 | 검토 필요 |
+| 본문 | 일부 섹션 설명은 12–15px이며, Hyundai Challenge·Selected Works·Insight·Reflection 및 AI VIDEO 설명은 읽기 크기로 조정 | 본문 최소 기준 적용 범위 확대 | 일부 메타·브랜드 예외 검토 필요 |
+| Caption / Label | Hyundai Selected Works와 AI VIDEO의 주요 레이블은 11–13px로 조정했으며, 일부 인터랙션·브랜드 메타는 8–10px 유지 | 기준에 근접, 모든 장식 메타를 일괄 확대하지 않음 | 잔여 소형 메타는 화면별 검토 필요 |
 | 콘텐츠 폭 | 1320 / 1390 / 1480 / 1500 / 1530px 혼용 | 역할별 폭 토큰 필요 | 제안 |
 | 가로 여백 | `4.2vw`부터 `8.3vw`까지 혼용 | page / case / editorial 구분 필요 | 제안 |
 | 배경색 | 여러 밝은 회색과 어두운 회색이 혼용됨 | 공통 light / dark 기준 필요 | 제안 |
 | 긴 스크롤 구간 | INTRO pin, PROCESS pin, SKILL sticky 존재 | 기능 유지 후 체류 실측 필요 | 검증 필요 |
 
+### 6.1 2026-10-21 화면 검수 반영
+
+다음 수치는 첨부 화면의 가독성 및 배치 문제를 개선하기 위해 실제 CSS와 JSX에 반영했다. 기존 이미지·영상 자산과 주요 GSAP 인터랙션은 보존했다.
+
+| 구간 | 적용 기준 |
+|---|---|
+| Hyundai Challenge | 화면 높이에 맞춘 중앙 정렬, 제목 `clamp(56px, 5.4vw, 100px)`, 본문 16–19px / `1.72`, 문제 요약 18–23px; 케이스 gutter 기준 3열 |
+| Hyundai Selected Works | 케이스 gutter에 도입부·결과물 정렬, 섹션 상하 `clamp(78px, 8vw, 140px)`, 도입 간격 34–60px; 웹·모바일 비주얼은 `minmax(0, 1fr) / minmax(240px, 30%)`, 900px 이하 190px/30%, 560px 이하 세로 재배치; 목업 자동 스크롤·마스크 유지 |
+| Hyundai PROCESS 도입부 | 가장 최근의 타이포그래피 조정 전 커밋 버전으로 복원: 상하 패딩 `clamp(84px, 11vw, 190px)`, 도입부 `max-width: 1440px; margin-left: auto`. 현재 작업에서는 추가 수정하지 않으며 GSAP, 도로, 자동차, 모바일 fallback 보존 |
+| Hyundai Insight | 제목 `clamp(48px, 5vw, 84px)`, 본문 16–18px, 행 제목 `clamp(21px, 2vw, 30px)` / `1.42`; 행 패딩 24–36px, 모바일 정보 그리드와 자연 높이 |
+| Hyundai Reflection | 데스크톱 `min-height: max(100svh, 760px)`로 뷰포트보다 짧아지는 제한 제거; 모바일은 `min-height: 0`으로 콘텐츠가 자연 확장 |
+| AI VIDEO | 소개문 최소 16px, 설명 폭 520px, 주요 레이블 12px, 세부 정보 13–14px. 영상은 muted/playsInline/loop로 섹션 진입 시 재생하고 이탈 시 멈춤; reduced-motion에서는 자동재생하지 않음 |
+
+이 변경은 전체 섹션에 같은 높이를 강제하지 않는다. INTRO/WORK INTRO/Personal Work/SKILL처럼 연출 또는 pin 길이가 구조에 포함된 구간은 기존 계산을 유지하고, Hyundai의 일반 콘텐츠 구간은 콘텐츠 높이에 따라 확장한다. 실제 기기·브라우저 렌더링 확인은 별도 검증이 필요하다.
+
+
+### 6.2 2026-10-21 전체 화면 레이아웃 재검수
+
+- 불필요한 `EXPLORE WORK`, `SCROLL TO EXPLORE`, `KIM JIYOUNG / PORTFOLIO` UI 문구와 연결된 클릭·타임라인 대상을 제거했다. 코드 내 정확한 문자열 검색 결과가 남지 않아야 한다.
+- INTRO와 WORK 도입부의 안내 문구는 자연스러운 문장 흐름으로 정리했다. Hyundai 본문은 자연 줄바꿈을 사용하고, 공통 본문에는 `word-break: keep-all`, `overflow-wrap: break-word`, 16–18px 및 약 1.72 행간을 적용했다.
+- Hyundai HERO는 WORK INTRO 보드 이미지와 중복되지 않도록 기존 미사용 자산 `/images/hyundai/selected-works/exhibition-visual.jpg`를 사용한다. 제목·요약·기여 내용은 좌측, 대표 비주얼은 우측으로 분리했다.
+- CHALLENGE는 화면 높이 기준의 중앙 정렬 도입부와 3열 문제 요약으로 조정했다. SELECTED WORKS는 케이스 gutter에 도입부와 결과물을 맞추고, 전시 웹 목업을 주 비주얼·모바일 목업을 보조 비주얼로 묶었다. 두 목업과 기존 자동 스크롤·마스크·비율은 유지한다.
+- INSIGHT는 01–03 행 간격과 제목 크기를 낮췄다. MY CONTRIBUTION은 케이스 공통 시작축에 맞추고 제목·본문 크기와 항목 간격을 조정했으며, 강제 줄바꿈을 제거했다. PROJECT REFLECTION은 제목을 `clamp(48px, 5vw, 84px)`로 줄이고 데스크톱 최소 높이를 `max(100svh, 760px)`로 유지한다.
+- PROCESS는 이번 전체 레이아웃 조정 이전의 커밋된 CSS 기준으로 도입부만 복원했다. 상하 패딩은 `clamp(84px, 11vw, 190px)`, 도입부 폭은 `1440px` 이하이며 우측 정렬이다. 패널 레이아웃, pin/scrub, 도로 SVG, 자동차, 모바일 세로 fallback은 변경하지 않는다.
+- 실제 브라우저 자동화 도구를 사용할 수 없어 첨부 캡처 기준 검토와 코드 변경만 수행했다. 아래 빌드 검증은 실제 렌더링·반응형 브라우저 확인을 대체하지 않는다.
+
+### 6.3 2026-10-21 목업 자산 검토 및 전시 모바일 합성
+
+- `public/images/mockups/iphone-front-mockup.png`는 1611×3323 정면 프레임이며 화면 내부에 `Free iPhone 18 Pro Mockup` 샘플 그래픽이 포함되어 있다. 프레임을 전체 이미지로 그대로 얹지 않는다. Hyundai 전시의 기존 모바일 Figma 미리보기를 화면 창에 배치하고, 프레임은 화면 영역을 마스크로 제외한 바깥 테두리만 위에 합성하며 Dynamic Island는 별도 레이어로 유지한다. 화면 창은 프레임 비율을 기준으로 좌측 4.2%, 상단 1.7%, 너비 91.6%, 높이 96.6%로 정의했다. Chromium 캡처에서 프레임·화면 합성과 샘플 문구 가림을 확인했으며, 픽셀 단위의 원본 프레임 경계 비교는 수행하지 않았다.
+- `SELECTED WORKS → 02 / EXHIBITION EXPERIENCE`에서 기존 별도 모바일 설명 칼럼을 제거하고, 노트북을 주 비주얼로 유지한 채 정면 스마트폰을 데스크톱에서는 우측 하단(`right: 2%; bottom: 20%`, 폭 `clamp(150px, 15.5vw, 220px)`)에 겹치는 구조로 변경했다. 1200px 이하에서는 조금 안쪽으로 옮기고, 900px 이하에서는 노트북 아래 중앙에 배치한다. 모바일 화면의 기존 Figma 이미지, 이미지 마스크, 양방향 자동 스크롤/reduced-motion 동작과 노트북은 유지했다. 화면 설명은 `MOBILE / FIGMA SCROLL` 캡션으로 축약했다.
+- 저장된 개인 프로젝트 자산을 조사했으며 VIVIENNE WESTWOOD와 COS에는 해당 프로젝트의 모바일 전용 Figma 이미지가 없다. 기존 디자인 파일은 데스크톱 전체 페이지 슬라이스이므로 이를 휴대폰 화면으로 재사용하거나 새 모바일 UI를 지어내지 않는다. 두 프로젝트는 노트북 목업과 자동 스크롤을 그대로 유지하고, 새 휴대폰 프레임은 적용 보류한다. 프로젝트별 모바일 시안이 추가되면 그때 같은 화면 창 구조에 연결한다.
+- 확인한 코드상 타이포그래피는 Hyundai 주요 본문에 16–19px 및 약 1.72 행간, 한글 어절 줄바꿈을 사용한다. 본 작업에서는 별도 전체 폰트 재설계를 하지 않았고, PROCESS와 다른 인터랙션 구간의 타이밍·핀 길이도 변경하지 않았다. Chromium에서 선택한 전시 작업 구간을 1920×1080, 1440×900, 1024×768, 768×1024, 390×844로 렌더링했다. 다섯 크기에서 문서 가로 overflow는 측정되지 않았고, 900px 이하의 전화기 아래 배치를 확인했다. 1440px와 390px 화면에서 노트북·휴대폰 합성 결과와 화면 안 샘플 문구가 가려지는 것을 확인했다. 브라우저에서 전체 섹션의 타이포그래피·배경·pin 동작, 각 프로젝트 자동 스크롤의 양방향 전 구간은 이번 확인 범위에 포함되지 않았다.
 ## 7. 아직 결정되지 않은 사항
 
 1. Playfair Display를 전역에서 Lora Italic으로 통합할지 여부

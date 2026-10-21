@@ -14,7 +14,7 @@ export function WorkOpening() {
       <div className="work__opening">
         <div className="work__topline work__topline--transition"><span>01 — 03</span><span>UX/UI · WEB REDESIGN</span></div>
         <h2 id="work-title"><span className="work__title-word work__title-word--selected">selected</span>{' '}<em className="work__title-word work__title-word--works">works.</em></h2>
-        <div className="work__opening-bottom"><p className="work__description--transition">조사와 해석에서 화면 설계까지.<br />세 가지 프로젝트를 소개합니다.</p><span className="work__scroll-cue--transition">SCROLL TO EXPLORE ↓</span></div>
+        <div className="work__opening-bottom"><p className="work__description--transition">조사와 해석에서 화면 설계까지. 세 가지 프로젝트를 소개합니다.</p></div>
       </div>
     </section>
   )

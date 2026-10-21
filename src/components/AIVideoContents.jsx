@@ -9,13 +9,28 @@ function VideoPlayer({ project }) {
     const video = videoRef.current
     if (!video || !('IntersectionObserver' in window)) return undefined
 
+    const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)')
+    let isInView = false
+
+    const syncPlayback = () => {
+      if (!isInView || motionPreference.matches) {
+        video.pause()
+        return
+      }
+
+      video.play().catch(() => {})
+    }
+
     const observer = new IntersectionObserver(([entry]) => {
-      if (!entry.isIntersecting) video.pause()
+      isInView = entry.isIntersecting
+      syncPlayback()
     }, { threshold: 0.08 })
 
     observer.observe(video)
+    motionPreference.addEventListener?.('change', syncPlayback)
     return () => {
       observer.disconnect()
+      motionPreference.removeEventListener?.('change', syncPlayback)
       video.pause()
     }
   }, [])
@@ -28,6 +43,7 @@ function VideoPlayer({ project }) {
       poster={project.poster}
       controls
       muted
+      loop
       playsInline
       preload="metadata"
       aria-label={`${project.title} 영상 플레이어`}

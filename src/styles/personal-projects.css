@@ -37,7 +37,7 @@
   width: var(--personal-slide-width, 100%);
   min-width: 0;
   height: 100%;
-  padding: clamp(30px, 4.2vh, 52px) var(--page-gutter, clamp(24px, 4.2vw, 82px));
+  padding: clamp(24px, 3.4vh, 40px) var(--page-gutter, clamp(24px, 4.2vw, 82px));
   color: var(--personal-ink);
   background: var(--color-bg-light, #f4f4f0);
 }
@@ -63,7 +63,7 @@
   justify-content: space-between;
   align-items: end;
   gap: 28px;
-  padding-bottom: clamp(18px, 2.5vh, 28px);
+  padding-bottom: clamp(14px, 2vh, 22px);
   border-bottom: 1px solid currentColor;
   border-color: color-mix(in srgb, currentColor 24%, transparent);
 }
@@ -96,9 +96,9 @@
   grid-template-columns: minmax(280px, .72fr) minmax(0, 1.28fr);
   grid-template-rows: minmax(0, 1fr) auto;
   align-items: center;
-  gap: 18px clamp(34px, 5vw, 82px);
+  gap: 14px clamp(34px, 5vw, 82px);
   min-height: 0;
-  padding-top: clamp(22px, 3.2vh, 38px);
+  padding-top: clamp(16px, 2.4vh, 26px);
 }
 
 .personal-project__heading {
@@ -253,7 +253,7 @@
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
   align-items: start;
   gap: 18px;
-  padding-top: 14px;
+  padding-top: 12px;
   border-top: 1px solid color-mix(in srgb, currentColor 24%, transparent);
 }
 

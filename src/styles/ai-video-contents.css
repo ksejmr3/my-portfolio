@@ -84,10 +84,14 @@
 .ai-video-intro__empty > span,
 .ai-video-intro__eyebrow,
 .ai-video-detail__eyebrow,
-.ai-video-detail__media-note,
 .ai-video-detail__index {
-  font: 500 10px/1.4 'DM Sans', Arial, sans-serif;
+  font: 500 12px/1.5 'DM Sans', Arial, sans-serif;
   letter-spacing: .12em;
+}
+
+.ai-video-detail__media-note {
+  font: 500 12px/1.5 'DM Sans', Arial, sans-serif;
+  letter-spacing: .08em;
 }
 
 .ai-video-intro__empty strong {
@@ -122,11 +126,11 @@
 }
 
 .ai-video-intro__description {
-  max-width: 470px;
+  max-width: 520px;
   margin-top: clamp(27px, 3vw, 42px);
-  font-size: clamp(15px, 1.16vw, 19px);
+  font-size: clamp(16px, 1.16vw, 19px);
   line-height: 1.75;
-  letter-spacing: -.035em;
+  letter-spacing: -.02em;
 }
 
 .ai-video-intro__tags {
@@ -140,7 +144,7 @@
   padding: 8px 11px;
   border: 1px solid #bdbab2;
   border-radius: 999px;
-  font: 500 9px/1 'DM Sans', Arial, sans-serif;
+  font: 500 10px/1.2 'DM Sans', Arial, sans-serif;
   letter-spacing: .08em;
 }
 
@@ -226,13 +230,13 @@
 
 .ai-video-detail__fact dt {
   color: #b8b6b0;
-  font-size: 12px;
-  line-height: 1.65;
+  font-size: 13px;
+  line-height: 1.7;
 }
 
 .ai-video-detail__fact dd {
-  font-size: 13px;
-  line-height: 1.65;
+  font-size: 14px;
+  line-height: 1.7;
   overflow-wrap: anywhere;
 }
 
