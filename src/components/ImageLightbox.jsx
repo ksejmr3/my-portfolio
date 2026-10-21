@@ -36,7 +36,7 @@ export default function ImageLightbox({ image, onClose }) {
   return <div className="image-lightbox" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) onClose() }}>
     <section className="image-lightbox__dialog" role="dialog" aria-modal="true" aria-label={`${image.label} 원본 이미지 확대`}>
       <div className="image-lightbox__bar"><p>{image.label} / ORIGINAL SIZE</p><button type="button" ref={closeButtonRef} onClick={onClose}>CLOSE <span aria-hidden="true">×</span></button></div>
-      <div className="image-lightbox__viewport"><img src={image.src} alt={image.alt} /></div>
+      <div className="image-lightbox__viewport" data-lenis-prevent><img src={image.src} alt={image.alt} /></div>
     </section>
   </div>
 }

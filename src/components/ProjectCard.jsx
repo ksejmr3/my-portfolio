@@ -1,8 +1,10 @@
+import HyundaiProjectPreview from './HyundaiProjectPreview.jsx'
+
 export default function ProjectCard({ project }) {
   return (
     <article className={`project-card project-card--${project.id}`} id={project.id} aria-labelledby={`${project.id}-title`}>
       <div className="project-card__media">
-        {project.image ? <figure className={`project-card__figure project-card__figure--${project.visualKind}`}>
+        {project.id === 'hyundai-motorstudio' ? <HyundaiProjectPreview /> : project.image ? <figure className={`project-card__figure project-card__figure--${project.visualKind}`}>
           <div className="project-card__visual">
             <img className="project-card__image" src={project.image} alt={project.imageAlt} loading="lazy" decoding="async" />
             {project.secondaryImage && <img className="project-card__secondary-image" src={project.secondaryImage} alt={project.secondaryImageAlt} loading="lazy" decoding="async" />}

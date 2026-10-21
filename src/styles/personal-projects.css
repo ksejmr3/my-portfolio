@@ -71,7 +71,7 @@
 .personal-work__eyebrow {
   display: flex;
   flex-wrap: wrap;
-  gap: 14px;
+  gap: 20px;
   margin: 0;
   font-size: 12px;
   font-weight: 600;
@@ -111,7 +111,7 @@
 .personal-project__meta {
   display: flex;
   align-items: baseline;
-  gap: 14px;
+  gap: 20px;
   margin: 0 0 clamp(20px, 3vh, 34px);
   color: var(--color-text-secondary, #686761);
   font-size: 11px;
@@ -220,6 +220,7 @@
   aspect-ratio: 5492 / 2763;
   transform: translate(-50%, -50%);
 }
+.personal-project__laptop::before { content: ''; position: absolute; z-index: 1; left: 10.6%; top: 89.3%; width: 78.7%; height: 1.5%; clip-path: polygon(4.7% 0, 95.3% 0, 100% 100%, 0 100%); background: #343a39; pointer-events: none; }
 
 .personal-project__screen {
   position: absolute;

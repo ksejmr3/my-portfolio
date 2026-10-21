@@ -146,12 +146,16 @@ function useDesignScroll(sectionRef, viewportRef, pageRef) {
 
     const observer = new IntersectionObserver(([entry]) => {
       visible = entry.isIntersecting
-      if (visible) start()
+      if (visible) {
+        elapsed = 0
+        page.style.transform = 'translate3d(0, 0, 0)'
+        start()
+      }
       else stop()
     }, { threshold: 0.05 })
     let preloadStarted = false
     const resizeObserver = new ResizeObserver(measure)
-    observer.observe(section)
+    observer.observe(viewport)
     resizeObserver.observe(viewport)
     resizeObserver.observe(page)
     const onAssetsReady = () => {
@@ -337,7 +341,6 @@ export default function PersonalProjectCaseStudy() {
           <div className="personal-project__inner">
             <header className="personal-work__topline">
               <p className="personal-work__eyebrow">PERSONAL WORK <span>{String(index + 1).padStart(2, '0')} / 02</span></p>
-              <p className="personal-work__descriptor">브랜드의 고유한 분위기를 해석해 랜딩페이지로 풀어낸 개인 리디자인 프로젝트입니다.</p>
             </header>
             <div className="personal-project__layout">
               <header className="personal-project__heading">
@@ -352,7 +355,7 @@ export default function PersonalProjectCaseStudy() {
                 <p><span>MY WORK</span>{project.role}</p>
                 <p><span>DESIGN NOTE</span>{project.learning}</p>
                 <a className="personal-project__live-link" href={project.liveUrl} target="_blank" rel="noreferrer noopener" aria-label={`${project.name} 실제 사이트를 새 창에서 열기`}>
-                  <span>VIEW LIVE SITE</span><span aria-hidden="true">↗</span>
+                  <span>WEBSITE</span><span aria-hidden="true">↗</span>
                 </a>
               </footer>
             </div>

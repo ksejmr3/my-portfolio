@@ -7,10 +7,17 @@ const workNavigation = [
   { id: 'clone-coding', label: 'CLONE CODING', meta: 'CODING PRACTICE', href: '#clone-coding' },
 ]
 
+const introPreviews = [
+  { src: '/images/hyundai/intro-home-hero.png', alt: 'Hyundai Motorstudio Figma home hero preview', label: 'HYUNDAI MOTORSTUDIO' },
+  { src: '/images/personal-projects/vivienne-westwood-latest/02-hero.png', alt: 'Vivienne Westwood Figma hero preview', label: 'VIVIENNE WESTWOOD' },
+  { src: '/images/personal-projects/cos-sections/01-hero.webp', alt: 'COS Figma hero preview', label: 'COS' },
+]
+
 export default function IntroSection() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isWorkOpen, setIsWorkOpen] = useState(false)
   const [activeSection, setActiveSection] = useState('intro')
+  const [previewIndex, setPreviewIndex] = useState(0)
 
   useEffect(() => {
     const sectionIds = ['intro', 'work', 'ai-video-contents', 'skill', 'about', 'contact', ...workNavigation.map(({ id }) => id)]
@@ -25,6 +32,12 @@ export default function IntroSection() {
 
     sections.forEach((section) => observer.observe(section))
     return () => observer.disconnect()
+  }, [])
+
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined
+    const timer = window.setInterval(() => setPreviewIndex((index) => (index + 1) % introPreviews.length), 2500)
+    return () => window.clearInterval(timer)
   }, [])
 
   useEffect(() => {
@@ -78,7 +91,7 @@ export default function IntroSection() {
         </div>
         <div className="intro__bottom intro__bottom--transition">
           <div className="intro__index intro__index--transition"><span>01 / 03</span><span>SELECTED PROJECTS</span></div>
-          <figure className="intro__preview intro__preview--transition"><img src="/images/personal-projects/vivienne-westwood-latest/02-hero.png" alt="Vivienne Westwood 최신 Figma Hero 화면 미리보기" /><figcaption>WORK PREVIEW / VIVIENNE WESTWOOD</figcaption></figure>
+          <figure className="intro__preview intro__preview--transition"><img key={introPreviews[previewIndex].src} src={introPreviews[previewIndex].src} alt={introPreviews[previewIndex].alt} /><figcaption>WORK PREVIEW / {String(previewIndex + 1).padStart(2, '0')}—03 · {introPreviews[previewIndex].label}</figcaption></figure>
         </div>
         <div className="intro__transition-plane" aria-hidden="true" />
       </div>

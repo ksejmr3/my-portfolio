@@ -121,7 +121,7 @@ export default function PortfolioAssistant() {
 
           <p className="portfolio-assistant__intro">포트폴리오에 대해 궁금한 내용을 확인해 보세요.</p>
 
-          <div className="portfolio-assistant__history" ref={historyRef} aria-live="polite" aria-label="질문과 답변 기록">
+          <div className="portfolio-assistant__history" ref={historyRef} data-lenis-prevent aria-live="polite" aria-label="질문과 답변 기록">
             {messages.map((message) => (
               <article className={`portfolio-assistant__message portfolio-assistant__message--${message.type}`} key={message.id}>
                 <p>{message.content}</p>
@@ -132,7 +132,7 @@ export default function PortfolioAssistant() {
 
           <div className="portfolio-assistant__suggestions" aria-label="추천 질문">
             <p>RECOMMENDED QUESTIONS</p>
-            <div>
+            <div data-lenis-prevent>
               {portfolioQuestions.map((question) => (
                 <button type="button" key={question.id} onClick={() => selectQuestion(question)}>{question.prompt}</button>
               ))}

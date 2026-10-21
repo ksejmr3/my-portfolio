@@ -153,7 +153,6 @@ function SelectedWorkMedia({ src, poster, label, title, className = '', mode = '
       <img className="case-selected-works__mockup-frame" src="/images/mockups/laptop-mockup-alpha.png" alt="" aria-hidden="true" />
     </div> : isPhone ? <div className="case-selected-works__mockup case-selected-works__mockup--phone">
       <div className="case-selected-works__screen case-selected-works__screen--phone" ref={viewportRef}>{mediaContent}</div>
-      <img className="case-selected-works__phone-frame" src="/images/mockups/iphone-front-mockup.png" alt="" aria-hidden="true" />
       <span className="case-selected-works__phone-island" aria-hidden="true" />
     </div> : <div className="case-selected-works__screen case-selected-works__screen--plain">{mediaContent}</div>}
     {!hideCaption && <figcaption><span>{label}</span><span>{title}</span></figcaption>}
@@ -251,10 +250,10 @@ const imageDisplay = {
 }
 
 const contributionItems = [
-  { number: '01', eyebrow: 'UX PLANNING', title: <>탐색의 기준을 <em>구체화하다.</em></>, body: '4인 팀의 UX 기획과 정보 구조 정리를 주도했습니다. 리서치 내용을 메뉴 트리, 요구사항, 사용자 흐름으로 구체화해 화면 설계의 기준을 정리했습니다.' },
-  { number: '02', eyebrow: 'CONTENT & DESIGN', title: <>전시 경험을 <em>화면으로 옮기다.</em></>, body: '전시 서브페이지를 디자인·구현하며 이미지 구성, 타이포그래피, 간격, 스크롤 전개를 다듬었습니다.', images: [{ src: '/images/hyundai/contribution/exhibition-work-01.jpg.jpg', alt: '현대 모터스튜디오 전시 서브페이지 작업 화면을 검토하는 모습' }, { src: '/images/hyundai/contribution/exhibition-work-02.jpg.jpg', alt: '현대 모터스튜디오 전시 서브페이지 작업 사진' }] },
-  { number: '03', eyebrow: 'INTERACTION & DEVELOPMENT', title: <>설계한 흐름을 <em>작동하게 하다.</em></>, body: 'Experience Finder STEP 1–3의 선택 인터랙션과 전시 페이지의 스크롤·콘텐츠 전환을 구현했습니다. 데스크톱과 모바일에서 동작을 확인하고 화면 차이를 보완했습니다.' },
-  { number: '04', eyebrow: 'COLLABORATION', title: <>연결된 화면을 <em>함께 다듬다.</em></>, body: '지점별 소개 페이지는 담당 팀원이 주도했고, 저는 초기 구조와 구현 기반을 지원했습니다. Git으로 변경 사항을 관리하고 담당 화면을 통합하며 팀원과 구현 내용을 맞췄습니다.', images: [{ src: '/images/hyundai/teamwork/team-work-process.jpg.jpg', alt: '현대 모터스튜디오 팀이 디자인과 구현 화면을 함께 작업하는 모습' }, { src: '/images/hyundai/teamwork/team-review-01.jpg.jpg', alt: '현대 모터스튜디오 팀 프로젝트 화면 검토 사진' }, { src: '/images/hyundai/teamwork/team-meeting-02.jpg.jpg', alt: '현대 모터스튜디오 팀 회의 사진' }, { src: '/images/hyundai/teamwork/team-final-presentation-02.jpg.jpg', alt: '현대 모터스튜디오 팀 프로젝트 최종 발표 사진' }] },
+  { number: '01', eyebrow: 'UX PLANNING', title: <>흩어진 경험을 하나의 <em>탐색 흐름으로 정리하다.</em></>, body: '시장·브랜드와 경쟁 서비스를 조사하고 요구사항을 검토해, 방문 목적에 따라 경험을 찾을 수 있도록 정보 구조와 STEP 1–3의 선택 기준을 구체화했습니다.' },
+  { number: '02', eyebrow: 'UI DESIGN', title: <>기획 의도를 실제 <em>화면으로 구체화하다.</em></>, body: '전시 서브페이지의 와이어프레임부터 이미지 구성, 타이포그래피, 시각적 위계까지 설계하고 브랜드 경험에 맞는 화면으로 발전시켰습니다.', images: [{ src: '/images/hyundai/contribution/exhibition-work-01.jpg.jpg', alt: '현대 모터스튜디오 전시 서브페이지 작업 화면을 검토하는 모습' }, { src: '/images/hyundai/contribution/exhibition-work-02.jpg.jpg', alt: '현대 모터스튜디오 전시 서브페이지 작업 사진' }] },
+  { number: '03', eyebrow: 'INTERACTION & DEVELOPMENT', title: <>설계한 흐름을 <em>작동하는 경험으로 만들다.</em></>, body: 'Experience Finder STEP 1–3의 선택·추천 기능과 전시 페이지의 주요 스크롤 인터랙션을 구현하고, 반복 검수를 통해 사용 흐름과 화면 완성도를 높였습니다.' },
+  { number: '04', eyebrow: 'COLLABORATION', title: <>서로 다른 작업을 하나의 <em>결과로 연결하다.</em></>, body: '4인 팀의 역할 분담 안에서 담당 화면을 구현하고, 컴포넌트 통합과 Git 협업, 반응형 검수를 통해 각 페이지가 하나의 웹 경험으로 이어지도록 조율했습니다.', images: [{ src: '/images/hyundai/teamwork/team-work-process.jpg.jpg', alt: '현대 모터스튜디오 팀이 디자인과 구현 화면을 함께 작업하는 모습' }, { src: '/images/hyundai/teamwork/team-review-01.jpg.jpg', alt: '현대 모터스튜디오 팀 프로젝트 화면 검토 사진' }, { src: '/images/hyundai/teamwork/team-meeting-02.jpg.jpg', alt: '현대 모터스튜디오 팀 회의 사진' }, { src: '/images/hyundai/teamwork/team-final-presentation-02.jpg.jpg', alt: '현대 모터스튜디오 팀 프로젝트 최종 발표 사진' }] },
 ]
 
 function ProcessStage({ stage, isActive, isLightboxOpen, onOpen }) {
@@ -334,6 +333,7 @@ export default function HyundaiCaseStudy() {
   const processRoadRef = useRef(null)
   const processRoadPathRef = useRef(null)
   const processRoadCarRef = useRef(null)
+  const reflectionRef = useRef(null)
   const setVisibleProcess = (processNumber) => {
     if (activeProcessRef.current === processNumber) return
     activeProcessRef.current = processNumber
@@ -358,6 +358,37 @@ export default function HyundaiCaseStudy() {
     update()
     mediaQuery.addEventListener('change', update)
     return () => mediaQuery.removeEventListener('change', update)
+  }, [])
+
+  useLayoutEffect(() => {
+    const section = reflectionRef.current
+    if (!section) return undefined
+    const context = gsap.context(() => {
+      const media = gsap.matchMedia()
+      media.add('(prefers-reduced-motion: no-preference)', () => {
+        const label = section.querySelector('.case-closing__label')
+        const title = section.querySelector('h2')
+        const body = section.querySelector('.case-closing__body')
+        gsap.set([label, title, body], { autoAlpha: 0, y: 30 })
+        const timeline = gsap.timeline({ paused: true })
+          .to(label, { autoAlpha: 1, y: 0, duration: .36, ease: 'power2.out' })
+          .to(title, { autoAlpha: 1, y: 0, duration: .64, ease: 'power2.out' }, '-=.08')
+          .to(body, { autoAlpha: 1, y: 0, duration: .48, ease: 'power2.out' }, '-=.28')
+        // The preceding pinned sections alter ScrollTrigger's calculated scroll
+        // positions during refresh. Observe this footer in the actual viewport.
+        const observer = new IntersectionObserver(([entry]) => {
+          if (entry.isIntersecting) timeline.restart()
+          else if (entry.boundingClientRect.top >= window.innerHeight * .75) {
+            timeline.pause(0)
+            gsap.set([label, title, body], { autoAlpha: 0, y: 30 })
+          } else if (entry.boundingClientRect.bottom <= 0) timeline.progress(1)
+        }, { rootMargin: '0px 0px -25% 0px' })
+        observer.observe(section.closest('.case-closing'))
+        return () => { observer.disconnect(); timeline.kill() }
+      })
+      return () => media.revert()
+    }, section)
+    return () => context.revert()
   }, [])
 
   useEffect(() => {
@@ -498,13 +529,13 @@ export default function HyundaiCaseStudy() {
     </section>
 
     <section className="case-section case-section--dark case-section--challenge">
-      <SectionIntro index="02" eyebrow="CHALLENGE" title={<>SCATTERED CONTENT<br />DISCONNECTED VISITS.</>} body="자사 사이트와 비교 서비스를 살펴보며 콘텐츠 탐색, 지점 정보, 예약 안내가 각각 끊기는 지점을 확인했습니다." className="case-section__intro--editorial" />
+      <SectionIntro index="01" eyebrow="CHALLENGE" title={<>SCATTERED CONTENT<br />DISCONNECTED VISITS.</>} body="자사 사이트와 비교 서비스를 살펴보며 콘텐츠 탐색, 지점 정보, 예약 안내가 각각 끊기는 지점을 확인했습니다." className="case-section__intro--editorial" />
       <div className="case-problems"><p>01 <strong>온라인에서 공간과 전시의 특징을 파악하기 어려움</strong></p><p>02 <strong>관심사와 방문 목적에 맞는 경험을 좁혀 찾기 어려움</strong></p><p>03 <strong>상세 콘텐츠 이후 지점·예약 정보로 이동하는 경로가 나뉨</strong></p></div>
     </section>
 
     <section className="case-section case-selected-works" id="selected-works" aria-label="SELECTED WORKS">
       <header className="case-selected-works__intro">
-        <div className="case-selected-works__intro-meta"><span>05</span><p>PROJECT OUTCOMES</p></div>
+        <div className="case-selected-works__intro-meta"><span>02</span><p>PROJECT OUTCOMES</p></div>
         <h2>SELECTED<br /><em>WORKS.</em></h2>
         <p className="case-selected-works__intro-body">실제 구현 영상과 Figma 디자인을 구분해 각 담당 화면의 결과와 인터랙션 근거를 보여줍니다.</p>
       </header>
@@ -604,7 +635,7 @@ export default function HyundaiCaseStudy() {
       </div>
     </section>
     <section className="case-section case-contribution" aria-label="My Contribution">
-      <SectionIntro index="06" eyebrow="MY CONTRIBUTION" title={<>THE WORK<br /><em>I CONNECTED.</em></>} body="프로젝트 전반의 기획 참여, 직접 맡은 디자인·구현, 협업 지원 범위를 구분했습니다." className="case-section__intro--editorial" />
+      <SectionIntro index="05" eyebrow="MY CONTRIBUTION" title={<>THE WORK<br /><em>I CONNECTED.</em></>} body="프로젝트 전반의 기획 참여, 직접 맡은 디자인·구현, 협업 지원 범위를 구분했습니다." className="case-section__intro--editorial" />
       <div className="case-contribution__items">
         {contributionItems.map((item) => <article className="case-contribution__item" key={item.number}>
           <div className="case-contribution__meta"><span>{item.number}</span><p>{item.eyebrow}</p></div>
@@ -617,7 +648,7 @@ export default function HyundaiCaseStudy() {
       </div>
     </section>
 
-    <footer className="case-closing"><div className="case-closing__message"><p>PROJECT REFLECTION</p><h2>설계를 화면으로,<br /><em>화면을 흐름으로.</em></h2><p>여러 담당 화면을 하나의 경험으로 연결하려면, 기획 의도와 구현 기준을 팀 안에서 분명히 공유해야 한다는 점을 배웠습니다.</p></div></footer>
+    <footer className="case-closing"><div className="case-closing__message" ref={reflectionRef}><p className="case-closing__label">06 / PROJECT REFLECTION</p><h2>설계를 화면으로,<br /><em>화면을 흐름으로.</em></h2><p className="case-closing__body">여러 담당 화면을 하나의 경험으로 연결하려면, 기획 의도와 구현 기준을 팀 안에서 분명히 공유해야 한다는 점을 배웠습니다.</p></div></footer>
     {activeImage && <ImageLightbox image={activeImage} onClose={closeImage} />}
   </section>
 }
