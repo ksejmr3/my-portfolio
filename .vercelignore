@@ -1,0 +1,8 @@
+.tmp-*/
+.tmp-profile-audit
+node_modules/
+dist/
+.git/
+.vercel/
+.env
+.env.*
