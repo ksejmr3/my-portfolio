@@ -112,7 +112,7 @@
   display: flex;
   align-items: baseline;
   gap: 20px;
-  margin: 0 0 clamp(20px, 3vh, 34px);
+  margin: 0 0 clamp(28px, 3.6vh, 42px);
   color: var(--color-text-secondary, #686761);
   font-size: 11px;
   font-weight: 600;
@@ -132,7 +132,7 @@
 }
 
 .personal-project__concept {
-  margin-top: clamp(14px, 2vh, 22px);
+  margin-top: clamp(20px, 2.5vh, 30px);
   color: var(--personal-ink);
   font-size: 11px;
   font-weight: 600;
@@ -143,7 +143,7 @@
 
 .personal-project__summary {
   max-width: 560px;
-  margin-top: 16px;
+  margin-top: clamp(20px, 2.5vh, 30px);
   color: var(--personal-ink);
   font-size: clamp(15px, 1.05vw, 17px);
   line-height: 1.7;
@@ -156,7 +156,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
-  margin: 16px 0 0;
+  margin: 22px 0 0;
   padding: 0;
   list-style: none;
 }
@@ -315,10 +315,11 @@
   .personal-work__topline { display: grid; gap: 12px; }
   .personal-work__eyebrow { font-size: 10px; }
   .personal-work__descriptor { justify-self: start; max-width: 350px; text-align: left; font-size: 11px; }
-  .personal-project__meta { align-items: flex-start; font-size: 9px; }
+  .personal-project__meta { align-items: flex-start; margin-bottom: 24px; font-size: 9px; }
   .personal-project__heading h2 { font-size: clamp(30px, 9vw, 42px); }
-  .personal-project__concept { font-size: 10px; }
-  .personal-project__summary { font-size: 14px; }
+  .personal-project__concept { margin-top: 18px; font-size: 10px; }
+  .personal-project__summary { margin-top: 18px; font-size: 14px; }
+  .personal-project__tags { margin-top: 18px; }
   .personal-project__layer { width: 25%; }
   .personal-project__layer--heritage, .personal-project__layer--campaign { left: 0; top: 34%; }
   .personal-project__layer--craft, .personal-project__layer--detail { left: 76%; top: 7%; width: 23%; }

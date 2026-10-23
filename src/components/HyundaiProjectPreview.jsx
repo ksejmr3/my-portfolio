@@ -22,7 +22,7 @@ function AutoScrollScreen({ src, className }) {
 
 export default function HyundaiProjectPreview() {
   return <figure className="hyundai-project-preview">
-    <div className="hyundai-project-preview__desktop"><AutoScrollScreen className="hyundai-project-preview__screen hyundai-project-preview__screen--desktop" src="/images/hyundai/selected-works/exhibition-desktop-figma.webp" /><img className="hyundai-project-preview__laptop-frame" src="/images/mockups/laptop-mockup-alpha.png" alt="" aria-hidden="true" /></div>
+    <div className="hyundai-project-preview__desktop"><AutoScrollScreen className="hyundai-project-preview__screen hyundai-project-preview__screen--desktop" src="/images/hyundai/selected-works/exhibition-desktop-figma.webp" /><img className="hyundai-project-preview__imac-frame" src="/images/mockups/imac-frame-transparent.png" alt="" aria-hidden="true" /></div>
     <div className="hyundai-project-preview__phone"><AutoScrollScreen className="hyundai-project-preview__screen hyundai-project-preview__screen--phone" src="/images/hyundai/selected-works/exhibition-mobile-figma.webp" /><i aria-hidden="true" /></div>
     <figcaption>FIGMA / RESPONSIVE MAIN DESIGN</figcaption>
   </figure>

@@ -104,13 +104,15 @@ function VideoDetail({ project, index, total, active }) {
     <article className={`ai-video-detail${index % 2 ? ' ai-video-detail--reverse' : ''}`} aria-labelledby={`ai-video-film-${project.number}`}>
       <div className="ai-video-detail__layout">
         <div className="ai-video-detail__media">
-          <div
-            className={`ai-video-detail__player-frame ai-video-detail__player-frame--${project.orientation}`}
-            style={{ aspectRatio: project.aspectRatio }}
-          >
-            <VideoPlayer project={project} active={active} />
+          <div className={`ai-video-detail__player-column ai-video-detail__player-column--${project.orientation}`}>
+            <div
+              className={`ai-video-detail__player-frame ai-video-detail__player-frame--${project.orientation}`}
+              style={{ aspectRatio: project.aspectRatio }}
+            >
+              <VideoPlayer project={project} active={active} />
+            </div>
+            <p className="ai-video-detail__media-note">{project.mediaLabel} / {project.formatLabel}</p>
           </div>
-          <p className="ai-video-detail__media-note">{project.mediaLabel} / {project.formatLabel}</p>
         </div>
         <div className="ai-video-detail__content">
           <p className="ai-video-detail__eyebrow">FILM {project.number} / {String(total).padStart(2, '0')}</p>
@@ -125,10 +127,6 @@ function VideoDetail({ project, index, total, active }) {
             ))}
           </dl>
         </div>
-      </div>
-      <div className="ai-video-detail__progress" aria-label={`영상 ${index + 1} / ${total}`}>
-        <span>{String(index + 1).padStart(2, '0')} / {String(total).padStart(2, '0')}</span>
-        <span className="ai-video-detail__progress-track"><span style={{ width: `${((index + 1) / total) * 100}%` }} /></span>
       </div>
     </article>
   )

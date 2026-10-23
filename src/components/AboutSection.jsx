@@ -1,5 +1,9 @@
-import { useState } from 'react'
+import { useLayoutEffect, useRef, useState } from 'react'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import '../styles/about-section.css'
+
+if (!gsap.plugins.ScrollTrigger) gsap.registerPlugin(ScrollTrigger)
 
 const aboutItems = [
   {
@@ -31,8 +35,47 @@ const aboutItems = [
 
 export default function AboutSection() {
   const [openIndex, setOpenIndex] = useState(0)
+  const sectionRef = useRef(null)
+
+  useLayoutEffect(() => {
+    const section = sectionRef.current
+    if (!section) return undefined
+    const context = gsap.context(() => {
+      const media = gsap.matchMedia()
+      media.add('(min-width: 1101px) and (prefers-reduced-motion: no-preference)', () => {
+        const items = [...section.querySelectorAll('.about-section__item')]
+        if (items.length < 2) return undefined
+        gsap.set(items.slice(1), { xPercent: 42, clipPath: 'inset(0 0 0 100%)' })
+        const timeline = gsap.timeline({
+          scrollTrigger: {
+            trigger: section,
+            start: 'top top',
+            end: () => `+=${window.innerHeight * 3.2}`,
+            pin: true,
+            pinSpacing: true,
+            scrub: 0.8,
+            anticipatePin: 1,
+            invalidateOnRefresh: true,
+          },
+        })
+        items.slice(1).forEach((item, index) => {
+          timeline.to(item, {
+            xPercent: 0,
+            clipPath: 'inset(0 0 0 0%)',
+            duration: 0.8,
+            ease: 'none',
+          }, index * 0.95)
+        })
+        timeline.to({}, { duration: 0.65 })
+        return () => timeline.kill()
+      })
+      return () => media.revert()
+    }, section)
+    return () => context.revert()
+  }, [])
+
   return (
-    <section className="about-section" id="about" aria-labelledby="about-title">
+    <section className="about-section" id="about" aria-labelledby="about-title" ref={sectionRef}>
       <div className="about-section__inner">
         <header className="about-section__intro">
           <p className="about-section__eyebrow">WORKING NOTES / 2026</p>

@@ -11,8 +11,9 @@ function SectionIntro({ index, eyebrow, title, body, className = '' }) {
 
 const DESIGN_SCROLL_VIEWPORTS_PER_SECOND = 0.27
 const DESIGN_SCROLL_ENDPOINT_PAUSE = 750
+const DESIGN_SCROLL_RESET_FADE = 420
 
-function SelectedWorkMedia({ src, poster, label, title, className = '', mode = 'laptop', kind = 'video', playbackRate = 1, hideCaption = false }) {
+function SelectedWorkMedia({ src, poster, label, title, className = '', mode = 'imac', kind = 'video', playbackRate = 1, hideCaption = false }) {
   const figureRef = useRef(null)
   const videoRef = useRef(null)
   const mediaRef = useRef(null)
@@ -21,7 +22,7 @@ function SelectedWorkMedia({ src, poster, label, title, className = '', mode = '
   const [isPlaying, setIsPlaying] = useState(false)
   const [hasFailed, setHasFailed] = useState(false)
   const isPhone = mode === 'phone'
-  const isLaptop = mode === 'laptop'
+  const isImac = mode === 'imac'
 
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
@@ -59,6 +60,7 @@ function SelectedWorkMedia({ src, poster, label, title, className = '', mode = '
     if (!figure || kind !== 'design') return
     if (reducedMotion) {
       if (mediaRef.current) mediaRef.current.style.transform = 'translate3d(0, 0, 0)'
+      if (mediaRef.current) mediaRef.current.style.opacity = '1'
       return
     }
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
@@ -69,14 +71,15 @@ function SelectedWorkMedia({ src, poster, label, title, className = '', mode = '
     let distance = 0
     let travelDuration = 0
     const pauseAfter = DESIGN_SCROLL_ENDPOINT_PAUSE
-    const cycleDuration = () => (travelDuration + pauseAfter) * 2
+    const resetFadeDuration = DESIGN_SCROLL_RESET_FADE
+    const cycleDuration = () => pauseAfter * 2 + travelDuration + resetFadeDuration
     const readMotion = () => {
       if (!travelDuration) return { segment: 'start', progress: 0, elapsed: 0 }
       const phase = activeElapsed % cycleDuration()
       if (phase < pauseAfter) return { segment: 'start', progress: 0, elapsed: phase }
       if (phase < pauseAfter + travelDuration) return { segment: 'forward', progress: (phase - pauseAfter) / travelDuration }
       if (phase < travelDuration + pauseAfter * 2) return { segment: 'end', progress: 1, elapsed: phase - travelDuration - pauseAfter }
-      return { segment: 'reverse', progress: 1 - (phase - travelDuration - pauseAfter * 2) / travelDuration }
+      return { segment: 'reset', progress: 0, elapsed: phase - travelDuration - pauseAfter * 2 }
     }
     const measure = () => {
       const motion = readMotion()
@@ -86,10 +89,15 @@ function SelectedWorkMedia({ src, poster, label, title, className = '', mode = '
       travelDuration = distance > 0 && speed > 0 ? (distance / speed) * 1000 : 0
       if (motion.segment === 'forward') activeElapsed = pauseAfter + motion.progress * travelDuration
       else if (motion.segment === 'end') activeElapsed = pauseAfter + travelDuration + motion.elapsed
-      else if (motion.segment === 'reverse') activeElapsed = pauseAfter * 2 + travelDuration + (1 - motion.progress) * travelDuration
+      else if (motion.segment === 'reset') activeElapsed = pauseAfter * 2 + travelDuration + motion.elapsed
       else activeElapsed = motion.elapsed
       lastTime = 0
+      // The Figma image begins at its actual page top, then travels upward
+      // inside the clipped device viewport to reveal content further down.
       content.style.transform = `translate3d(0, ${-distance * motion.progress}px, 0)`
+      content.style.opacity = motion.segment === 'reset'
+        ? String(motion.elapsed < resetFadeDuration / 2 ? 1 - motion.elapsed / (resetFadeDuration / 2) : (motion.elapsed - resetFadeDuration / 2) / (resetFadeDuration / 2))
+        : '1'
     }
     const draw = (time) => {
       frame = null
@@ -98,18 +106,24 @@ function SelectedWorkMedia({ src, poster, label, title, className = '', mode = '
       lastTime = time
       if (!travelDuration) {
         content.style.transform = 'translate3d(0, 0, 0)'
+        content.style.opacity = '1'
         frame = requestAnimationFrame(draw)
         return
       }
       const phase = activeElapsed % cycleDuration()
-      const progress = phase < pauseAfter
-        ? 0
-        : phase < pauseAfter + travelDuration
-          ? (phase - pauseAfter) / travelDuration
-          : phase < travelDuration + pauseAfter * 2
-            ? 1
-            : 1 - (phase - travelDuration - pauseAfter * 2) / travelDuration
+      const forwardEnd = pauseAfter + travelDuration
+      const endPauseEnd = forwardEnd + pauseAfter
+      let progress = 0
+      let opacity = 1
+      if (phase >= pauseAfter && phase < forwardEnd) progress = (phase - pauseAfter) / travelDuration
+      else if (phase >= forwardEnd && phase < endPauseEnd) progress = 1
+      else if (phase >= endPauseEnd) {
+        const resetElapsed = phase - endPauseEnd
+        const halfFade = resetFadeDuration / 2
+        opacity = resetElapsed < halfFade ? 1 - resetElapsed / halfFade : (resetElapsed - halfFade) / halfFade
+      }
       content.style.transform = `translate3d(0, ${-distance * progress}px, 0)`
+      content.style.opacity = String(opacity)
       frame = requestAnimationFrame(draw)
     }
     const start = () => {
@@ -148,14 +162,14 @@ function SelectedWorkMedia({ src, poster, label, title, className = '', mode = '
     : <img ref={mediaRef} className="case-selected-works__design-page" src={src} alt={`${title} — Figma design preview`} loading="lazy" />
 
   return <figure className={`case-selected-works__figure case-selected-works__figure--${mode} ${className}`} ref={figureRef}>
-    {isLaptop ? <div className="case-selected-works__mockup case-selected-works__mockup--laptop">
-      <div className="case-selected-works__screen case-selected-works__screen--laptop" ref={viewportRef}>{mediaContent}</div>
-      <img className="case-selected-works__mockup-frame" src="/images/mockups/laptop-mockup-alpha.png" alt="" aria-hidden="true" />
+    {isImac ? <div className="case-selected-works__mockup case-selected-works__mockup--imac">
+      <div className="case-selected-works__screen case-selected-works__screen--imac" ref={viewportRef}>{mediaContent}</div>
+      <img className="case-selected-works__mockup-frame" src="/images/mockups/imac-frame-transparent.png" alt="" aria-hidden="true" />
     </div> : isPhone ? <div className="case-selected-works__mockup case-selected-works__mockup--phone">
       <div className="case-selected-works__screen case-selected-works__screen--phone" ref={viewportRef}>{mediaContent}</div>
       <span className="case-selected-works__phone-island" aria-hidden="true" />
     </div> : <div className="case-selected-works__screen case-selected-works__screen--plain">{mediaContent}</div>}
-    {!hideCaption && <figcaption><span>{label}</span><span>{title}</span></figcaption>}
+    {!hideCaption && <figcaption className="case-selected-works__mockup-caption"><span>{label}</span><span>{title}</span></figcaption>}
   </figure>
 }
 
@@ -256,13 +270,15 @@ const contributionItems = [
   { number: '04', eyebrow: 'COLLABORATION', title: <>서로 다른 작업을 하나의 <em>결과로 연결하다.</em></>, body: '4인 팀의 역할 분담 안에서 담당 화면을 구현하고, 컴포넌트 통합과 Git 협업, 반응형 검수를 통해 각 페이지가 하나의 웹 경험으로 이어지도록 조율했습니다.', images: [{ src: '/images/hyundai/teamwork/team-work-process.jpg.jpg', alt: '현대 모터스튜디오 팀이 디자인과 구현 화면을 함께 작업하는 모습' }, { src: '/images/hyundai/teamwork/team-review-01.jpg.jpg', alt: '현대 모터스튜디오 팀 프로젝트 화면 검토 사진' }, { src: '/images/hyundai/teamwork/team-meeting-02.jpg.jpg', alt: '현대 모터스튜디오 팀 회의 사진' }, { src: '/images/hyundai/teamwork/team-final-presentation-02.jpg.jpg', alt: '현대 모터스튜디오 팀 프로젝트 최종 발표 사진' }] },
 ]
 
-function CaseNotes({ title, notes }) {
-  const [lead, ...details] = notes
-  return <article className="case-selected-works__case-notes">
-    <h4>{title}</h4>
-    <div className="case-selected-works__case-notes-lead"><span>{lead[0]}</span><p>{lead[1]}</p></div>
-    <div className="case-selected-works__case-notes-details">{details.map(([label, body]) => <section key={label}><span>{label}</span><p>{body}</p></section>)}</div>
-  </article>
+function CaseDetails({ eyebrow, heading, summary, role, details, titleId }) {
+  return <div className="case-selected-works__details">
+    <div className="case-selected-works__details-heading">
+      <p className="case-selected-works__eyebrow">{eyebrow}</p>
+      <h3 id={titleId}>{heading}</h3>
+      <p className="case-selected-works__summary">{summary}</p>
+    </div>
+    <div className="case-selected-works__case-notes-details">{details.map(([label, body]) => <section key={label}><span>{label}</span><p>{body}</p></section>)}<section className="case-selected-works__role"><span>MY ROLE</span><p>{role}</p></section></div>
+  </div>
 }
 
 function ProcessStage({ stage, isActive, isLightboxOpen, onOpen }) {
@@ -330,7 +346,16 @@ function ProcessStage({ stage, isActive, isLightboxOpen, onOpen }) {
   </article>
 }
 
-if (!gsap.plugins.ScrollTrigger) gsap.registerPlugin(ScrollTrigger)
+gsap.registerPlugin(ScrollTrigger)
+
+function ReflectionGlyphs({ text }) {
+  return [...text].map((character, index) => (
+    <span className="case-closing__glyph" aria-hidden="true" key={`${index}-${character}`}>
+      <span className="case-closing__glyph-base">{character}</span>
+      <span className="case-closing__glyph-fill">{character}</span>
+    </span>
+  ))
+}
 
 export default function HyundaiCaseStudy() {
   const [activeImage, setActiveImage] = useState(null)
@@ -345,6 +370,7 @@ export default function HyundaiCaseStudy() {
   const reflectionRef = useRef(null)
   const insightRowsRef = useRef(null)
   const contributionRef = useRef(null)
+  const selectedWorksRef = useRef(null)
   const setVisibleProcess = (processNumber) => {
     if (activeProcessRef.current === processNumber) return
     activeProcessRef.current = processNumber
@@ -376,24 +402,27 @@ export default function HyundaiCaseStudy() {
       const media = gsap.matchMedia()
       media.add('(min-width: 901px) and (prefers-reduced-motion: no-preference)', () => {
         const stage = insightRowsRef.current
+        const section = stage?.closest('.case-insight-decisions')
         const rows = [...(stage?.querySelectorAll('.case-insight-decisions__row') ?? [])]
         if (rows.length !== 3) return undefined
-        gsap.set(rows[0], { yPercent: 0 })
-        gsap.set(rows.slice(1), { yPercent: 100 })
+        const stackGap = () => Math.min(72, Math.max(48, window.innerHeight * 0.065))
+        gsap.set(rows, { y: () => stage.clientHeight + 24 })
         const timeline = gsap.timeline({
           scrollTrigger: {
-            trigger: stage,
-            start: 'top 18%',
-            end: () => `+=${window.innerHeight * 2.4}`,
-            pin: true,
+            trigger: section || stage,
+            start: 'top top',
+            end: () => `+=${window.innerHeight * 3.1}`,
+            pin: section || stage,
             pinSpacing: true,
-            scrub: true,
+            scrub: 0.85,
+            anticipatePin: 1,
             invalidateOnRefresh: true,
           },
         })
-        timeline.to(rows[1], { yPercent: 0, duration: 0.9, ease: 'none' }, 0.55)
-        timeline.to(rows[2], { yPercent: 0, duration: 0.9, ease: 'none' }, 1.85)
-        timeline.to({}, { duration: 0.5 }, 2.75)
+        timeline.to(rows[0], { y: 0, duration: 0.8, ease: 'none' }, 0.08)
+        timeline.to(rows[1], { y: () => stackGap(), duration: 0.9, ease: 'none' }, 1.02)
+        timeline.to(rows[2], { y: () => stackGap() * 2, duration: 0.9, ease: 'none' }, 2.08)
+        timeline.to({}, { duration: 0.72 }, 3.04)
         return () => timeline.kill()
       })
       media.add('(prefers-reduced-motion: no-preference)', () => {
@@ -411,33 +440,109 @@ export default function HyundaiCaseStudy() {
   }, [])
 
   useLayoutEffect(() => {
-    const section = reflectionRef.current
+    const section = selectedWorksRef.current
     if (!section) return undefined
     const context = gsap.context(() => {
       const media = gsap.matchMedia()
-      media.add('(prefers-reduced-motion: no-preference)', () => {
-        const label = section.querySelector('.case-closing__label')
-        const title = section.querySelector('h2')
-        const body = section.querySelector('.case-closing__body')
-        gsap.set([label, title, body], { autoAlpha: 0, y: 30 })
-        const timeline = gsap.timeline({ paused: true })
-          .to(label, { autoAlpha: 1, y: 0, duration: .36, ease: 'power2.out' })
-          .to(title, { autoAlpha: 1, y: 0, duration: .64, ease: 'power2.out' }, '-=.08')
-          .to(body, { autoAlpha: 1, y: 0, duration: .48, ease: 'power2.out' }, '-=.28')
-        // The preceding pinned sections alter ScrollTrigger's calculated scroll
-        // positions during refresh. Observe this footer in the actual viewport.
-        const observer = new IntersectionObserver(([entry]) => {
-          if (entry.isIntersecting) timeline.restart()
-          else if (entry.boundingClientRect.top >= window.innerHeight * .75) {
-            timeline.pause(0)
-            gsap.set([label, title, body], { autoAlpha: 0, y: 30 })
-          } else if (entry.boundingClientRect.bottom <= 0) timeline.progress(1)
-        }, { rootMargin: '0px 0px -25% 0px' })
-        observer.observe(section.closest('.case-closing'))
-        return () => { observer.disconnect(); timeline.kill() }
+      // Keep the desktop breakpoint aligned with the requested 1024px fallback;
+      // browser chrome must not disable stacking by reducing innerHeight.
+      media.add('(min-width: 1025px) and (prefers-reduced-motion: no-preference)', () => {
+        const panels = [...section.querySelectorAll('.case-selected-works__group')]
+        if (panels.length !== 3) return undefined
+
+        let timeline
+        try {
+          section.classList.add('is-stacked')
+          gsap.set(panels[0], { yPercent: 0, zIndex: 1 })
+          gsap.set(panels[1], { yPercent: 105, zIndex: 2 })
+          gsap.set(panels[2], { yPercent: 105, zIndex: 3 })
+          timeline = gsap.timeline({
+            scrollTrigger: {
+              trigger: section,
+              start: 'top top',
+              end: () => `+=${window.innerHeight * 4.45}`,
+              pin: true,
+              pinSpacing: true,
+              scrub: 0.8,
+              anticipatePin: 1,
+              invalidateOnRefresh: true,
+            },
+          })
+        } catch (error) {
+          section.classList.remove('is-stacked')
+          panels.forEach((panel) => {
+            panel.style.removeProperty('transform')
+            panel.style.removeProperty('z-index')
+          })
+          console.error('SELECTED SOLUTIONS scroll setup failed; showing all panels in document flow.', error)
+          return undefined
+        }
+
+        // Each panel holds before the following panel rises over it.
+        timeline.to(panels[1], { yPercent: 0, duration: 0.72, ease: 'none' }, 1)
+        timeline.to(panels[2], { yPercent: 0, duration: 0.72, ease: 'none' }, 2.72)
+        timeline.to({}, { duration: 1.01 }, 3.44)
+        let isActive = true
+        document.fonts?.ready.then(() => {
+          if (isActive) ScrollTrigger.refresh()
+        })
+        return () => {
+          isActive = false
+          timeline.kill()
+          timeline.scrollTrigger?.kill()
+          section.classList.remove('is-stacked')
+          gsap.set(panels, { clearProps: 'transform,zIndex' })
+        }
       })
       return () => media.revert()
     }, section)
+    return () => context.revert()
+  }, [])
+
+  useLayoutEffect(() => {
+    const message = reflectionRef.current
+    const section = message?.closest('.case-closing')
+    if (!message || !section) return undefined
+    const context = gsap.context(() => {
+      const media = gsap.matchMedia()
+      media.add('(min-width: 901px) and (prefers-reduced-motion: no-preference)', () => {
+        const baseGlyphs = [...message.querySelectorAll('.case-closing__glyph-base')]
+        const fillGlyphs = [...message.querySelectorAll('.case-closing__glyph-fill')]
+        gsap.set(baseGlyphs, { color: 'rgba(244, 243, 239, 0.28)' })
+        gsap.set(fillGlyphs, { clipPath: 'inset(0 100% 0 0)' })
+
+        const timeline = gsap.timeline({
+          scrollTrigger: {
+            trigger: section,
+            start: 'top top',
+            end: () => `+=${window.innerHeight * 1.5}`,
+            pin: section,
+            pinSpacing: true,
+            scrub: 0.6,
+            anticipatePin: 1,
+            invalidateOnRefresh: true,
+          },
+        })
+        timeline.to(fillGlyphs, {
+          clipPath: 'inset(0 0% 0 0)',
+          duration: 1.05,
+          stagger: 0.035,
+          ease: 'none',
+        })
+        timeline.to({}, { duration: 0.45 })
+
+        let isActive = true
+        document.fonts?.ready.then(() => {
+          if (isActive) ScrollTrigger.refresh()
+        })
+        return () => {
+          isActive = false
+          timeline.kill()
+          timeline.scrollTrigger?.kill()
+        }
+      })
+      return () => media.revert()
+    }, message)
     return () => context.revert()
   }, [])
 
@@ -587,49 +692,28 @@ export default function HyundaiCaseStudy() {
       <div className="case-problems"><p>01 <strong>온라인에서 공간과 전시의 특징을 파악하기 어려움</strong></p><p>02 <strong>관심사와 방문 목적에 맞는 경험을 좁혀 찾기 어려움</strong></p><p>03 <strong>상세 콘텐츠 이후 지점·예약 정보로 이동하는 경로가 나뉨</strong></p></div>
     </section>
 
-    <section className="case-section case-selected-works" id="selected-works" aria-label="SELECTED SOLUTIONS">
+    <section className="case-section case-selected-works" id="selected-works" aria-label="SELECTED SOLUTIONS" ref={selectedWorksRef}>
       <header className="case-selected-works__intro">
         <div className="case-selected-works__intro-meta"><span>02</span><p>SELECTED SOLUTIONS</p></div>
-        <h2>SELECTED<br /><em>SOLUTIONS.</em></h2>
-        <p className="case-selected-works__intro-body">실제 구현 영상과 Figma 디자인을 구분해 각 담당 화면의 결과와 인터랙션 근거를 보여줍니다.</p>
+        <h2>SELECTED SOLUTIONS.</h2>
+        <p className="case-selected-works__intro-body">탐색부터 전시 경험, 방문으로 이어지는 세 가지 화면의 설계와 구현 결과를 소개합니다.</p>
       </header>
       <div className="case-selected-works__content">
         <article className="case-selected-works__group case-selected-works__group--finder" aria-labelledby="selected-work-finder-title">
-          <header className="case-selected-works__heading">
-            <div className="case-selected-works__heading-main">
-              <p className="case-selected-works__eyebrow">{experienceFinder.eyebrow}</p>
-              <h3 id="selected-work-finder-title">{experienceFinder.heading}</h3>
-            </div>
-            <div className="case-selected-works__heading-copy">
-              <p className="case-selected-works__summary">{experienceFinder.summary}</p>
-              <p className="case-selected-works__role"><span>MY ROLE</span>{experienceFinder.role}</p>
-            </div>
-          </header>
-          <SelectedWorkMedia src={experienceFinder.video} poster={experienceFinder.poster} label={experienceFinder.mediaLabel} title={experienceFinder.mediaTitle} className="case-selected-works__video--finder" mode="laptop" playbackRate={experienceFinder.playbackRate} />
-          <CaseNotes title="01 / EXPERIENCE FINDER" notes={[
-            ['KEY MESSAGE', '관심사 기반 STEP 1–3 탐색으로 원하는 경험을 좁혀 추천 결과까지 연결했습니다.'],
-            ['APPROACH', '관심사 기반 STEP 1–3 선택 흐름과 추천 기준을 정리했습니다.'],
-            ['SOLUTION', '전시·프로그램·시승 결과를 연결하고 중복 결과를 제거해 정렬했습니다.'],
-            ['VALIDATION', '입력, 추천 결과, 상세·예약 연결을 구현 화면에서 확인했습니다.'],
+          <SelectedWorkMedia src={experienceFinder.video} poster={experienceFinder.poster} label={experienceFinder.mediaLabel} title={experienceFinder.mediaTitle} className="case-selected-works__video--finder" mode="imac" playbackRate={experienceFinder.playbackRate} />
+          <CaseDetails eyebrow={experienceFinder.eyebrow} heading={experienceFinder.heading} summary="STEP 1–3에서 관심사와 방문 목적을 선택하고, 추천 경험의 상세 정보와 예약 화면까지 이어지는 탐색 흐름입니다." role={experienceFinder.role} titleId="selected-work-finder-title" details={[
+            ['DESIGN APPROACH', '관심사와 방문 목적을 중심으로 탐색 구조를 정리하고, 단계별 선택과 추천 기준을 명확히 했습니다.'],
+            ['KEY SOLUTION', 'STEP 1–3 선택 결과에서 전시·프로그램·시승 추천을 연결하고, 중복 결과를 정리해 상세 정보와 예약으로 이어지게 구현했습니다.'],
+            ['VALIDATION', '선택 입력, 추천 결과, 상세 화면 진입 및 예약 연결이 실제 구현 화면에서 정상 작동하는지 확인했습니다.'],
           ]} />
         </article>
 
         <article className="case-selected-works__group case-selected-works__group--exhibition" aria-labelledby="selected-work-exhibition-title">
-          <header className="case-selected-works__heading">
-            <div className="case-selected-works__heading-main">
-              <p className="case-selected-works__eyebrow">{exhibitionExperience.eyebrow}</p>
-              <h3 id="selected-work-exhibition-title">{exhibitionExperience.heading}</h3>
-            </div>
-            <div className="case-selected-works__heading-copy">
-              <p className="case-selected-works__summary">{exhibitionExperience.summary}</p>
-              <p className="case-selected-works__role"><span>MY ROLE</span>{exhibitionExperience.role}</p>
-            </div>
-          </header>
           <div className="case-selected-works__exhibition-visuals">
             <div className="case-selected-works__device-stage" role="group" aria-label="Exhibition desktop and mobile mockups">
               <div className="case-selected-works__exhibition-desktop">
                 <p className="case-selected-works__device-label">DESKTOP EXPERIENCE</p>
-                <SelectedWorkMedia src={exhibitionExperience.designPage} label="DESKTOP / FIGMA DESIGN SCROLL" title="전시 데스크톱 완성 디자인" className="case-selected-works__video--exhibition" mode="laptop" kind="design" hideCaption />
+                <SelectedWorkMedia src={exhibitionExperience.designPage} label="DESKTOP / FIGMA DESIGN SCROLL" title="전시 데스크톱 완성 디자인" className="case-selected-works__video--exhibition" mode="imac" kind="design" hideCaption />
               </div>
               <div className="case-selected-works__responsive">
                 <p className="case-selected-works__device-label">MOBILE EXPERIENCE</p>
@@ -638,36 +722,23 @@ export default function HyundaiCaseStudy() {
             </div>
             <p className="case-selected-works__mockup-caption">전시 이미지와 타이포그래피가 이어지는 반응형 Figma 화면</p>
           </div>
-
-        <CaseNotes title="02 / EXHIBITION EXPERIENCE" notes={[
-          ['KEY MESSAGE', 'Hero와 EXPERIENCE PREVIEW를 연결해 전시 콘텐츠를 하나의 흐름으로 전달했습니다.'],
-          ['APPROACH', 'Hero와 EXPERIENCE PREVIEW를 하나의 탐색 흐름으로 정리했습니다.'],
-          ['SOLUTION', '공통 반응형 구조와 스크롤 기반 이미지 전환을 구현했습니다.'],
-          ['VALIDATION', 'Figma와 구현 화면을 비교하고 모바일 동작을 확인했습니다.'],
-        ]} />
+          <CaseDetails eyebrow={exhibitionExperience.eyebrow} heading="전시를 경험하는 새로운 방식." summary="이미지와 타이포그래피, 스크롤 전환을 결합해 전시의 분위기와 정보를 순서대로 경험하도록 구성한 화면입니다." role={exhibitionExperience.role} titleId="selected-work-exhibition-title" details={[
+            ['DESIGN APPROACH', 'Hero와 EXPERIENCE PREVIEW를 하나의 탐색 흐름으로 구성하고, 전시 콘텐츠의 등장 순서를 설계했습니다.'],
+            ['KEY SOLUTION', '공통 반응형 구조 안에서 스크롤 기반 이미지와 타이포그래피를 전환해 콘텐츠를 단계적으로 경험하도록 구현했습니다.'],
+            ['VALIDATION', '디자인과 구현 화면을 비교하고, 주요 스크롤 인터랙션과 반응형 동작을 확인했습니다.'],
+          ]} />
         </article>
 
         <article className="case-selected-works__group case-selected-works__group--vehicle" aria-labelledby="selected-work-vehicle-title">
-          <header className="case-selected-works__heading">
-            <div className="case-selected-works__heading-main">
-              <p className="case-selected-works__eyebrow">{vehicleExhibition.eyebrow}</p>
-              <h3 id="selected-work-vehicle-title">{vehicleExhibition.heading}</h3>
-            </div>
-            <div className="case-selected-works__heading-copy">
-              <p className="case-selected-works__summary">{vehicleExhibition.summary}</p>
-              <p className="case-selected-works__role"><span>MY ROLE</span>{vehicleExhibition.role}</p>
-            </div>
-          </header>
           <div className="case-selected-works__vehicle-visual">
-            <SelectedWorkMedia src={vehicleExhibition.video} poster={vehicleExhibition.poster} label={vehicleExhibition.mediaLabel} title={vehicleExhibition.mediaTitle} className="case-selected-works__video--vehicle" mode="laptop" playbackRate={vehicleExhibition.playbackRate} hideCaption />
+            <SelectedWorkMedia src={vehicleExhibition.video} poster={vehicleExhibition.poster} label={vehicleExhibition.mediaLabel} title={vehicleExhibition.mediaTitle} className="case-selected-works__video--vehicle" mode="imac" playbackRate={vehicleExhibition.playbackRate} hideCaption />
             <p className="case-selected-works__mockup-caption">원형 차량 이미지와 차종명이 전환되는 인터랙션 화면</p>
           </div>
-      <CaseNotes title="03 / LOCATION EXPERIENCE" notes={[
-        ['KEY MESSAGE', '고양·서울·하남·부산의 차이를 공통 UI 구조 안에서 구분해 상세 화면으로 연결했습니다.'],
-        ['APPROACH', '거점별 차이와 공통 레이아웃을 함께 정리했습니다.'],
-        ['SOLUTION', '지점별 콘텐츠를 상세 페이지 흐름에 연결했습니다.'],
-        ['VALIDATION', '지점 연결과 데스크톱·모바일 레이아웃을 구현 결과로 확인했습니다.'],
-      ]} />
+          <CaseDetails eyebrow="03 / LOCATION EXPERIENCE" heading="콘텐츠에서 방문으로." summary="콘텐츠와 지점 정보를 연결해 실제 공간에 대한 관심이 방문과 예약으로 이어지도록 설계한 흐름입니다." role={vehicleExhibition.role} titleId="selected-work-vehicle-title" details={[
+            ['DESIGN APPROACH', '고양·서울·하남·부산 거점별 차이와 공통 UI 구조를 함께 정리했습니다.'],
+            ['KEY SOLUTION', '지점별 콘텐츠를 상세 페이지 흐름에 연결해 방문 정보를 확인할 수 있도록 구성했습니다.'],
+            ['VALIDATION', '지점 연결과 데스크톱·모바일 레이아웃을 구현 결과로 확인했습니다.'],
+          ]} />
         </article>
       </div>
     </section>
@@ -722,7 +793,7 @@ export default function HyundaiCaseStudy() {
       </div>
     </section>
 
-    <footer className="case-closing"><div className="case-closing__message" ref={reflectionRef}><p className="case-closing__label">06 / PROJECT REFLECTION</p><h2>설계를 화면으로,<br /><em>화면을 흐름으로.</em></h2><p className="case-closing__body">여러 담당 화면을 하나의 경험으로 연결하려면, 기획 의도와 구현 기준을 팀 안에서 분명히 공유해야 한다는 점을 배웠습니다.</p></div></footer>
+    <footer className="case-closing"><div className="case-closing__message" ref={reflectionRef}><p className="case-closing__label">06 / PROJECT REFLECTION</p><h2 aria-label="설계를 화면으로, 화면을 흐름으로."><span className="case-closing__line"><ReflectionGlyphs text="설계를 화면으로," /></span><br /><em className="case-closing__line"><ReflectionGlyphs text="화면을 흐름으로." /></em></h2><p className="case-closing__body">여러 담당 화면을 하나의 경험으로 연결하려면, 기획 의도와 구현 기준을 팀 안에서 분명히 공유해야 한다는 점을 배웠습니다.</p></div></footer>
     {activeImage && <ImageLightbox image={activeImage} onClose={closeImage} />}
   </section>
 }
