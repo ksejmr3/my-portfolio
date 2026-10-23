@@ -256,6 +256,15 @@ const contributionItems = [
   { number: '04', eyebrow: 'COLLABORATION', title: <>서로 다른 작업을 하나의 <em>결과로 연결하다.</em></>, body: '4인 팀의 역할 분담 안에서 담당 화면을 구현하고, 컴포넌트 통합과 Git 협업, 반응형 검수를 통해 각 페이지가 하나의 웹 경험으로 이어지도록 조율했습니다.', images: [{ src: '/images/hyundai/teamwork/team-work-process.jpg.jpg', alt: '현대 모터스튜디오 팀이 디자인과 구현 화면을 함께 작업하는 모습' }, { src: '/images/hyundai/teamwork/team-review-01.jpg.jpg', alt: '현대 모터스튜디오 팀 프로젝트 화면 검토 사진' }, { src: '/images/hyundai/teamwork/team-meeting-02.jpg.jpg', alt: '현대 모터스튜디오 팀 회의 사진' }, { src: '/images/hyundai/teamwork/team-final-presentation-02.jpg.jpg', alt: '현대 모터스튜디오 팀 프로젝트 최종 발표 사진' }] },
 ]
 
+function CaseNotes({ title, notes }) {
+  const [lead, ...details] = notes
+  return <article className="case-selected-works__case-notes">
+    <h4>{title}</h4>
+    <div className="case-selected-works__case-notes-lead"><span>{lead[0]}</span><p>{lead[1]}</p></div>
+    <div className="case-selected-works__case-notes-details">{details.map(([label, body]) => <section key={label}><span>{label}</span><p>{body}</p></section>)}</div>
+  </article>
+}
+
 function ProcessStage({ stage, isActive, isLightboxOpen, onOpen }) {
   const [activeIndex, setActiveIndex] = useState(0)
   const [outgoingImage, setOutgoingImage] = useState(null)
@@ -334,6 +343,8 @@ export default function HyundaiCaseStudy() {
   const processRoadPathRef = useRef(null)
   const processRoadCarRef = useRef(null)
   const reflectionRef = useRef(null)
+  const insightRowsRef = useRef(null)
+  const contributionRef = useRef(null)
   const setVisibleProcess = (processNumber) => {
     if (activeProcessRef.current === processNumber) return
     activeProcessRef.current = processNumber
@@ -358,6 +369,45 @@ export default function HyundaiCaseStudy() {
     update()
     mediaQuery.addEventListener('change', update)
     return () => mediaQuery.removeEventListener('change', update)
+  }, [])
+
+  useLayoutEffect(() => {
+    const context = gsap.context(() => {
+      const media = gsap.matchMedia()
+      media.add('(min-width: 901px) and (prefers-reduced-motion: no-preference)', () => {
+        const stage = insightRowsRef.current
+        const rows = [...(stage?.querySelectorAll('.case-insight-decisions__row') ?? [])]
+        if (rows.length !== 3) return undefined
+        gsap.set(rows[0], { yPercent: 0 })
+        gsap.set(rows.slice(1), { yPercent: 100 })
+        const timeline = gsap.timeline({
+          scrollTrigger: {
+            trigger: stage,
+            start: 'top 18%',
+            end: () => `+=${window.innerHeight * 2.4}`,
+            pin: true,
+            pinSpacing: true,
+            scrub: true,
+            invalidateOnRefresh: true,
+          },
+        })
+        timeline.to(rows[1], { yPercent: 0, duration: 0.9, ease: 'none' }, 0.55)
+        timeline.to(rows[2], { yPercent: 0, duration: 0.9, ease: 'none' }, 1.85)
+        timeline.to({}, { duration: 0.5 }, 2.75)
+        return () => timeline.kill()
+      })
+      media.add('(prefers-reduced-motion: no-preference)', () => {
+        const items = [...(contributionRef.current?.querySelectorAll('.case-contribution__item') ?? [])]
+        items.forEach((item) => {
+          gsap.fromTo(item, { y: 72, autoAlpha: 0 }, {
+            y: 0, autoAlpha: 1, ease: 'none',
+            scrollTrigger: { trigger: item, start: 'top 94%', end: 'top 58%', scrub: true, invalidateOnRefresh: true },
+          })
+        })
+      })
+      return () => media.revert()
+    })
+    return () => context.revert()
   }, [])
 
   useLayoutEffect(() => {
@@ -508,7 +558,11 @@ export default function HyundaiCaseStudy() {
         images.forEach((image) => image.addEventListener('load', refreshForLayoutChange, { once: true }))
         const resizeObserver = new ResizeObserver(refreshForLayoutChange)
         resizeObserver.observe(stage)
-        document.fonts?.ready.then(() => ScrollTrigger.refresh())
+        document.fonts?.ready.then(() => {
+          // The preceding PROCESS pin must be measured before the later insight pin.
+          ScrollTrigger.sort()
+          ScrollTrigger.refresh()
+        })
         return () => {
           images.forEach((image) => image.removeEventListener('load', refreshForLayoutChange))
           resizeObserver.disconnect()
@@ -533,10 +587,10 @@ export default function HyundaiCaseStudy() {
       <div className="case-problems"><p>01 <strong>온라인에서 공간과 전시의 특징을 파악하기 어려움</strong></p><p>02 <strong>관심사와 방문 목적에 맞는 경험을 좁혀 찾기 어려움</strong></p><p>03 <strong>상세 콘텐츠 이후 지점·예약 정보로 이동하는 경로가 나뉨</strong></p></div>
     </section>
 
-    <section className="case-section case-selected-works" id="selected-works" aria-label="SELECTED WORKS">
+    <section className="case-section case-selected-works" id="selected-works" aria-label="SELECTED SOLUTIONS">
       <header className="case-selected-works__intro">
-        <div className="case-selected-works__intro-meta"><span>02</span><p>PROJECT OUTCOMES</p></div>
-        <h2>SELECTED<br /><em>WORKS.</em></h2>
+        <div className="case-selected-works__intro-meta"><span>02</span><p>SELECTED SOLUTIONS</p></div>
+        <h2>SELECTED<br /><em>SOLUTIONS.</em></h2>
         <p className="case-selected-works__intro-body">실제 구현 영상과 Figma 디자인을 구분해 각 담당 화면의 결과와 인터랙션 근거를 보여줍니다.</p>
       </header>
       <div className="case-selected-works__content">
@@ -552,6 +606,12 @@ export default function HyundaiCaseStudy() {
             </div>
           </header>
           <SelectedWorkMedia src={experienceFinder.video} poster={experienceFinder.poster} label={experienceFinder.mediaLabel} title={experienceFinder.mediaTitle} className="case-selected-works__video--finder" mode="laptop" playbackRate={experienceFinder.playbackRate} />
+          <CaseNotes title="01 / EXPERIENCE FINDER" notes={[
+            ['KEY MESSAGE', '관심사 기반 STEP 1–3 탐색으로 원하는 경험을 좁혀 추천 결과까지 연결했습니다.'],
+            ['APPROACH', '관심사 기반 STEP 1–3 선택 흐름과 추천 기준을 정리했습니다.'],
+            ['SOLUTION', '전시·프로그램·시승 결과를 연결하고 중복 결과를 제거해 정렬했습니다.'],
+            ['VALIDATION', '입력, 추천 결과, 상세·예약 연결을 구현 화면에서 확인했습니다.'],
+          ]} />
         </article>
 
         <article className="case-selected-works__group case-selected-works__group--exhibition" aria-labelledby="selected-work-exhibition-title">
@@ -578,6 +638,13 @@ export default function HyundaiCaseStudy() {
             </div>
             <p className="case-selected-works__mockup-caption">전시 이미지와 타이포그래피가 이어지는 반응형 Figma 화면</p>
           </div>
+
+        <CaseNotes title="02 / EXHIBITION EXPERIENCE" notes={[
+          ['KEY MESSAGE', 'Hero와 EXPERIENCE PREVIEW를 연결해 전시 콘텐츠를 하나의 흐름으로 전달했습니다.'],
+          ['APPROACH', 'Hero와 EXPERIENCE PREVIEW를 하나의 탐색 흐름으로 정리했습니다.'],
+          ['SOLUTION', '공통 반응형 구조와 스크롤 기반 이미지 전환을 구현했습니다.'],
+          ['VALIDATION', 'Figma와 구현 화면을 비교하고 모바일 동작을 확인했습니다.'],
+        ]} />
         </article>
 
         <article className="case-selected-works__group case-selected-works__group--vehicle" aria-labelledby="selected-work-vehicle-title">
@@ -595,6 +662,12 @@ export default function HyundaiCaseStudy() {
             <SelectedWorkMedia src={vehicleExhibition.video} poster={vehicleExhibition.poster} label={vehicleExhibition.mediaLabel} title={vehicleExhibition.mediaTitle} className="case-selected-works__video--vehicle" mode="laptop" playbackRate={vehicleExhibition.playbackRate} hideCaption />
             <p className="case-selected-works__mockup-caption">원형 차량 이미지와 차종명이 전환되는 인터랙션 화면</p>
           </div>
+      <CaseNotes title="03 / LOCATION EXPERIENCE" notes={[
+        ['KEY MESSAGE', '고양·서울·하남·부산의 차이를 공통 UI 구조 안에서 구분해 상세 화면으로 연결했습니다.'],
+        ['APPROACH', '거점별 차이와 공통 레이아웃을 함께 정리했습니다.'],
+        ['SOLUTION', '지점별 콘텐츠를 상세 페이지 흐름에 연결했습니다.'],
+        ['VALIDATION', '지점 연결과 데스크톱·모바일 레이아웃을 구현 결과로 확인했습니다.'],
+      ]} />
         </article>
       </div>
     </section>
@@ -623,7 +696,7 @@ export default function HyundaiCaseStudy() {
 
     <section className="case-section case-section--warm case-insight-decisions" aria-label="INSIGHT & DESIGN DECISIONS">
       <SectionIntro index="04" eyebrow="INSIGHT & DESIGN DECISIONS" title={<>FROM FRICTION<br /><em>TO FLOW.</em></>} body="리서치와 사용자 흐름에서 확인한 요구를 세 가지 화면 설계 기준으로 구체화했습니다." className="case-section__intro--editorial" />
-      <div className="case-insight-decisions__rows" aria-label="사용자 문제에서 설계 판단과 개선 경험으로 이어지는 세 가지 방향">
+      <div className="case-insight-decisions__rows" ref={insightRowsRef} aria-label="사용자 문제에서 설계 판단과 개선 경험으로 이어지는 세 가지 방향">
         {project.designDecisions.map((item) => <article className="case-insight-decisions__row" key={item.number}>
           <span className="case-insight-decisions__number" aria-hidden="true">{item.number}</span>
           <p className="case-insight-decisions__keyword">{item.keyword}</p>
@@ -636,7 +709,8 @@ export default function HyundaiCaseStudy() {
     </section>
     <section className="case-section case-contribution" aria-label="My Contribution">
       <SectionIntro index="05" eyebrow="MY CONTRIBUTION" title={<>THE WORK<br /><em>I CONNECTED.</em></>} body="프로젝트 전반의 기획 참여, 직접 맡은 디자인·구현, 협업 지원 범위를 구분했습니다." className="case-section__intro--editorial" />
-      <div className="case-contribution__items">
+      <div className="case-contribution__period"><span>OFFICIAL TEAM PROJECT / 2026.09.01–09.30</span><span>PERSONAL FOLLOW-UP / 2026.10.01–10.12</span></div>
+      <div className="case-contribution__items" ref={contributionRef}>
         {contributionItems.map((item) => <article className="case-contribution__item" key={item.number}>
           <div className="case-contribution__meta"><span>{item.number}</span><p>{item.eyebrow}</p></div>
           <h3>{item.title}</h3>

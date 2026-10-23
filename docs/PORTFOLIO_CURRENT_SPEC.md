@@ -267,3 +267,15 @@ Playfair Display는 현재 일부 구현에서 사용되지만, 이후 공통 �
 | `CONTENT_INVENTORY.md` | 초기 콘텐츠·에셋 검증 기록으로 보존한다. 현재 구현에 추가된 AI VIDEO, CLONE CODING, ABOUT, CONTACT, 챗봇 관련 내용은 별도 최신화가 필요할 수 있다. |
 
 이 문서와 기존 문서가 충돌할 경우, 현재 사용자가 명시적으로 확정한 방향과 현재 의도적으로 완성된 기능을 우선한다. 단, 자산 출처·개인정보·개인 기여 범위 검증 원칙은 기존 문서의 기준을 계속 적용한다.
+
+## 11. Hyundai Motorstudio 결과물 링크
+
+- HYUNDAI MOTORSTUDIO 프로젝트 진입 카드의 설명 아래에 결과물 링크를 제공한다. 구현 웹사이트와 기획·리서치·UX/UI 과정을 정리한 Figma 프로토타입을 구분해 안내한다.
+- LIVE WEBSITE는 `https://mbc-teamproject-wheat.vercel.app/`, PROJECT DECK은 공개 프로토타입 URL을 사용한다. 두 링크 모두 새 탭에서 열리며 `noopener noreferrer`, 키보드 포커스 표시를 적용한다.
+- 데스크톱에서는 두 링크를 나란히 두고, 700px 이하에서는 세로로 배치한다. PROJECT REFLECTION의 기존 IntersectionObserver와 순차 페이드인은 해당 영역만 계속 제어한다.
+
+## 12. AI VIDEO CONTENTS 스크롤 흐름
+
+- 데스크톱 AI VIDEO CONTENTS는 Lenis의 휠 보정과 GSAP ScrollTrigger를 함께 사용한다. pin 구간은 인트로, 첫 번째 영상, 두 번째 영상, 이탈 여유를 충분히 확보하는 다섯 화면 높이로 구성한다.
+- ScrollTrigger는 별도 지연 scrub을 두지 않고 스크롤 위치에 직접 동기화한다. 빠른 휠 입력에서도 장면 상태와 재생 대상이 뒤늦게 따라오지 않게 한다.
+- 인트로 콜라주는 실제 MP4에서 추출한 런웨이 전신(3.0초), 세로형 모델(2.0초), 세로 영상 마지막 텍스트 장면(17.5초)을 사용한다. 900px 이하와 reduced-motion 환경에서는 기존 세로 흐름을 유지한다.

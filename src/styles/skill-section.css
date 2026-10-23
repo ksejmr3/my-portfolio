@@ -46,7 +46,7 @@
 
 .skill-section__category { min-width: 0; }
 .skill-section__category h3 { margin-bottom: 18px; color: #f4f4f1; font-size: 11px; letter-spacing: .02em; mix-blend-mode: difference; }
-.skill-section__category ul { display: grid; gap: 7px; padding: 0; margin: 0; list-style: none; color: #b9b9b5; font: 400 clamp(15px, 1.22vw, 18px)/1.35 var(--font-korean); letter-spacing: -.035em; mix-blend-mode: difference; }
+.skill-section__category ul { display: grid; gap: 7px; padding: 0; margin: 0; list-style: none; color: #d2d2cc; font: 400 clamp(16px, 1.22vw, 18px)/1.4 var(--font-korean); letter-spacing: -.025em; mix-blend-mode: difference; }
 
 .skill-section__icon-field { position: absolute; z-index: 3; inset: 0; pointer-events: none; }
 .skill-section__icon-card {
@@ -78,7 +78,7 @@
   .skill-section__description { max-width: 330px; margin: 16px auto 0; font-size: 14px; }
   .skill-section__categories { width: min(100%, 360px); margin-top: 46px; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 24px; row-gap: 22px; }
   .skill-section__category h3 { margin-bottom: 10px; font-size: 9px; }
-  .skill-section__category ul { gap: 4px; font-size: 13px; }
+  .skill-section__category ul { gap: 5px; font-size: 14px; }
   .skill-section__icon-card { border-radius: 13px; }
   .skill-section__icon-card {
     width: var(--mobile-size) !important;

@@ -15,7 +15,10 @@ export default function ProjectCard({ project }) {
       </div>
       <div className="project-card__content">
         <div className="project-card__topline"><span>{project.number} / 03</span><span>SELECTED WORK</span></div>
-        <div className="project-card__story"><p className="project-card__type">{project.type}</p><h3 id={`${project.id}-title`}>{project.name}</h3><p className="project-card__description">{project.description}</p>{project.id !== 'hyundai-motorstudio' && <span className="project-card__status">CASE STUDY / IN PREPARATION</span>}</div>
+        <div className="project-card__story"><p className="project-card__type">{project.type}</p><h3 id={`${project.id}-title`}>{project.name}</h3><p className="project-card__description">{project.description}</p>{project.id === 'hyundai-motorstudio' ? <div className="project-card__links" aria-label="Hyundai Motorstudio project links">
+          <a href="https://mbc-teamproject-wheat.vercel.app/" target="_blank" rel="noopener noreferrer"><strong>LIVE WEBSITE <span aria-hidden="true">↗</span></strong><span>반응형 웹사이트 구현 결과물</span></a>
+          <a href="https://www.figma.com/proto/jTT5VVONEzB9lonG6pUiFf/%EA%B9%80%EC%A7%80%EC%98%81_%ED%8C%80%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EC%9E%A5%ED%91%9C?node-id=1-32&p=f&scaling=min-zoom&content-scaling=fixed&starting-point-node-id=1%3A32&page-id=0%3A1" target="_blank" rel="noopener noreferrer"><strong>PROJECT DECK <span aria-hidden="true">↗</span></strong><span>리서치부터 UX/UI 디자인까지의 프로젝트 과정</span></a>
+        </div> : <span className="project-card__status">CASE STUDY / IN PREPARATION</span>}</div>
       </div>
     </article>
   )
