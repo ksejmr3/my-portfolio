@@ -131,7 +131,7 @@ export default function ProfileIntro() {
           <p className="profile-intro__meta">PROFILE INTRO / 2026</p>
           <h2 id="profile-intro-title">KIM<br />JIYOUNG</h2>
           <p className="profile-intro__roles">WEB DESIGNER<span>UI/UX DESIGN</span></p>
-          <p className="profile-intro__summary">브랜드의 특성과 사용자의 경험을 고려해<br />기획부터 디자인까지 연결하는 웹디자이너입니다.</p>
+          <p className="profile-intro__summary">브랜드의 맥락과 사용 흐름을 구조화하고,<br />디자인을 실제 웹 화면으로 구현하는 웹디자이너입니다.</p>
         </div>
       </div>
     </section>

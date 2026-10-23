@@ -266,7 +266,7 @@ const imageDisplay = {
 const contributionItems = [
   { number: '01', eyebrow: 'UX PLANNING', title: <>흩어진 경험을 하나의 <em>탐색 흐름으로 정리하다.</em></>, body: '시장·브랜드와 경쟁 서비스를 조사하고 요구사항을 검토해, 방문 목적에 따라 경험을 찾을 수 있도록 정보 구조와 STEP 1–3의 선택 기준을 구체화했습니다.' },
   { number: '02', eyebrow: 'UI DESIGN', title: <>기획 의도를 실제 <em>화면으로 구체화하다.</em></>, body: '전시 서브페이지의 와이어프레임부터 이미지 구성, 타이포그래피, 시각적 위계까지 설계하고 브랜드 경험에 맞는 화면으로 발전시켰습니다.', images: [{ src: '/images/hyundai/contribution/exhibition-work-01.jpg.jpg', alt: '현대 모터스튜디오 전시 서브페이지 작업 화면을 검토하는 모습' }, { src: '/images/hyundai/contribution/exhibition-work-02.jpg.jpg', alt: '현대 모터스튜디오 전시 서브페이지 작업 사진' }] },
-  { number: '03', eyebrow: 'INTERACTION & DEVELOPMENT', title: <>설계한 흐름을 <em>작동하는 경험으로 만들다.</em></>, body: 'Experience Finder STEP 1–3의 선택·추천 기능과 전시 페이지의 주요 스크롤 인터랙션을 구현하고, 반복 검수를 통해 사용 흐름과 화면 완성도를 높였습니다.' },
+  { number: '03', eyebrow: 'VEHICLE EXHIBITION DESIGN', title: <>차량 콘텐츠의 <em>시각적 위계를 설계하다.</em></>, body: '메인페이지 Vehicle Exhibition의 UI 디자인을 담당해 차량 이미지와 차종명, 원형 비주얼의 구성 및 정보 위계를 설계했습니다. 공식 프로젝트 종료 후에는 차량 이미지·배경과 노출 순서를 조정하고 구현 화면을 검수했습니다.' },
   { number: '04', eyebrow: 'COLLABORATION', title: <>서로 다른 작업을 하나의 <em>결과로 연결하다.</em></>, body: '4인 팀의 역할 분담 안에서 담당 화면을 구현하고, 컴포넌트 통합과 Git 협업, 반응형 검수를 통해 각 페이지가 하나의 웹 경험으로 이어지도록 조율했습니다.', images: [{ src: '/images/hyundai/teamwork/team-work-process.jpg.jpg', alt: '현대 모터스튜디오 팀이 디자인과 구현 화면을 함께 작업하는 모습' }, { src: '/images/hyundai/teamwork/team-review-01.jpg.jpg', alt: '현대 모터스튜디오 팀 프로젝트 화면 검토 사진' }, { src: '/images/hyundai/teamwork/team-meeting-02.jpg.jpg', alt: '현대 모터스튜디오 팀 회의 사진' }, { src: '/images/hyundai/teamwork/team-final-presentation-02.jpg.jpg', alt: '현대 모터스튜디오 팀 프로젝트 최종 발표 사진' }] },
 ]
 
@@ -696,7 +696,7 @@ export default function HyundaiCaseStudy() {
       <header className="case-selected-works__intro">
         <div className="case-selected-works__intro-meta"><span>02</span><p>SELECTED SOLUTIONS</p></div>
         <h2>SELECTED SOLUTIONS.</h2>
-        <p className="case-selected-works__intro-body">탐색부터 전시 경험, 방문으로 이어지는 세 가지 화면의 설계와 구현 결과를 소개합니다.</p>
+        <p className="case-selected-works__intro-body">관심사 기반 경험찾기와 전시 서브페이지의 구현, 메인 차량 전시 디자인까지 세 가지 대표 작업을 소개합니다.</p>
       </header>
       <div className="case-selected-works__content">
         <article className="case-selected-works__group case-selected-works__group--finder" aria-labelledby="selected-work-finder-title">
@@ -734,10 +734,10 @@ export default function HyundaiCaseStudy() {
             <SelectedWorkMedia src={vehicleExhibition.video} poster={vehicleExhibition.poster} label={vehicleExhibition.mediaLabel} title={vehicleExhibition.mediaTitle} className="case-selected-works__video--vehicle" mode="imac" playbackRate={vehicleExhibition.playbackRate} hideCaption />
             <p className="case-selected-works__mockup-caption">원형 차량 이미지와 차종명이 전환되는 인터랙션 화면</p>
           </div>
-          <CaseDetails eyebrow="03 / LOCATION EXPERIENCE" heading="콘텐츠에서 방문으로." summary="콘텐츠와 지점 정보를 연결해 실제 공간에 대한 관심이 방문과 예약으로 이어지도록 설계한 흐름입니다." role={vehicleExhibition.role} titleId="selected-work-vehicle-title" details={[
-            ['DESIGN APPROACH', '고양·서울·하남·부산 거점별 차이와 공통 UI 구조를 함께 정리했습니다.'],
-            ['KEY SOLUTION', '지점별 콘텐츠를 상세 페이지 흐름에 연결해 방문 정보를 확인할 수 있도록 구성했습니다.'],
-            ['VALIDATION', '지점 연결과 데스크톱·모바일 레이아웃을 구현 결과로 확인했습니다.'],
+          <CaseDetails eyebrow="03 / VEHICLE EXHIBITION" heading="차량을 탐색하는 시각적 흐름." summary="차량 이미지와 차종명이 연동되는 원형 비주얼을 활용해, 다양한 차량을 하나의 흐름에서 탐색하도록 구성한 메인페이지 콘텐츠입니다." role="MAIN PAGE · VEHICLE EXHIBITION UI DESIGN · VISUAL CONTENT" titleId="selected-work-vehicle-title" details={[
+            ['DESIGN APPROACH', '차량 이미지의 배치와 원형 비주얼, 차종명과 이미지의 관계를 정리해 차량 콘텐츠의 정보 위계를 설계했습니다.'],
+            ['KEY SOLUTION', '메인페이지 화면에 원형 차량 비주얼과 차종명 전환을 적용해 여러 차량을 이어서 살펴보도록 구성했습니다. 차량 이미지와 차종명 전환은 제공된 구현 영상에서 확인할 수 있습니다.'],
+            ['VALIDATION', '공식 프로젝트 종료 후 차량 이미지와 배경, 노출 순서를 조정하고 구현 화면을 검수했습니다.'],
           ]} />
         </article>
       </div>

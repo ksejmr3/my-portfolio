@@ -87,7 +87,7 @@ export default function IntroSection() {
         <div className="intro__canvas">
           <p className="intro__eyebrow intro__eyebrow--transition">KIM JIYOUNG · DESIGN PORTFOLIO</p>
           <h1 id="intro-title" className="intro__title"><span className="intro__title-line intro__title-line--primary">DESIGNING</span><span className="intro__title-line intro__title-line--secondary"><em>connected</em> EXPERIENCES.</span></h1>
-          <p className="intro__summary intro__summary--transition">흩어진 정보를 정리하고, 화면과 경험이 자연스럽게 이어지는 흐름을 설계합니다.</p>
+          <p className="intro__summary intro__summary--transition">정보의 우선순위를 정리하고, 설계 의도를 작동하는 화면으로 연결합니다.</p>
         </div>
         <div className="intro__bottom intro__bottom--transition">
           <div className="intro__index intro__index--transition"><span>01 / 03</span><span>SELECTED PROJECTS</span></div>

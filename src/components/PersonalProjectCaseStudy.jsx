@@ -34,8 +34,8 @@ const projectContent = {
     projectType: '개인 웹사이트 리디자인',
     concept: 'BRITISH HERITAGE × REBELLION',
     summary: '영국의 전통적인 테일러링과 펑크 문화에서 출발한 브랜드 정체성을 에디토리얼 웹 경험으로 재해석했습니다. 대형 타이포그래피와 비대칭 이미지 구성, 스크롤 인터랙션을 통해 헤리티지와 반항적인 브랜드 감성을 표현했습니다.',
-    role: '브랜드 랜딩페이지의 정보 구조와 시각 시스템을 설계하고, React 기반 화면 구현에 참여했습니다.',
-    learning: '최신 Figma 디자인을 13개 연속 이미지로 구성해 노트북 화면에서 자동 스크롤로 확인할 수 있게 연결했습니다.',
+    role: '브랜드 랜딩페이지의 정보 구조와 시각 시스템을 설계하고, React로 직접 구현했습니다.',
+    learning: '13개 섹션의 Figma 시안을 노트북 화면에서 연속으로 확인할 수 있도록 자동 스크롤 미리보기로 구성했습니다.',
     layers: [
       { src: '/images/personal-projects/vivienne-westwood-latest/15-heritage-layer.png', alt: 'Vivienne Westwood 헤리티지 이미지', className: 'heritage' },
       { src: '/images/personal-projects/vivienne-westwood-latest/16-craftsmanship-layer.png', alt: 'Vivienne Westwood 장인정신 이미지', className: 'craft' },
@@ -61,9 +61,9 @@ const projectContent = {
     theme: 'cos',
     projectType: 'COS Korea 공식 사이트 기반 개인 랜딩페이지 리디자인',
     concept: 'SCANDINAVIAN MINIMALISM × TIMELESS DESIGN',
-    summary: 'COS 특유의 절제된 미학과 타임리스 디자인을 중심으로 브랜드 랜딩페이지를 재구성했습니다. 여백과 타이포그래피, 뉴트럴 컬러의 이미지 구성을 활용해 컬렉션과 소재의 디테일이 자연스럽게 드러나도록 디자인했습니다.',
+    summary: 'COS의 절제된 형태와 소재 표현을 중심으로, 캠페인에서 제품과 브랜드 스토리로 이어지는 랜딩페이지를 재구성했습니다. 여백과 타이포그래피, 뉴트럴 컬러의 이미지로 컬렉션의 디테일이 드러나도록 디자인했습니다.',
     role: 'Figma 화면 설계와 React 기반 랜딩페이지 구현을 진행했습니다.',
-    learning: 'CAMPAIGN / SS26에서 NEW ARRIVALS와 DISCOVER COS로 이어지는 콘텐츠 흐름을 구성했습니다.',
+    learning: 'CAMPAIGN / SS26에서 NEW ARRIVALS, 소재 이야기와 DISCOVER COS로 이어지는 콘텐츠 흐름을 구성했습니다.',
     contentTags: ['CAMPAIGN / SS26', 'QUIET ELEGANCE', 'TIMELESS DESIGN', 'NEW ARRIVALS', 'DISCOVER COS'],
     layers: [
       { src: cosHero, alt: 'COS Korea 메인 캠페인 이미지', className: 'campaign' },

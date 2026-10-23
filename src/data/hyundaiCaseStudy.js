@@ -17,7 +17,7 @@ export const hyundaiCaseStudy = {
   type: 'UX/UI WEBSITE RENEWAL · TEAM PROJECT',
   period: '2026.09.01 — 09.30',
   overview: '전시·시승·프로그램 콘텐츠를 목적에 맞게 찾고, 필요한 지점 정보를 확인할 수 있도록 탐색 구조와 화면을 함께 개선한 웹사이트 리뉴얼입니다.',
-  contributionSummary: '4인 팀이 기획·디자인·구현을 나누어 진행하고, 담당 화면을 하나의 웹 경험으로 통합했습니다.',
+  contributionSummary: '4인 팀이 기획·디자인·구현을 나누어 진행했습니다. 저는 Experience Finder와 전시 서브페이지를 디자인·구현하고, 메인페이지 Vehicle Exhibition의 UI 디자인을 담당했습니다.',
   hero: { src: mainUiBoard, alt: '현대 모터스튜디오 Figma 전체 UI 디자인 보드' },
   research: [
     { label: 'STEEP ANALYSIS', title: 'MARKET & EXPERIENCE SHIFT', summary: '제품 판매를 넘어 브랜드·공간·미래 모빌리티 경험으로 확장되는 환경을 살폈습니다.', src: steep, alt: '자동차 산업과 브랜드 경험을 다섯 관점에서 분석한 STEEP 보드' },
@@ -74,7 +74,7 @@ export const hyundaiCaseStudy = {
       eyebrow: '03 / VEHICLE EXHIBITION',
       heading: 'A CLOSER LOOK AT MOBILITY.',
       summary: '원형 차량 이미지와 중앙 차종명이 전환되는 Vehicle Exhibition 콘텐츠입니다.',
-      role: 'TEAM MAIN PAGE · VEHICLE EXHIBITION CONTENT',
+      role: 'MAIN PAGE · VEHICLE EXHIBITION UI DESIGN · VISUAL CONTENT',
       video: '/videos/hyundai/selected-works/vehicle-exhibition-circle.mp4',
       poster: '/images/hyundai/selected-works/vehicle-exhibition-circle-poster.jpg',
       playbackRate: 0.9,
