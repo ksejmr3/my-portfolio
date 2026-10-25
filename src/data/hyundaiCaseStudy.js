@@ -46,13 +46,13 @@ export const hyundaiCaseStudy = {
     experienceFinder: {
       eyebrow: '01 / EXPERIENCE FINDER',
       heading: '관심사로 찾는 경험.',
-      summary: 'STEP 1–3에서 관심사와 방문 목적을 고르고, 추천 경험의 상세 정보와 예약 화면까지 이어지는 실제 탐색 흐름입니다.',
+      summary: 'STEP 1–3에서 관심사와 방문 목적을 고르고, 추천 결과에서 관련 상세·예약 정보로 이동하는 탐색 흐름입니다.',
       role: 'UX STRUCTURE · STEP 1–3 FLOW · INTERACTION DESIGN & DEVELOPMENT',
       video: '/videos/hyundai/selected-works/experience-finder.mp4',
         poster: '/images/hyundai/selected-works/experience-finder-current-poster.jpg',
       playbackRate: 1.1,
-      mediaLabel: 'STEP 01–03 / RECOMMENDATION / RESERVATION',
-      mediaTitle: '관심사 선택부터 예약 화면까지 이어지는 탐색 흐름',
+      mediaLabel: 'STEP 01–03 / RECOMMENDATION / LINK REVIEW',
+      mediaTitle: '관심사 선택부터 추천 결과와 관련 정보로 이어지는 탐색 흐름',
     },
     exhibitionExperience: {
       eyebrow: '02 / EXHIBITION EXPERIENCE',

@@ -20,7 +20,7 @@ export const portfolioQuestions = [
   {
     id: 'hyundai',
     prompt: '현대 모터스튜디오 프로젝트에서 어떤 역할을 했나요?',
-    answer: '4인 팀 프로젝트에서 시장·자사·경쟁 서비스 분석과 UX 구조 정리에 참여했습니다. Experience Finder STEP 1–3과 전시 서브페이지를 디자인·구현했고, 지점별 소개의 초기 구조와 통합을 지원했습니다. 공식 기간 이후에는 담당 화면의 반응형과 추천 결과를 개인적으로 추가 개선했습니다.',
+    answer: '4인 팀 프로젝트에서 시장·자사·경쟁 서비스 분석과 UX 구조 정리에 참여했습니다. Experience Finder STEP 1–3의 추천 결과와 전시 서브페이지를 구현했고, 메인페이지 Vehicle Exhibition의 UI를 디자인했습니다. 지점별 소개는 공통 구조와 통합을 지원했으며, 공식 기간 이후에는 담당 화면의 반응형과 시각 요소를 추가 검수했습니다.',
     links: [{ label: 'HYUNDAI MOTORSTUDIO 보기', href: '#hyundai-case-study' }],
   },
   {
@@ -35,19 +35,19 @@ export const portfolioQuestions = [
   {
     id: 'ai-video',
     prompt: 'AI 영상은 어떻게 제작했나요?',
-    answer: '두 편의 패션 영상이 등록되어 있습니다. 런웨이 영상은 파일 메타데이터에서 Dreamina 생성 정보를 확인했지만 프롬프트와 후반 작업 기록은 확인되지 않았습니다. 목걸이 캠페인 영상도 세부 제작 과정과 사용 도구는 추가 확인이 필요합니다.',
+    answer: '두 편의 패션 영상이 등록되어 있습니다. AI 콘텐츠 작업에서는 Dreamina로 이미지·영상을 생성했고 Kling과 PixVerse로 영상 생성·전환을 테스트했습니다. CapCut으로 컷 순서, 속도, 텍스트와 전환 효과, 음악·사운드를 편집했습니다.',
     links: [{ label: 'AI VIDEO CONTENTS 보기', href: '#ai-video-contents' }],
   },
   {
     id: 'clone-coding',
     prompt: '클론 코딩 작업은 무엇인가요?',
-    answer: 'NORTH, FORM, MODE는 타이포그래피와 그리드 구성을 CSS로 연습한 시각 연구입니다. 현재 썸네일은 완성된 외부 사이트 복제 결과가 아닌 포트폴리오용 CSS 구성 예시입니다.',
+    answer: 'JOIN, KYUNGDONG, LOTTE WORLD, MUSIGN의 화면 구조와 스타일을 분석해 구현한 클론 코딩 작업입니다. 현재 구현 사이트는 배포 준비 중이며, 각 프로젝트의 실제 소스는 GitHub에서 확인할 수 있습니다.',
     links: [{ label: 'CLONE CODING 보기', href: '#clone-coding' }],
   },
   {
     id: 'skills',
     prompt: '어떤 디자인·개발 도구를 사용할 수 있나요?',
-    answer: 'Figma로 화면을 설계하고 HTML·CSS·JavaScript·React·Vite로 구현합니다. Git·GitHub로 변경사항을 관리하고 Vercel로 배포했으며, GSAP과 ScrollTrigger는 포트폴리오와 현대 모터스튜디오 인터랙션에 사용했습니다. 나머지 도구의 활용 범위는 SKILL 섹션에서 확인할 수 있습니다.',
+    answer: 'SKILL 섹션에는 Figma·Photoshop, HTML·CSS·SCSS·JavaScript·React, GSAP·ScrollTrigger·Three.js, Git·GitHub·Vercel을 정리했습니다. AI 도구는 ChatGPT·Claude·Gemini·Codex·Dreamina, 영상 도구는 Premiere Pro·CapCut을 포함합니다. Three.js는 현재 포트폴리오의 PROFILE page-curl 효과에 사용했습니다.',
     links: [{ label: 'SKILL 보기', href: '#skill' }],
   },
   {

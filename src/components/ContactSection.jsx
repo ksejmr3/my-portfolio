@@ -77,7 +77,9 @@ export default function ContactSection() {
 
         <footer className="contact-section__footer">
           <span>© {new Date().getFullYear()} KIM JIYOUNG</span>
-          <a href="#intro">BACK TO TOP <span aria-hidden="true">↑</span></a>
+          <a className="contact-section__top" href="#intro" aria-label="맨 위로 이동">
+            <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M5 15 16 4l11 11M16 5v23" /></svg>
+          </a>
         </footer>
       </div>
     </section>

@@ -94,8 +94,10 @@
   transition: text-decoration-color .2s ease;
 }
 .contact-section__footer a:hover { text-decoration: underline; text-decoration-color: currentColor; }
-.contact-section__footer a span { font-size: 17px; transition: transform .2s ease; }
-.contact-section__footer a:hover span { transform: translateY(-3px); }
+.contact-section__top { width: 36px; height: 36px; justify-content: center; }
+.contact-section__top svg { display: block; width: 30px; height: 30px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: square; stroke-linejoin: miter; transition: transform .2s ease; }
+.contact-section__footer .contact-section__top:hover { text-decoration: none; }
+.contact-section__top:hover svg { transform: translateY(-3px); }
 
 @media (prefers-reduced-motion: no-preference) {
   .contact-section__header,
@@ -133,5 +135,5 @@
   .contact-section__value,
   .contact-section__arrow,
   .contact-section__footer a,
-  .contact-section__footer a span { transition: none; }
+  .contact-section__top svg { transition: none; }
 }

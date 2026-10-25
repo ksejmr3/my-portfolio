@@ -38,9 +38,9 @@ export default function SmoothScroll() {
     const start = () => {
       if (lenis || !media.matches) return
       lenis = new Lenis({
-        lerp: 0.12,
-        duration: 0.85,
+        lerp: 0.1,
         smoothWheel: true,
+        wheelMultiplier: 0.9,
         syncTouch: false,
         autoRaf: false,
       })

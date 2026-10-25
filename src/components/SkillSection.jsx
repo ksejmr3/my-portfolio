@@ -8,6 +8,7 @@ if (!gsap.plugins.ScrollTrigger) gsap.registerPlugin(ScrollTrigger)
 
 export default function SkillSection() {
   const sectionRef = useRef(null)
+  const iconFieldRef = useRef(null)
 
   useLayoutEffect(() => {
     const section = sectionRef.current
@@ -16,77 +17,87 @@ export default function SkillSection() {
     const context = gsap.context(() => {
       const media = gsap.matchMedia()
 
-      media.add('(prefers-reduced-motion: no-preference)', () => {
+      media.add('(min-width: 701px) and (prefers-reduced-motion: no-preference)', () => {
         const cards = gsap.utils.toArray('[data-skill-card]', section)
-        const syncTimelineProgress = (trigger) => {
-          // A refresh or reverse entry can follow a pinned section changing the
-          // document height. Keep the terminal autoAlpha state tied to the
-          // current scroll progress rather than the previous visit.
-          trigger.animation?.progress(trigger.progress, false)
-        }
+        const categories = section.querySelector('.skill-section__categories')
+        if (!iconFieldRef.current) return undefined
+
         const timeline = gsap.timeline({
           scrollTrigger: {
+            id: 'skill-logo-motion',
             trigger: section,
             start: 'top top',
             end: 'bottom bottom',
             scrub: true,
             invalidateOnRefresh: true,
-            onEnter: syncTimelineProgress,
-            onEnterBack: syncTimelineProgress,
-            onUpdate: syncTimelineProgress,
-            onRefresh: syncTimelineProgress,
           },
         })
 
         cards.forEach((card, index) => {
           const tool = skillIconCards[index]
-          const isMobile = () => window.innerWidth <= 700
-          const originX = () => (isMobile() ? tool.mobileX : tool.x)
-          const centerX = () => (isMobile() ? tool.mobileOrbitXPercent : tool.orbitXPercent)
-          const spreadX = () => (isMobile() ? tool.mobileMidXPercent : tool.midXPercent)
-          const exitX = () => (isMobile() ? tool.mobileFallXPercent : tool.fallXPercent)
-          const positionX = (target) => () => window.innerWidth * (target() - originX()) / 100
-          const rotationAt = (turnProgress) => tool.angle + tool.turns * 360 * turnProgress
+          const spinner = card.querySelector('[data-skill-spinner]')
+          const start = .025 + tool.delay * .42
+          const riseEnd = .31 + tool.delay * .24
+          const passEnd = .64 + tool.delay * .18
+          const end = .9 + tool.delay * .12
+          const below = () => window.innerHeight + card.offsetHeight * 1.4
+          const clearY = (ratio) => {
+            const listBottom = categories.offsetTop + categories.offsetHeight
+            const readableFloor = listBottom + card.offsetHeight * .18
+            return Math.max(window.innerHeight * ratio, readableFloor)
+          }
 
-          timeline
-            .to(card, {
-              x: positionX(centerX),
-              y: () => window.innerHeight * (tool.orbitY ?? 0.025),
-              rotation: rotationAt(0.2),
-              scale: tool.midScale,
-              ease: 'none',
-              duration: 0.18,
-            }, 0)
-            .to(card, {
-              x: positionX(spreadX),
-              y: () => window.innerHeight * (tool.orbitY ?? 0.025) + window.innerHeight * (tool.orbitDriftY ?? 0.045),
-              rotation: rotationAt(0.78),
-              scale: tool.midScale,
-              ease: 'none',
-              duration: 0.42,
-            }, 0.18)
-            .to(card, {
-              x: positionX(exitX),
-              y: () => window.innerHeight * (tool.orbitY ?? 0.025) + window.innerHeight * (tool.dropY ?? 0.34),
-              rotation: rotationAt(1.18),
-              scale: tool.midScale * 0.96,
-              ease: 'none',
-              duration: 0.25,
-            }, 0.6)
-            .to(card, {
-              x: () => positionX(exitX)() + window.innerWidth * (tool.exitDriftX ?? 0) / 100,
-              y: () => {
-                const startY = isMobile() ? tool.mobileY : tool.y
-                const targetCenter = window.innerHeight * 1.12
-                return Math.max(0, targetCenter - window.innerHeight * startY / 100)
-              },
-              rotation: rotationAt(1),
-              scale: tool.scale,
-              autoAlpha: 0,
-              ease: 'none',
-              duration: 0.15,
-            }, 0.85)
+          gsap.set(card, {
+            y: below,
+            x: -tool.drift * .45,
+            scale: .72,
+            autoAlpha: 0,
+          })
+          gsap.set(spinner, {
+            rotationX: tool.rx * -.14,
+            rotationY: tool.ry * -.14,
+            rotationZ: tool.rz * -.2,
+            transformPerspective: 780,
+            transformOrigin: '50% 50%',
+          })
+
+          timeline.to(card, {
+            y: () => clearY(tool.peakY),
+            x: tool.drift,
+            scale: 1,
+            autoAlpha: 1,
+            ease: 'power2.out',
+            duration: riseEnd - start,
+          }, start)
+
+          timeline.to(card, {
+            y: () => clearY(tool.passY),
+            x: tool.drift * -.75,
+            scale: .94,
+            autoAlpha: .96,
+            ease: 'none',
+            duration: passEnd - riseEnd,
+          }, riseEnd)
+
+          timeline.to(card, {
+            y: below,
+            x: tool.drift * .3,
+            scale: .74,
+            autoAlpha: 0,
+            ease: 'power2.in',
+            duration: end - passEnd,
+          }, passEnd)
+
+          timeline.to(spinner, {
+            rotationX: tool.rx,
+            rotationY: tool.ry,
+            rotationZ: tool.rz,
+            ease: 'none',
+            duration: end - start,
+          }, start)
         })
+
+        timeline.to({}, { duration: 0.01 }, 0.99)
 
         return () => timeline.kill()
       })
@@ -115,29 +126,30 @@ export default function SkillSection() {
           ))}
         </div>
 
-        <div className="skill-section__icon-field" aria-hidden="true">
+        <div className="skill-section__icon-field" aria-hidden="true" ref={iconFieldRef}>
           {skillIconCards.map((item, index) => (
             <div
               className="skill-section__icon-card"
               data-skill-card
+              data-skill-name={item.name}
               key={item.name}
-              style={{
-                left: `${item.x}%`,
-                top: `${item.y}%`,
-                '--card-size': `${item.size}px`,
-                '--mobile-size': `${item.mobileSize}px`,
-                '--mobile-x': `${item.mobileX}%`,
-                '--mobile-y': `${item.mobileY}%`,
-                width: `clamp(54px, ${Math.round(item.size / 18)}vw, ${item.size}px)`,
-                height: `clamp(54px, ${Math.round(item.size / 18)}vw, ${item.size}px)`,
-                '--card-angle': `${item.angle}deg`,
-                '--logo-color': `#${item.icon.hex}`,
-                zIndex: index + 1,
-              }}
+              style={{ left: `${item.x}%`, '--card-size': `${item.size}px`, zIndex: index + 1 }}
             >
-              <svg viewBox="0 0 24 24" focusable="false">
-                <path d={item.icon.path} />
-              </svg>
+              <div
+                className="skill-section__icon-spinner"
+                data-skill-spinner
+                style={{ '--logo-color': item.icon.hex ? `#${item.icon.hex}` : '#111', '--logo-scale': `${item.logoScale}%` }}
+              >
+                {[0, 1].map((face) => (
+                  <span className={`skill-section__icon-face skill-section__icon-face--${face ? 'back' : 'front'}`} key={face}>
+                    <svg viewBox={item.icon.viewBox || '0 0 24 24'} focusable="false">
+                      {item.icon.paths
+                        ? item.icon.paths.map((path) => <path d={path.d} fill={path.fill} key={path.d} />)
+                        : <path d={item.icon.path} />}
+                    </svg>
+                  </span>
+                ))}
+              </div>
             </div>
           ))}
         </div>

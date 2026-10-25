@@ -8,6 +8,12 @@ const welcomeMessage = {
   content: '안녕하세요. 추천 질문을 선택하면 포트폴리오의 확인 가능한 정보를 안내해 드립니다.',
 }
 
+const hintMessages = [
+  '제 작업이 궁금하신가요?',
+  '프로젝트 역할을 물어보세요!',
+  '사용한 기술이 궁금하신가요?',
+]
+
 function MessageLinks({ links, onNavigate }) {
   if (!links.length) return null
 
@@ -24,6 +30,9 @@ export default function PortfolioAssistant() {
   const [isOpen, setIsOpen] = useState(false)
   const [isContactVisible, setIsContactVisible] = useState(false)
   const [messages, setMessages] = useState([welcomeMessage])
+  const [hintIndex, setHintIndex] = useState(0)
+  const [isHintVisible, setIsHintVisible] = useState(false)
+  const [isHintDismissed, setIsHintDismissed] = useState(() => sessionStorage.getItem('portfolio-assistant-hint-dismissed') === 'true')
   const launcherRef = useRef(null)
   const panelRef = useRef(null)
   const closeButtonRef = useRef(null)
@@ -71,6 +80,36 @@ export default function PortfolioAssistant() {
   }, [])
 
   useEffect(() => {
+    if (isOpen || isHintDismissed) {
+      setIsHintVisible(false)
+      return undefined
+    }
+    let hideTimer
+    let interval
+    const showHint = () => {
+      setIsHintVisible(true)
+      hideTimer = window.setTimeout(() => setIsHintVisible(false), 3000)
+      setHintIndex((current) => (current + 1) % hintMessages.length)
+    }
+    const firstTimer = window.setTimeout(() => {
+      showHint()
+      interval = window.setInterval(showHint, 20000)
+    }, 5000)
+    return () => {
+      window.clearTimeout(firstTimer)
+      window.clearTimeout(hideTimer)
+      if (interval) window.clearInterval(interval)
+    }
+  }, [isOpen, isHintDismissed])
+
+  const dismissHint = (event) => {
+    event.stopPropagation()
+    sessionStorage.setItem('portfolio-assistant-hint-dismissed', 'true')
+    setIsHintDismissed(true)
+    setIsHintVisible(false)
+  }
+
+  useEffect(() => {
     const openFromNavigation = () => setIsOpen(true)
     window.addEventListener('portfolio-assistant:open', openFromNavigation)
     return () => window.removeEventListener('portfolio-assistant:open', openFromNavigation)
@@ -88,6 +127,12 @@ export default function PortfolioAssistant() {
 
   return (
     <div className={`portfolio-assistant${isContactVisible ? ' portfolio-assistant--contact' : ''}${isOpen ? ' is-open' : ''}`}>
+      {!isOpen && !isHintDismissed && (
+        <div className={`portfolio-assistant__hint${isHintVisible ? ' is-visible' : ''}`} aria-hidden={!isHintVisible}>
+          <button className="portfolio-assistant__hint-message" type="button" tabIndex={isHintVisible ? 0 : -1} onClick={() => setIsOpen(true)}>{hintMessages[(hintIndex + hintMessages.length - 1) % hintMessages.length]}</button>
+          <button className="portfolio-assistant__hint-close" type="button" tabIndex={isHintVisible ? 0 : -1} aria-label="안내 말풍선 닫기" onClick={dismissHint}>×</button>
+        </div>
+      )}
       <button
         ref={launcherRef}
         className="portfolio-assistant__launcher"

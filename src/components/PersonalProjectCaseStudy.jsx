@@ -33,9 +33,9 @@ const projectContent = {
     theme: 'vivienne',
     projectType: '개인 웹사이트 리디자인',
     concept: 'BRITISH HERITAGE × REBELLION',
-    summary: '영국의 전통적인 테일러링과 펑크 문화에서 출발한 브랜드 정체성을 에디토리얼 웹 경험으로 재해석했습니다. 대형 타이포그래피와 비대칭 이미지 구성, 스크롤 인터랙션을 통해 헤리티지와 반항적인 브랜드 감성을 표현했습니다.',
-    role: '브랜드 랜딩페이지의 정보 구조와 시각 시스템을 설계하고, React로 직접 구현했습니다.',
-    learning: '13개 섹션의 Figma 시안을 노트북 화면에서 연속으로 확인할 수 있도록 자동 스크롤 미리보기로 구성했습니다.',
+    summary: '영국 테일러링과 펑크 문화의 대비를 대형 타이포그래피와 비대칭 이미지, 스크롤 흐름으로 재해석한 에디토리얼 웹사이트입니다.',
+    role: '정보 구조와 UI를 설계하고 React로 구현했습니다.',
+    contentTags: ['BRITISH HERITAGE', 'PUNK REBELLION', 'EDITORIAL EXPERIENCE'],
     layers: [
       { src: '/images/personal-projects/vivienne-westwood-latest/15-heritage-layer.png', alt: 'Vivienne Westwood 헤리티지 이미지', className: 'heritage' },
       { src: '/images/personal-projects/vivienne-westwood-latest/16-craftsmanship-layer.png', alt: 'Vivienne Westwood 장인정신 이미지', className: 'craft' },
@@ -61,10 +61,9 @@ const projectContent = {
     theme: 'cos',
     projectType: 'COS Korea 공식 사이트 기반 개인 랜딩페이지 리디자인',
     concept: 'SCANDINAVIAN MINIMALISM × TIMELESS DESIGN',
-    summary: 'COS의 절제된 형태와 소재 표현을 중심으로, 캠페인에서 제품과 브랜드 스토리로 이어지는 랜딩페이지를 재구성했습니다. 여백과 타이포그래피, 뉴트럴 컬러의 이미지로 컬렉션의 디테일이 드러나도록 디자인했습니다.',
-    role: 'Figma 화면 설계와 React 기반 랜딩페이지 구현을 진행했습니다.',
-    learning: 'CAMPAIGN / SS26에서 NEW ARRIVALS, 소재 이야기와 DISCOVER COS로 이어지는 콘텐츠 흐름을 구성했습니다.',
-    contentTags: ['CAMPAIGN / SS26', 'QUIET ELEGANCE', 'TIMELESS DESIGN', 'NEW ARRIVALS', 'DISCOVER COS'],
+    summary: 'COS의 절제된 형태와 소재 표현을 바탕으로, 캠페인에서 제품과 브랜드 스토리로 이어지는 흐름을 여백과 뉴트럴 이미지로 구성했습니다.',
+    role: 'Figma 화면을 설계하고 React 기반 랜딩페이지로 구현했습니다.',
+    contentTags: ['CAMPAIGN / SS26', 'TIMELESS DESIGN', 'NEW ARRIVALS'],
     layers: [
       { src: cosHero, alt: 'COS Korea 메인 캠페인 이미지', className: 'campaign' },
       { src: cosDetail, alt: 'COS Korea 소재 디테일 이미지', className: 'detail' },
@@ -218,14 +217,14 @@ function DesignLaptop({ project }) {
       <div className="personal-project__layers" aria-hidden="true">
         {project.layers.map((layer) => <img key={layer.className} className={`personal-project__layer personal-project__layer--${layer.className}`} src={layer.src} alt={layer.alt} loading="lazy" decoding="async" />)}
       </div>
-      <div className="personal-project__laptop">
+      <a className="personal-project__laptop" href={project.liveUrl} target="_blank" rel="noreferrer noopener" aria-label={`${project.name} 실제 사이트를 새 창에서 열기`}>
         <div className="personal-project__screen" ref={viewportRef}>
           <div className="personal-project__page" ref={pageRef} role="img" aria-label={project.designAlt}>
             {project.designSlices.map((slice) => <img key={slice.src} src={slice.src} width={slice.width} height={slice.height} alt="" loading="lazy" decoding="async" />)}
           </div>
         </div>
         <img className="personal-project__laptop-frame" src="/images/mockups/laptop-mockup-alpha.png" alt="" aria-hidden="true" />
-      </div>
+      </a>
     </div>
     <p className="personal-project__visual-caption">FIGMA FULL-PAGE PREVIEW · AUTO SCROLL</p>
   </div>
@@ -348,16 +347,15 @@ export default function PersonalProjectCaseStudy() {
                 <h2 id={`${projectId}-title`}>{project.name}</h2>
                 <p className="personal-project__concept">{project.concept}</p>
                 <p className="personal-project__summary">{project.summary}</p>
-                {project.contentTags && <ul className="personal-project__tags" aria-label="COS Korea 콘텐츠 기준">{project.contentTags.map((tag) => <li key={tag}>{tag}</li>)}</ul>}
+                {project.contentTags && <ul className="personal-project__tags" aria-label={`${project.name} 핵심 키워드`}>{project.contentTags.map((tag) => <li key={tag}>{tag}</li>)}</ul>}
+                <div className="personal-project__details">
+                  <p><span>MY WORK</span>{project.role}</p>
+                  <a className="personal-project__live-link" href={project.liveUrl} target="_blank" rel="noreferrer noopener" aria-label={`${project.name} 실제 사이트를 새 창에서 열기`}>
+                    <span>WEBSITE</span><span aria-hidden="true">↗</span>
+                  </a>
+                </div>
               </header>
               <DesignLaptop project={project} />
-              <footer className="personal-project__footer">
-                <p><span>MY WORK</span>{project.role}</p>
-                <p><span>DESIGN NOTE</span>{project.learning}</p>
-                <a className="personal-project__live-link" href={project.liveUrl} target="_blank" rel="noreferrer noopener" aria-label={`${project.name} 실제 사이트를 새 창에서 열기`}>
-                  <span>WEBSITE</span><span aria-hidden="true">↗</span>
-                </a>
-              </footer>
             </div>
           </div>
         </article>)}
