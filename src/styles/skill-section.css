@@ -1,5 +1,5 @@
 .skill-section {
-  min-height: 320svh;
+  min-height: 400svh;
   background: var(--color-bg-ink);
   color: #f4f4f1;
 }
@@ -16,7 +16,7 @@
 
 .skill-section__header {
   position: relative;
-  z-index: 1;
+  z-index: 4;
   text-align: center;
 }
 
@@ -54,22 +54,25 @@
   position: absolute;
   z-index: 3;
   inset: 0;
-  perspective: 900px;
+  perspective: 1100px;
+  transform-style: preserve-3d;
   pointer-events: none;
 }
 .skill-section__icon-card {
   position: absolute;
+  visibility: hidden;
   top: 0;
+  left: 0;
   translate: -50% -50%;
-  width: var(--card-size);
-  height: var(--card-size);
+  width: 82px;
+  height: 82px;
   will-change: transform, opacity;
+  transform-style: preserve-3d;
 }
 
-.skill-section__icon-spinner { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; will-change: transform; }
 .skill-section__icon-face {
-  position: absolute;
-  inset: 0;
+  width: 100%;
+  height: 100%;
   display: grid;
   place-items: center;
   border: 1px solid #ffffff32;
@@ -77,18 +80,14 @@
   background: #ededE9;
   color: var(--logo-color);
   box-shadow: 0 12px 30px #0000002b;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
 }
-.skill-section__icon-face--back { transform: rotateY(180deg); }
 .skill-section__icon-face svg { width: var(--logo-scale); height: var(--logo-scale); display: block; fill: currentColor; }
-.skill-section__footnote { position: absolute; z-index: 1; left: 50%; bottom: 34px; transform: translateX(-50%); color: #777; white-space: nowrap; font-size: 8px; }
+.skill-section__footnote { position: absolute; z-index: 4; left: 50%; bottom: 34px; transform: translateX(-50%); color: #777; white-space: nowrap; font-size: 8px; }
 
 @media (max-width: 900px) {
-  .skill-section { min-height: 310svh; }
+  .skill-section { min-height: 390svh; }
   .skill-section__stage { padding-right: 32px; padding-left: 32px; }
   .skill-section__categories { width: min(100%, 820px); column-gap: 42px; }
-  .skill-section__icon-card { scale: .84; }
 }
 
 @media (max-width: 700px) {
@@ -108,5 +107,5 @@
   .skill-section__stage { position: relative; top: auto; height: auto; min-height: 100svh; }
   .skill-section__icon-field { display: none; }
   .skill-section__icon-card,
-  .skill-section__icon-spinner { will-change: auto; }
+  .skill-section__icon-face { will-change: auto; }
 }

@@ -64,7 +64,12 @@ export default function CloneCodingSection() {
       const media = gsap.matchMedia()
       media.add('(min-width: 901px) and (prefers-reduced-motion: no-preference)', () => {
         const projects = gsap.utils.toArray('.clone-coding__project', stage)
-        const title = stage.querySelector('.clone-coding__scene-title')
+        const paths = [
+          { start: .06, enterX: -.055, restX: 0, exitX: -.025, rotate: -2 },
+          { start: .275, enterX: .05, restX: -.01, exitX: -.035, rotate: 2 },
+          { start: .49, enterX: -.025, restX: .015, exitX: .055, rotate: -1.5 },
+          { start: .705, enterX: .06, restX: -.015, exitX: -.045, rotate: 1.5 },
+        ]
         const timeline = gsap.timeline({
           scrollTrigger: {
             id: 'clone-coding-scenes',
@@ -78,41 +83,40 @@ export default function CloneCodingSection() {
 
         gsap.set(projects, { autoAlpha: 0 })
         projects.forEach((project, index) => {
-          const fromTop = index % 2 === 1
-          const start = .08 + index * .215
-          gsap.set(project, {
-            yPercent: fromTop ? -112 : 112,
-            xPercent: index % 2 ? 7 : -7,
-            scale: .78,
-            rotate: index % 2 ? 2.5 : -2.5,
-          })
-          timeline.to(project, {
-            yPercent: 0,
-            xPercent: 0,
+          const path = paths[index]
+          const belowStage = () => stage.clientHeight - project.offsetTop + 56
+          const aboveStage = () => -project.offsetTop - project.offsetHeight - 56
+          timeline.fromTo(project, {
+            x: () => stage.clientWidth * path.enterX,
+            y: belowStage,
+            scale: .94,
+            rotate: path.rotate,
+          }, {
+            x: () => stage.clientWidth * path.restX,
+            y: 0,
             scale: 1,
             rotate: 0,
-            autoAlpha: 1,
-            ease: 'power2.out',
-            duration: .13,
-          }, start)
+            ease: 'power1.out',
+            duration: .1,
+          }, path.start)
+          timeline.to(project, { autoAlpha: 1, ease: 'none', duration: .025 }, path.start)
           timeline.to(project, {
-            yPercent: fromTop ? 22 : -22,
-            scale: 1.035,
+            x: () => stage.clientWidth * (path.restX + path.exitX) / 2,
+            y: () => -stage.clientHeight * .065,
             ease: 'none',
-            duration: .095,
-          }, start + .13)
+            duration: .1,
+          }, path.start + .1)
           timeline.to(project, {
-            yPercent: fromTop ? 118 : -118,
-            xPercent: index % 2 ? -5 : 5,
-            scale: .84,
-            rotate: index % 2 ? -2 : 2,
-            autoAlpha: 0,
-            ease: 'power2.in',
-            duration: .13,
-          }, start + .225)
+            x: () => stage.clientWidth * path.exitX,
+            y: aboveStage,
+            scale: .97,
+            rotate: -path.rotate * .5,
+            ease: 'power1.in',
+            duration: .09,
+          }, path.start + .2)
+          timeline.to(project, { autoAlpha: 0, ease: 'none', duration: .025 }, path.start + .265)
         })
-        timeline.to(title, { scale: .94, autoAlpha: .55, ease: 'none', duration: .86 }, .07)
-        timeline.to({}, { duration: .01 }, .99)
+        timeline.to({}, { duration: .005 }, .995)
         return () => timeline.kill()
       })
       return () => media.revert()

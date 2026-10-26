@@ -6,6 +6,12 @@ import '../styles/skill-section.css'
 
 if (!gsap.plugins.ScrollTrigger) gsap.registerPlugin(ScrollTrigger)
 
+const clamp = (value, min = 0, max = 1) => Math.min(max, Math.max(min, value))
+const smoothstep = (value) => {
+  const progress = clamp(value)
+  return progress * progress * (3 - 2 * progress)
+}
+
 export default function SkillSection() {
   const sectionRef = useRef(null)
   const iconFieldRef = useRef(null)
@@ -19,87 +25,64 @@ export default function SkillSection() {
 
       media.add('(min-width: 701px) and (prefers-reduced-motion: no-preference)', () => {
         const cards = gsap.utils.toArray('[data-skill-card]', section)
-        const categories = section.querySelector('.skill-section__categories')
         if (!iconFieldRef.current) return undefined
+        const orbitState = { progress: 0 }
+        const renderOrbit = () => {
+          const progress = orbitState.progress
+          const field = iconFieldRef.current
+          const width = field.clientWidth
+          const height = field.clientHeight
+          const radiusX = Math.min(width * .245, 420)
+          const radiusY = Math.min(height * .19, 205)
+          const radiusZ = 220
+          const centerX = width * .5
+          // Perspective projection shifts the orbit's visual centroid downward;
+          // place its source center slightly above the viewport midpoint.
+          const centerY = height * .48
+          const enter = smoothstep(progress / .12)
+          const enterOffset = (1 - enter) * height * .08
+          const rotation = progress * Math.PI * 2 * 1.35
+          const perspective = 1100
 
-        const timeline = gsap.timeline({
+          cards.forEach((card, index) => {
+            const angle = index / cards.length * Math.PI * 2 + rotation
+            const depth = (Math.sin(angle) + 1) / 2
+            const x = centerX + Math.cos(angle) * radiusX
+            const orbitY = centerY + Math.sin(angle) * radiusY + enterOffset
+            const z = (depth - .5) * radiusZ * 2
+            const perspectiveScaleCorrection = (perspective - z) / perspective
+            const scale = perspectiveScaleCorrection
+            const exitStart = .62 + index * .0185
+            const exitProgress = smoothstep((progress - exitStart) / .135)
+            const y = orbitY + height * .46 * exitProgress
+            gsap.set(card, {
+              x,
+              y,
+              z,
+              scale,
+              autoAlpha: enter * (1 - exitProgress),
+              zIndex: Math.round(depth * 100),
+            })
+          })
+        }
+
+        const orbitTimeline = gsap.timeline({
           scrollTrigger: {
-            id: 'skill-logo-motion',
+            id: 'skill-logo-orbit',
             trigger: section,
             start: 'top top',
             end: 'bottom bottom',
-            scrub: true,
+            scrub: .55,
             invalidateOnRefresh: true,
+            onRefresh: renderOrbit,
           },
         })
+        orbitTimeline.to(orbitState, { progress: 1, duration: 1, ease: 'none', onUpdate: renderOrbit })
+        renderOrbit()
 
-        cards.forEach((card, index) => {
-          const tool = skillIconCards[index]
-          const spinner = card.querySelector('[data-skill-spinner]')
-          const start = .025 + tool.delay * .42
-          const riseEnd = .31 + tool.delay * .24
-          const passEnd = .64 + tool.delay * .18
-          const end = .9 + tool.delay * .12
-          const below = () => window.innerHeight + card.offsetHeight * 1.4
-          const clearY = (ratio) => {
-            const listBottom = categories.offsetTop + categories.offsetHeight
-            const readableFloor = listBottom + card.offsetHeight * .18
-            return Math.max(window.innerHeight * ratio, readableFloor)
-          }
-
-          gsap.set(card, {
-            y: below,
-            x: -tool.drift * .45,
-            scale: .72,
-            autoAlpha: 0,
-          })
-          gsap.set(spinner, {
-            rotationX: tool.rx * -.14,
-            rotationY: tool.ry * -.14,
-            rotationZ: tool.rz * -.2,
-            transformPerspective: 780,
-            transformOrigin: '50% 50%',
-          })
-
-          timeline.to(card, {
-            y: () => clearY(tool.peakY),
-            x: tool.drift,
-            scale: 1,
-            autoAlpha: 1,
-            ease: 'power2.out',
-            duration: riseEnd - start,
-          }, start)
-
-          timeline.to(card, {
-            y: () => clearY(tool.passY),
-            x: tool.drift * -.75,
-            scale: .94,
-            autoAlpha: .96,
-            ease: 'none',
-            duration: passEnd - riseEnd,
-          }, riseEnd)
-
-          timeline.to(card, {
-            y: below,
-            x: tool.drift * .3,
-            scale: .74,
-            autoAlpha: 0,
-            ease: 'power2.in',
-            duration: end - passEnd,
-          }, passEnd)
-
-          timeline.to(spinner, {
-            rotationX: tool.rx,
-            rotationY: tool.ry,
-            rotationZ: tool.rz,
-            ease: 'none',
-            duration: end - start,
-          }, start)
-        })
-
-        timeline.to({}, { duration: 0.01 }, 0.99)
-
-        return () => timeline.kill()
+        return () => {
+          orbitTimeline.kill()
+        }
       })
 
       return () => media.revert()
@@ -127,29 +110,21 @@ export default function SkillSection() {
         </div>
 
         <div className="skill-section__icon-field" aria-hidden="true" ref={iconFieldRef}>
-          {skillIconCards.map((item, index) => (
+          {skillIconCards.map((item) => (
             <div
               className="skill-section__icon-card"
               data-skill-card
               data-skill-name={item.name}
               key={item.name}
-              style={{ left: `${item.x}%`, '--card-size': `${item.size}px`, zIndex: index + 1 }}
+              style={{ '--card-size': `${item.size}px`, '--logo-color': item.icon.hex ? `#${item.icon.hex}` : '#111', '--logo-scale': `${item.logoScale}%` }}
             >
-              <div
-                className="skill-section__icon-spinner"
-                data-skill-spinner
-                style={{ '--logo-color': item.icon.hex ? `#${item.icon.hex}` : '#111', '--logo-scale': `${item.logoScale}%` }}
-              >
-                {[0, 1].map((face) => (
-                  <span className={`skill-section__icon-face skill-section__icon-face--${face ? 'back' : 'front'}`} key={face}>
-                    <svg viewBox={item.icon.viewBox || '0 0 24 24'} focusable="false">
-                      {item.icon.paths
-                        ? item.icon.paths.map((path) => <path d={path.d} fill={path.fill} key={path.d} />)
-                        : <path d={item.icon.path} />}
-                    </svg>
-                  </span>
-                ))}
-              </div>
+              <span className="skill-section__icon-face">
+                <svg viewBox={item.icon.viewBox || '0 0 24 24'} focusable="false">
+                  {item.icon.paths
+                    ? item.icon.paths.map((path) => <path d={path.d} fill={path.fill} key={path.d} />)
+                    : <path d={item.icon.path} />}
+                </svg>
+              </span>
             </div>
           ))}
         </div>
