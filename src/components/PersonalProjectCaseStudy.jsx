@@ -57,7 +57,7 @@ const projectContent = {
       { src: '/images/personal-projects/cos-sections/10-footer.webp', width: 1920, height: 1080 },
     ],
     designAlt: 'COS Korea 랜딩페이지 디자인 미리보기',
-    liveUrl: 'https://cos-portfolio-gmuknjdrw-kjy7.vercel.app/',
+    liveUrl: 'https://cos-portfolio-kjy7.vercel.app/',
     theme: 'cos',
     projectType: 'COS Korea 공식 사이트 기반 개인 랜딩페이지 리디자인',
     concept: 'SCANDINAVIAN MINIMALISM × TIMELESS DESIGN',

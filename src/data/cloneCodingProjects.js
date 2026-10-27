@@ -8,7 +8,7 @@ export const cloneCodingProjects = [
     image: '/images/clone-coding/join-local.png',
     imageAlt: 'JOIN 회원가입 폼 로컬 구현 화면',
     previewNote: '일부 원본 이미지 누락',
-    liveUrl: null,
+    liveUrl: 'https://clonecoding-join.vercel.app/',
     sourceUrl: 'https://github.com/ksejmr3/CloneCoding/tree/main/join',
   },
   {
@@ -20,7 +20,7 @@ export const cloneCodingProjects = [
     image: '/images/clone-coding/kyungdong-local.png',
     imageAlt: 'KYUNGDONG 메인 페이지 로컬 구현 화면',
     previewNote: null,
-    liveUrl: null,
+    liveUrl: 'https://clonecoding-kyungdong.vercel.app/',
     sourceUrl: 'https://github.com/ksejmr3/CloneCoding/tree/main/kyungdong',
   },
   {
@@ -32,7 +32,7 @@ export const cloneCodingProjects = [
     image: '/images/clone-coding/lotteworld-local.png',
     imageAlt: 'LOTTE WORLD 로컬 구현 화면의 임시 hero 상태',
     previewNote: 'HERO 구현 진행 중',
-    liveUrl: null,
+    liveUrl: 'https://clonecoding-lotteworld.vercel.app/',
     sourceUrl: 'https://github.com/ksejmr3/CloneCoding/tree/main/lotteworld',
   },
   {
@@ -44,7 +44,7 @@ export const cloneCodingProjects = [
     image: '/images/clone-coding/musign-local.png',
     imageAlt: 'MUSIGN 메인 페이지 로컬 구현 화면',
     previewNote: null,
-    liveUrl: null,
+    liveUrl: 'https://clonecoding-musign.vercel.app/',
     sourceUrl: 'https://github.com/ksejmr3/CloneCoding/tree/main/musign',
   },
 ]
