@@ -56,7 +56,7 @@ my-portfolio/
 - [COS KOREA 개인 리디자인](https://cos-portfolio-kjy7.vercel.app/)
 - [CLONE CODING 소스 저장소](https://github.com/ksejmr3/CloneCoding)
 
-CLONE CODING의 JOIN, KYUNGDONG, LOTTE WORLD, MUSIGN은 현재 별도 구현 사이트 배포를 준비하고 있습니다. 포트폴리오에서는 실제 로컬 구현 화면과 각 GitHub 소스 폴더를 확인할 수 있습니다.
+포트폴리오에서는 CLONE CODING의 JOIN, KYUNGDONG, LOTTE WORLD, MUSIGN에 등록된 구현 사이트 링크와 GitHub 소스 폴더로 이동할 수 있습니다.
 
 ## 에셋 관련 안내
 

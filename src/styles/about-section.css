@@ -97,6 +97,7 @@
 .about-section__item.is-open .about-section__keyword { display: none; }
 .about-section__item.is-open .about-section__question {
   display: block;
+  min-width: 0;
   font-size: clamp(19px, 1.65vw, 25px);
   word-break: keep-all;
 }
@@ -104,10 +105,9 @@
   min-width: 0;
   padding: 0 30px 0 68px;
   opacity: 0;
-  transform: translateY(12px);
-  transition: opacity .3s ease .12s, transform .3s ease .12s;
+  transition: opacity .12s ease;
 }
-.about-section__item.is-open .about-section__answer { display: flex; flex: 1 1 auto; align-items: center; padding-bottom: 28px; opacity: 1; transform: none; }
+.about-section__item.is-open .about-section__answer { display: flex; flex: 1 1 auto; align-items: center; padding-bottom: 28px; opacity: 1; }
 .about-section__answer p {
   max-width: 720px;
   margin: 0;
@@ -116,6 +116,23 @@
   line-height: 1.75;
   letter-spacing: -.035em;
   word-break: keep-all;
+}
+
+@media (min-width: 1101px) {
+  .about-section__item { container-type: inline-size; }
+  .about-section__item.is-open .about-section__question,
+  .about-section__item.is-open .about-section__answer p {
+    /* Keep line breaks fixed while the card grows behind the copy. */
+    width: clamp(120px, calc(22vw - 122px), 300px);
+    flex: none;
+  }
+  .about-section__item.is-open .about-section__question,
+  .about-section__item.is-open .about-section__answer { opacity: 0; }
+  .about-section__item.is-open .about-section__question { transition: opacity .12s ease; }
+  @container (min-width: clamp(220px, calc(22vw - 22px), 400px)) {
+    .about-section__item.is-open .about-section__question,
+    .about-section__item.is-open .about-section__answer { opacity: 1; }
+  }
 }
 
 @media (max-width: 900px) {

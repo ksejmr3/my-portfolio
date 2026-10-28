@@ -358,7 +358,6 @@ export default function HyundaiCaseStudy() {
   const processRoadRef = useRef(null)
   const processRoadPathRef = useRef(null)
   const processRoadCarRef = useRef(null)
-  const reflectionRef = useRef(null)
   const insightRowsRef = useRef(null)
   const contributionRef = useRef(null)
   const selectedWorksRef = useRef(null)
@@ -377,7 +376,7 @@ export default function HyundaiCaseStudy() {
     if (lightboxProcess) setVisibleProcess(lightboxProcess)
     setLightboxProcess(null)
   }
-  const heroImage = { ...project.hero, label: 'PROJECT EXPERIENCE / MAIN PAGE', title: 'EXPERIENCE FINDER' }
+  const heroImage = { ...project.hero, label: 'FIGMA / WIREFRAME & UI DESIGN', title: 'FIGMA UI DESIGN BOARD' }
   const { experienceFinder, exhibitionExperience, vehicleExhibition } = project.selectedWorks
 
   useEffect(() => {
@@ -487,37 +486,6 @@ export default function HyundaiCaseStudy() {
       })
       return () => media.revert()
     }, section)
-    return () => context.revert()
-  }, [])
-
-  useLayoutEffect(() => {
-    const message = reflectionRef.current
-    const section = message?.closest('.case-closing')
-    if (!message || !section) return undefined
-    const context = gsap.context(() => {
-      const media = gsap.matchMedia()
-      media.add('(min-width: 901px) and (prefers-reduced-motion: no-preference)', () => {
-        const trigger = ScrollTrigger.create({
-          trigger: section,
-          start: 'top top',
-          end: () => `+=${window.innerHeight * 1.5}`,
-          pin: section,
-          pinSpacing: true,
-          anticipatePin: 1,
-          invalidateOnRefresh: true,
-        })
-
-        let isActive = true
-        document.fonts?.ready.then(() => {
-          if (isActive) ScrollTrigger.refresh()
-        })
-        return () => {
-          isActive = false
-          trigger.kill()
-        }
-      })
-      return () => media.revert()
-    }, message)
     return () => context.revert()
   }, [])
 
@@ -768,7 +736,7 @@ export default function HyundaiCaseStudy() {
       </div>
     </section>
 
-    <footer className="case-closing"><div className="case-closing__message" ref={reflectionRef}><p className="case-closing__label">06 / PROJECT REFLECTION</p><h2><span className="case-closing__line">설계를 화면으로,</span><br /><em className="case-closing__line">화면을 흐름으로.</em></h2><p className="case-closing__body"><span>여러 담당 화면을 하나의 경험으로 연결하려면, 기획 의도와 구현 기준을 팀 안에서</span><span>분명히 공유해야 한다는 점을 배웠습니다.</span></p></div></footer>
+    <footer className="case-closing"><div className="case-closing__message"><p className="case-closing__label">06 / PROJECT REFLECTION</p><h2><span className="case-closing__line">설계를 화면으로,</span><br /><em className="case-closing__line">화면을 흐름으로.</em></h2><p className="case-closing__body"><span>여러 담당 화면을 하나의 경험으로 연결하려면, 기획 의도와 구현 기준을 팀 안에서</span><span>분명히 공유해야 한다는 점을 배웠습니다.</span></p></div></footer>
     {activeImage && <ImageLightbox image={activeImage} onClose={closeImage} />}
   </section>
 }

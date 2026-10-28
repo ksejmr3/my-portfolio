@@ -137,7 +137,7 @@ export default function CloneCodingSection() {
           <p className="clone-coding__eyebrow"><span>04 / 04 · CLONE CODING</span><span>01 — 04</span></p>
           <h2 id="clone-coding-title">CLONE CODING</h2>
           <em>through practice</em>
-          <p>웹사이트의 구조와 시각적 흐름을 분석하고 직접 화면으로 구현한 클론 코딩 작업입니다.</p>
+          <p>웹사이트의 구조와 시각적 흐름을 분석하고 직접 화면으로 구현한<br />클론 코딩 작업입니다.</p>
         </header>
         <div className="clone-coding__projects">
           {cloneCodingProjects.map((project, index) => (
