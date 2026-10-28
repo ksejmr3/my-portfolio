@@ -35,13 +35,13 @@ export const portfolioQuestions = [
   {
     id: 'ai-video',
     prompt: 'AI 영상 두 편은 어떤 내용을 담고 있나요?',
-    answer: '비비안 웨스트우드의 런웨이와 목걸이 캠페인을 각각 가로형·세로형 영상으로 구성했습니다. 첫 영상은 모델의 움직임과 무대 조명, 둘째 영상은 목걸이의 실루엣과 금속 디테일에 집중합니다. 첫 영상 파일에서는 Dreamina 생성 정보가 확인되며, 세부 제작·편집 과정은 확인이 필요합니다.',
+    answer: '비비안 웨스트우드의 런웨이와 목걸이 캠페인을 각각 가로형·세로형 영상으로 구성했습니다. 첫 영상은 모델의 움직임과 무대 조명에, 둘째 영상은 목걸이의 실루엣과 금속 디테일에 집중했습니다.',
     links: [{ label: 'AI VIDEO CONTENTS 보기', href: '#ai-video-contents' }],
   },
   {
     id: 'clone-coding',
     prompt: '클론 코딩에서는 무엇을 연습했나요?',
-    answer: 'HTML·CSS로 JOIN의 회원가입 화면 UI를 만들었으며 실제 가입 서버는 없습니다. KYUNGDONG과 LOTTE WORLD에서는 메인 이미지 슬라이드와 콘텐츠 배치를, MUSIGN에서는 모바일 메뉴와 스크롤에 반응하는 화면을 구현했습니다. 네 사이트 모두 현재 배포되어 있습니다.',
+    answer: 'HTML·CSS로 JOIN의 회원가입 화면 UI를 만들었으며 실제 가입 서버는 없습니다. KYUNGDONG과 LOTTE WORLD에서는 메인 이미지 슬라이드와 콘텐츠 배치를, MUSIGN에서는 이미지 중심 레이아웃의 반응형 구성을 연습했습니다. 네 사이트 모두 현재 배포되어 있습니다.',
     links: [{ label: 'CLONE CODING 보기', href: '#clone-coding' }],
   },
   {

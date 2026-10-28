@@ -62,7 +62,7 @@ export default function ContactSection() {
     const handleIntroNavigation = (event) => {
       const target = event.target
       const link = target instanceof Element
-        ? target.closest('.contact-section__explore a[href="#intro"]')
+        ? target.closest('.contact-section__explore a[href="#intro"], .contact-section__top[href="#intro"]')
         : null
       if (!link || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return
 
@@ -71,10 +71,7 @@ export default function ContactSection() {
       event.preventDefault()
       event.stopImmediatePropagation()
       window.history.pushState(null, '', '#intro')
-      window.scrollTo({
-        top: 0,
-        behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth',
-      })
+      window.scrollTo(0, 0)
     }
 
     window.addEventListener('click', handleIntroNavigation, true)

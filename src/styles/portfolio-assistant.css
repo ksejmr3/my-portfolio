@@ -37,8 +37,9 @@
 .portfolio-assistant__suggestions button:hover { background: #f4f4f0; color: #171717; }
 
 @media (max-width: 700px) {
-  .portfolio-assistant { right: max(14px, env(safe-area-inset-right)); bottom: max(18px, env(safe-area-inset-bottom)); }
-  .portfolio-assistant--contact { bottom: max(88px, calc(env(safe-area-inset-bottom) + 70px)); }
+  .portfolio-assistant { right: max(14px, env(safe-area-inset-right)); bottom: max(74px, env(safe-area-inset-bottom)); }
+  .portfolio-assistant--contact { bottom: max(68px, env(safe-area-inset-bottom)); }
+  .portfolio-assistant--contact .portfolio-assistant__launcher { width: 48px; height: 48px; }
   .portfolio-assistant__launcher { width: 70px; height: 70px; }
   .portfolio-assistant__hint { right: 54px; bottom: 58px; max-width: min(180px, calc(100vw - 92px)); }
   .portfolio-assistant__hint-message { white-space: normal; }
