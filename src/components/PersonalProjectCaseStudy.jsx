@@ -7,6 +7,7 @@ import cosDetail from '../assets/cos/hero-sub.png'
 
 const SCROLL_SPEED_VIEWPORTS_PER_SECOND = 0.27
 const ENDPOINT_PAUSE_MS = 750
+const PERSONAL_SCROLL_RESTORE_KEY = 'personal-work-horizontal-progress'
 
 if (!gsap.plugins.ScrollTrigger) gsap.registerPlugin(ScrollTrigger)
 
@@ -36,6 +37,7 @@ const projectContent = {
     summary: '영국 테일러링과 펑크 문화의 대비를 대형 타이포그래피와 비대칭 이미지, 스크롤 흐름으로 재해석한 에디토리얼 웹사이트입니다.',
     role: '정보 구조와 UI를 설계하고 React로 구현했습니다.',
     contentTags: ['BRITISH HERITAGE', 'PUNK REBELLION', 'EDITORIAL EXPERIENCE'],
+    visualCaption: 'FASHION LANDING PAGE REDESIGN',
     layers: [
       { src: '/images/personal-projects/vivienne-westwood-latest/15-heritage-layer.png', alt: 'Vivienne Westwood 헤리티지 이미지', className: 'heritage' },
       { src: '/images/personal-projects/vivienne-westwood-latest/16-craftsmanship-layer.png', alt: 'Vivienne Westwood 장인정신 이미지', className: 'craft' },
@@ -64,6 +66,7 @@ const projectContent = {
     summary: 'COS의 절제된 형태와 소재 표현을 바탕으로, 캠페인에서 제품과 브랜드 스토리로 이어지는 흐름을 여백과 뉴트럴 이미지로 구성했습니다.',
     role: 'Figma 화면을 설계하고 React 기반 랜딩페이지로 구현했습니다.',
     contentTags: ['CAMPAIGN / SS26', 'TIMELESS DESIGN', 'NEW ARRIVALS'],
+    visualCaption: 'MINIMAL FASHION LANDING PAGE REDESIGN',
     layers: [
       { src: cosHero, alt: 'COS Korea 메인 캠페인 이미지', className: 'campaign' },
       { src: cosDetail, alt: 'COS Korea 소재 디테일 이미지', className: 'detail' },
@@ -226,7 +229,7 @@ function DesignLaptop({ project }) {
         <img className="personal-project__laptop-frame" src="/images/mockups/laptop-mockup-alpha.png" alt="" aria-hidden="true" />
       </a>
     </div>
-    <p className="personal-project__visual-caption">FIGMA FULL-PAGE PREVIEW · AUTO SCROLL</p>
+    <p className="personal-project__visual-caption">{project.visualCaption}</p>
   </div>
 }
 
@@ -248,7 +251,25 @@ export default function PersonalProjectCaseStudy() {
         const syncPanels = () => track.style.setProperty('--personal-slide-width', `${viewport.clientWidth}px`)
         const getDistance = () => Math.max(0, track.scrollWidth - viewport.clientWidth)
         let refreshFrame = 0
+        let restoreFrame = 0
         let viewportSize = ''
+        const navigationEntry = performance.getEntriesByType('navigation')[0]
+        const isReload = navigationEntry?.type === 'reload'
+        let restoreProgress = null
+        if (isReload) {
+          try {
+            const saved = JSON.parse(sessionStorage.getItem(PERSONAL_SCROLL_RESTORE_KEY) || 'null')
+            if (saved?.path === `${window.location.pathname}${window.location.search}`
+              && Number.isFinite(saved.progress)
+              && Date.now() - saved.savedAt < 30_000) {
+              restoreProgress = Math.min(1, Math.max(0, saved.progress))
+            }
+          } catch {
+            sessionStorage.removeItem(PERSONAL_SCROLL_RESTORE_KEY)
+          }
+        } else {
+          sessionStorage.removeItem(PERSONAL_SCROLL_RESTORE_KEY)
+        }
         syncPanels()
         const tween = gsap.to(track, {
           x: () => -getDistance(),
@@ -264,6 +285,37 @@ export default function PersonalProjectCaseStudy() {
             anticipatePin: 1,
           },
         })
+
+        const saveProgressForReload = () => {
+          const trigger = tween.scrollTrigger
+          if (!trigger?.isActive) {
+            sessionStorage.removeItem(PERSONAL_SCROLL_RESTORE_KEY)
+            return
+          }
+          sessionStorage.setItem(PERSONAL_SCROLL_RESTORE_KEY, JSON.stringify({
+            path: `${window.location.pathname}${window.location.search}`,
+            progress: trigger.progress,
+            savedAt: Date.now(),
+          }))
+        }
+
+        const restoreAfterRefresh = () => {
+          if (restoreProgress === null) return
+          if (restoreFrame) cancelAnimationFrame(restoreFrame)
+          restoreFrame = requestAnimationFrame(() => {
+            restoreFrame = 0
+            const trigger = tween.scrollTrigger
+            if (!trigger) return
+            const target = trigger.start + (trigger.end - trigger.start) * restoreProgress
+            window.scrollTo({ top: target, behavior: 'auto' })
+            ScrollTrigger.update()
+            restoreProgress = null
+            sessionStorage.removeItem(PERSONAL_SCROLL_RESTORE_KEY)
+            ScrollTrigger.removeEventListener('refresh', restoreAfterRefresh)
+          })
+        }
+        window.addEventListener('pagehide', saveProgressForReload)
+        if (restoreProgress !== null) ScrollTrigger.addEventListener('refresh', restoreAfterRefresh)
 
         const refresh = (force = false) => {
           if (refreshFrame) cancelAnimationFrame(refreshFrame)
@@ -292,6 +344,9 @@ export default function PersonalProjectCaseStudy() {
         return () => {
           observer.disconnect()
           if (refreshFrame) cancelAnimationFrame(refreshFrame)
+          if (restoreFrame) cancelAnimationFrame(restoreFrame)
+          window.removeEventListener('pagehide', saveProgressForReload)
+          ScrollTrigger.removeEventListener('refresh', restoreAfterRefresh)
           imageLoadHandlers.forEach((handler, image) => image.removeEventListener('load', handler))
           tween.scrollTrigger?.kill()
           tween.kill()

@@ -66,7 +66,7 @@
 .about-section__item:nth-child(2) { --panel-color: #554375; }
 .about-section__item:nth-child(3) { --panel-color: #345b78; }
 .about-section__item:nth-child(4) { --panel-color: #3f766a; }
-.about-section__item:nth-child(5) { --panel-color: #7b843d; }
+.about-section__item:nth-child(5) { --panel-color: #626b30; }
 .about-section__item.is-open { z-index: 5; flex-grow: 1; flex-basis: 220px; }
 .about-section__trigger {
   display: flex;

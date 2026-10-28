@@ -13,7 +13,7 @@ const DESIGN_SCROLL_VIEWPORTS_PER_SECOND = 0.27
 const DESIGN_SCROLL_ENDPOINT_PAUSE = 750
 const DESIGN_SCROLL_RESET_FADE = 420
 
-function SelectedWorkMedia({ src, poster, label, title, className = '', mode = 'imac', kind = 'video', playbackRate = 1, hideCaption = false }) {
+function SelectedWorkMedia({ src, poster, label, title, caption, className = '', mode = 'imac', kind = 'video', playbackRate = 1, hideCaption = false }) {
   const figureRef = useRef(null)
   const videoRef = useRef(null)
   const mediaRef = useRef(null)
@@ -169,7 +169,7 @@ function SelectedWorkMedia({ src, poster, label, title, className = '', mode = '
       <div className="case-selected-works__screen case-selected-works__screen--phone" ref={viewportRef}>{mediaContent}</div>
       <span className="case-selected-works__phone-island" aria-hidden="true" />
     </div> : <div className="case-selected-works__screen case-selected-works__screen--plain">{mediaContent}</div>}
-    {!hideCaption && <figcaption className="case-selected-works__mockup-caption"><span>{label}</span><span>{title}</span></figcaption>}
+    {!hideCaption && <figcaption className="case-selected-works__mockup-caption">{caption || <><span>{label}</span><span>{title}</span></>}</figcaption>}
   </figure>
 }
 
@@ -193,8 +193,8 @@ const planningStages = [
     subtitle: 'USER RESEARCH',
     body: '설문과 사용자 분석 자료를 검토해 콘텐츠 이해와 탐색 과정에서 반복되는 요구를 묶었습니다. 정량 응답과 정성 관찰을 함께 읽으며 우선 살펴볼 사용 맥락을 정리했습니다.',
     images: [
-      { label: '설문조사', detailTitle: '설문조사', detail: '기존 웹사이트 이용 경험과 콘텐츠 이해도를 살펴보기 위해 설문을 진행했습니다.', src: '/images/hyundai/planning/02-user-research/user-survey-form.png.png', alt: '현대 모터스튜디오 사용자 설문조사 양식' },
-      { label: '설문 결과', detailTitle: '설문 결과', detail: '12개 응답에서 콘텐츠의 중요도·참여 가능 여부·운영 상태 이해도가 모두 평균 2점대였습니다. 이 결과를 문제 파악의 근거로 활용했습니다.', src: '/images/hyundai/planning/02-user-research/user-survey-results.png.png', alt: '현대 모터스튜디오 사용자 설문조사 결과' },
+      { label: '설문조사', detailTitle: '설문조사', detail: '기존 웹사이트 이용 경험과 콘텐츠 이해도를 살펴보기 위해 설문 결과를 분석했습니다.', src: '/images/hyundai/planning/02-user-research/user-survey-form.png.png', alt: '현대 모터스튜디오 사용자 설문조사 양식' },
+      { label: '설문 결과', detailTitle: '설문 결과', detail: '콘텐츠의 중요도·참여 가능 여부·운영 상태를 이해하기 어렵다는 응답 경향을 확인하고, 문제 파악의 근거로 활용했습니다.', src: '/images/hyundai/planning/02-user-research/user-survey-results.png.png', alt: '현대 모터스튜디오 사용자 설문조사 결과' },
       { label: '어피니티 다이어그램', detailTitle: '어피니티 다이어그램', detail: '사용자 관찰과 응답에서 공통으로 나타난 요구를 주제별로 묶었습니다.', src: '/images/hyundai/planning/02-user-research/user-affinity-diagram.png.png', alt: '현대 모터스튜디오 사용자 어피니티 다이어그램' },
     ],
   },
@@ -264,10 +264,10 @@ const imageDisplay = {
 }
 
 const contributionItems = [
-  { number: '01', eyebrow: 'UX PLANNING & DEVELOPMENT', title: <>흩어진 경험을 하나의 <em>탐색 흐름으로 정리하다.</em></>, body: '시장·브랜드와 경쟁 서비스를 조사하고 STEP 1–3의 선택 기준을 구체화했습니다. 선택에 따른 추천 결과를 구현하고, 상세·예약 데이터 연결과 화면 이동을 검수했습니다.' },
+  { number: '01', eyebrow: 'UX PLANNING & DEVELOPMENT', title: <>흩어진 경험을 하나의 <em>탐색 흐름으로 정리하다.</em></>, body: '시장·브랜드와 경쟁 서비스를 조사하고 STEP 1–3의 선택 기준을 구체화했습니다. 선택에 따른 추천 결과를 구현하고, 상세·예약 데이터 연결 구조와 화면 이동을 검토했습니다.' },
   { number: '02', eyebrow: 'UI DESIGN', title: <>기획 의도를 실제 <em>화면으로 구체화하다.</em></>, body: '전시 서브페이지의 와이어프레임부터 이미지 구성, 타이포그래피, 시각적 위계까지 설계하고 브랜드 경험에 맞는 화면으로 발전시켰습니다.', images: [{ src: '/images/hyundai/contribution/exhibition-work-01.jpg.jpg', alt: '현대 모터스튜디오 전시 서브페이지 작업 화면을 검토하는 모습' }, { src: '/images/hyundai/contribution/exhibition-work-02.jpg.jpg', alt: '현대 모터스튜디오 전시 서브페이지 작업 사진' }] },
   { number: '03', eyebrow: 'VEHICLE EXHIBITION DESIGN', title: <>차량 콘텐츠의 <em>시각적 위계를 설계하다.</em></>, body: '메인페이지 Vehicle Exhibition의 UI 디자인을 담당해 차량 이미지와 차종명, 원형 비주얼의 구성 및 정보 위계를 설계했습니다. 공식 프로젝트 종료 후에는 차량 이미지·배경과 노출 순서를 조정하고 구현 화면을 검수했습니다.' },
-  { number: '04', eyebrow: 'COLLABORATION', title: <>서로 다른 작업을 하나의 <em>결과로 연결하다.</em></>, body: '4인 팀의 역할 분담 안에서 담당 화면을 구현하고, 컴포넌트 통합과 Git 협업, 반응형 검수를 통해 각 페이지가 하나의 웹 경험으로 이어지도록 조율했습니다.', images: [{ src: '/images/hyundai/teamwork/team-work-process.jpg.jpg', alt: '현대 모터스튜디오 팀이 디자인과 구현 화면을 함께 작업하는 모습' }, { src: '/images/hyundai/teamwork/team-review-01.jpg.jpg', alt: '현대 모터스튜디오 팀 프로젝트 화면 검토 사진' }, { src: '/images/hyundai/teamwork/team-meeting-02.jpg.jpg', alt: '현대 모터스튜디오 팀 회의 사진' }, { src: '/images/hyundai/teamwork/team-final-presentation-02.jpg.jpg', alt: '현대 모터스튜디오 팀 프로젝트 최종 발표 사진' }] },
+  { number: '04', eyebrow: 'COLLABORATION', title: <>서로 다른 작업을 하나의 <em>결과로 연결하다.</em></>, body: '지점별 소개 페이지의 초기 레이아웃과 공지·회원가입·로그인의 기본 레이아웃 구조를 구현했습니다. 이후 팀원과 세부 UI를 수정·보완하고, 컴포넌트 통합·Git 협업·반응형 검수를 진행했습니다.', images: [{ src: '/images/hyundai/teamwork/team-work-process.jpg.jpg', alt: '현대 모터스튜디오 팀이 디자인과 구현 화면을 함께 작업하는 모습' }, { src: '/images/hyundai/teamwork/team-review-01.jpg.jpg', alt: '현대 모터스튜디오 팀 프로젝트 화면 검토 사진' }, { src: '/images/hyundai/teamwork/team-meeting-02.jpg.jpg', alt: '현대 모터스튜디오 팀 회의 사진' }, { src: '/images/hyundai/teamwork/team-final-presentation-02.jpg.jpg', alt: '현대 모터스튜디오 팀 프로젝트 최종 발표 사진' }] },
 ]
 
 function CaseDetails({ eyebrow, heading, summary, role, details, titleId }) {
@@ -358,7 +358,6 @@ export default function HyundaiCaseStudy() {
   const processRoadRef = useRef(null)
   const processRoadPathRef = useRef(null)
   const processRoadCarRef = useRef(null)
-  const insightRowsRef = useRef(null)
   const contributionRef = useRef(null)
   const selectedWorksRef = useRef(null)
   const setVisibleProcess = (processNumber) => {
@@ -390,31 +389,6 @@ export default function HyundaiCaseStudy() {
   useLayoutEffect(() => {
     const context = gsap.context(() => {
       const media = gsap.matchMedia()
-      media.add('(min-width: 901px) and (prefers-reduced-motion: no-preference)', () => {
-        const stage = insightRowsRef.current
-        const section = stage?.closest('.case-insight-decisions')
-        const rows = [...(stage?.querySelectorAll('.case-insight-decisions__row') ?? [])]
-        if (rows.length !== 3) return undefined
-        const stackGap = () => Math.min(72, Math.max(48, window.innerHeight * 0.065))
-        gsap.set(rows, { y: () => stage.clientHeight + 24 })
-        const timeline = gsap.timeline({
-          scrollTrigger: {
-            trigger: section || stage,
-            start: 'top top',
-            end: () => `+=${window.innerHeight * 3.1}`,
-            pin: section || stage,
-            pinSpacing: true,
-            scrub: 0.85,
-            anticipatePin: 1,
-            invalidateOnRefresh: true,
-          },
-        })
-        timeline.to(rows[0], { y: 0, duration: 0.8, ease: 'none' }, 0.08)
-        timeline.to(rows[1], { y: () => stackGap(), duration: 0.9, ease: 'none' }, 1.02)
-        timeline.to(rows[2], { y: () => stackGap() * 2, duration: 0.9, ease: 'none' }, 2.08)
-        timeline.to({}, { duration: 0.72 }, 3.04)
-        return () => timeline.kill()
-      })
       media.add('(prefers-reduced-motion: no-preference)', () => {
         const items = [...(contributionRef.current?.querySelectorAll('.case-contribution__item') ?? [])]
         items.forEach((item) => {
@@ -643,11 +617,11 @@ export default function HyundaiCaseStudy() {
       </header>
       <div className="case-selected-works__content">
         <article className="case-selected-works__group case-selected-works__group--finder" aria-labelledby="selected-work-finder-title">
-          <SelectedWorkMedia src={experienceFinder.video} poster={experienceFinder.poster} label={experienceFinder.mediaLabel} title={experienceFinder.mediaTitle} className="case-selected-works__video--finder" mode="imac" playbackRate={experienceFinder.playbackRate} />
+          <SelectedWorkMedia src={experienceFinder.video} poster={experienceFinder.poster} label={experienceFinder.mediaLabel} title={experienceFinder.mediaTitle} caption="INTEREST-BASED EXPERIENCE FINDER" className="case-selected-works__video--finder" mode="imac" playbackRate={experienceFinder.playbackRate} />
           <CaseDetails eyebrow={experienceFinder.eyebrow} heading={experienceFinder.heading} summary="STEP 1–3에서 관심사와 방문 목적을 선택하고, 추천 결과에서 관련 상세·예약 정보로 이동하는 탐색 흐름입니다." role={experienceFinder.role} titleId="selected-work-finder-title" details={[
             ['DESIGN APPROACH', '관심사와 방문 목적을 중심으로 탐색 구조를 정리하고, 단계별 선택과 추천 기준을 명확히 했습니다.'],
             ['KEY SOLUTION', 'STEP 1–3 선택 결과에 전시·프로그램·시승 추천을 연결하고, 중복 결과를 대표 경험 단위로 정리했습니다.'],
-            ['VALIDATION', '선택 입력과 추천 결과를 구현하고, 상세·예약 데이터 연결과 화면 이동이 실제 구현 화면에서 작동하는지 검수했습니다.'],
+            ['VALIDATION', '선택 입력과 추천 결과를 구현하고, 상세·예약 데이터 연결 구조와 화면 이동을 검토했습니다.'],
           ]} />
         </article>
 
@@ -663,7 +637,7 @@ export default function HyundaiCaseStudy() {
                 <SelectedWorkMedia mode="phone" kind="design" src={exhibitionExperience.mobileDesignPage} label="MOBILE / FIGMA SCROLL" title="모바일 반응형 디자인" hideCaption />
               </div>
             </div>
-            <p className="case-selected-works__mockup-caption">전시 이미지와 타이포그래피가 이어지는 반응형 Figma 화면</p>
+            <p className="case-selected-works__mockup-caption">RESPONSIVE EXHIBITION DESIGN</p>
           </div>
           <CaseDetails eyebrow={exhibitionExperience.eyebrow} heading="전시를 경험하는 새로운 방식." summary="이미지와 타이포그래피, 스크롤 전환을 결합해 전시의 분위기와 정보를 순서대로 경험하도록 구성한 화면입니다." role={exhibitionExperience.role} titleId="selected-work-exhibition-title" details={[
             ['DESIGN APPROACH', 'Hero와 EXPERIENCE PREVIEW를 하나의 탐색 흐름으로 구성하고, 전시 콘텐츠의 등장 순서를 설계했습니다.'],
@@ -675,7 +649,7 @@ export default function HyundaiCaseStudy() {
         <article className="case-selected-works__group case-selected-works__group--vehicle" aria-labelledby="selected-work-vehicle-title">
           <div className="case-selected-works__vehicle-visual">
             <SelectedWorkMedia src={vehicleExhibition.video} poster={vehicleExhibition.poster} label={vehicleExhibition.mediaLabel} title={vehicleExhibition.mediaTitle} className="case-selected-works__video--vehicle" mode="imac" playbackRate={vehicleExhibition.playbackRate} hideCaption />
-            <p className="case-selected-works__mockup-caption">원형 차량 이미지와 차종명이 전환되는 인터랙션 화면</p>
+            <p className="case-selected-works__mockup-caption">INTERACTIVE VEHICLE EXHIBITION</p>
           </div>
           <CaseDetails eyebrow="03 / VEHICLE EXHIBITION" heading="차량을 탐색하는 시각적 흐름." summary="차량 이미지와 차종명이 연동되는 원형 비주얼을 활용해, 다양한 차량을 하나의 흐름에서 탐색하도록 구성한 메인페이지 콘텐츠입니다." role="MAIN PAGE · VEHICLE EXHIBITION UI DESIGN · VISUAL CONTENT" titleId="selected-work-vehicle-title" details={[
             ['DESIGN APPROACH', '차량 이미지의 배치와 원형 비주얼, 차종명과 이미지의 관계를 정리해 차량 콘텐츠의 정보 위계를 설계했습니다.'],
@@ -708,21 +682,8 @@ export default function HyundaiCaseStudy() {
       </div>
     </section>
 
-    <section className="case-section case-section--warm case-insight-decisions" aria-label="INSIGHT & DESIGN DECISIONS">
-      <SectionIntro index="04" eyebrow="INSIGHT & DESIGN DECISIONS" title={<>FROM FRICTION<br /><em>TO FLOW.</em></>} body="리서치와 사용자 흐름에서 확인한 요구를 세 가지 화면 설계 기준으로 구체화했습니다." className="case-section__intro--editorial" />
-      <div className="case-insight-decisions__rows" ref={insightRowsRef} aria-label="사용자 문제에서 설계 판단과 개선 경험으로 이어지는 세 가지 방향">
-        {project.designDecisions.map((item) => <article className="case-insight-decisions__row" key={item.number}>
-          <span className="case-insight-decisions__number" aria-hidden="true">{item.number}</span>
-          <p className="case-insight-decisions__keyword">{item.keyword}</p>
-          <div className="case-insight-decisions__copy">
-            <h3 className="case-insight-decisions__statement">{item.statement}</h3>
-            <p className="case-insight-decisions__support">{item.support}</p>
-          </div>
-        </article>)}
-      </div>
-    </section>
     <section className="case-section case-contribution" aria-label="My Contribution">
-      <SectionIntro index="05" eyebrow="MY CONTRIBUTION" title={<>THE WORK<br /><em>I CONNECTED.</em></>} body="프로젝트 전반의 기획 참여, 직접 맡은 디자인·구현, 협업 지원 범위를 구분했습니다." className="case-section__intro--editorial" />
+      <SectionIntro index="04" eyebrow="MY CONTRIBUTION" title={<>THE WORK<br /><em>I CONNECTED.</em></>} body="프로젝트 전반의 기획 참여, 직접 맡은 디자인·구현, 협업 지원 범위를 구분했습니다." className="case-section__intro--editorial" />
       <div className="case-contribution__period"><span>OFFICIAL TEAM PROJECT / 2026.09.01–09.30</span><span>PERSONAL FOLLOW-UP / 2026.10.01–10.12</span></div>
       <div className="case-contribution__items" ref={contributionRef}>
         {contributionItems.map((item) => <article className="case-contribution__item" key={item.number}>
@@ -736,7 +697,7 @@ export default function HyundaiCaseStudy() {
       </div>
     </section>
 
-    <footer className="case-closing"><div className="case-closing__message"><p className="case-closing__label">06 / PROJECT REFLECTION</p><h2><span className="case-closing__line">설계를 화면으로,</span><br /><em className="case-closing__line">화면을 흐름으로.</em></h2><p className="case-closing__body"><span>여러 담당 화면을 하나의 경험으로 연결하려면, 기획 의도와 구현 기준을 팀 안에서</span><span>분명히 공유해야 한다는 점을 배웠습니다.</span></p></div></footer>
+    <footer className="case-closing"><div className="case-closing__message"><p className="case-closing__label">05 / PROJECT REFLECTION</p><h2><span className="case-closing__line">설계를 화면으로,</span><br /><em className="case-closing__line">화면을 흐름으로.</em></h2><p className="case-closing__body"><span>여러 담당 화면을 하나의 경험으로 연결하려면, 기획 의도와 구현 기준을 팀 안에서</span><span>분명히 공유해야 한다는 점을 배웠습니다.</span></p></div></footer>
     {activeImage && <ImageLightbox image={activeImage} onClose={closeImage} />}
   </section>
 }

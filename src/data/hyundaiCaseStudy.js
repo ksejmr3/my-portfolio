@@ -30,11 +30,6 @@ export const hyundaiCaseStudy = {
     { label: 'JOURNEY MAP', title: 'FROM DISCOVERY TO VISIT', src: journeyMap, alt: '서비스 탐색부터 방문 결정까지의 사용자 여정 지도' },
     { label: 'LEAN CANVAS', title: 'PROBLEM TO DIRECTION', src: leanCanvas, alt: '문제와 해결 방향을 정리한 린캔버스' },
   ],
-  designDecisions: [
-    { number: '01', keyword: 'EXPERIENCE DISCOVERY', statement: '지점과 유형별로 흩어진 선택을 관심사와 방문 목적 중심 탐색으로 엮습니다.', support: 'STEP 1–3에서 목적과 관심사를 고르면 관련 경험을 찾고 상세 정보를 확인할 수 있습니다.' },
-    { number: '02', keyword: 'EXHIBITION IMMERSION', statement: '정보 중심 화면에서 놓치기 쉬운 전시의 분위기를 콘텐츠 흐름에 담습니다.', support: '이미지·타이포그래피·스크롤 전개를 결합해 전시 콘텐츠를 순서대로 경험하도록 합니다.' },
-    { number: '03', keyword: 'CONTENT TO VISIT', statement: '분산된 콘텐츠와 지점 정보를 연결해 방문·예약의 다음 단계로 잇습니다.', support: '관련 콘텐츠에서 지점별 소개를 거쳐 방문·예약 정보를 이어 확인할 수 있게 합니다.' },
-  ],
   structure: [
     { label: 'MENU TREE', title: 'INFORMATION ARCHITECTURE', src: menuTree, alt: '현대 모터스튜디오 메뉴 트리' },
     { label: 'USER FLOW', title: 'CONTENT TO RESERVATION', src: userFlow, alt: '콘텐츠 탐색과 예약 흐름을 보여주는 사용자 플로우' },
@@ -51,8 +46,7 @@ export const hyundaiCaseStudy = {
       video: '/videos/hyundai/selected-works/experience-finder.mp4',
         poster: '/images/hyundai/selected-works/experience-finder-current-poster.jpg',
       playbackRate: 1.1,
-      mediaLabel: 'STEP 01–03 / RECOMMENDATION / LINK REVIEW',
-      mediaTitle: '관심사 선택부터 추천 결과와 관련 정보로 이어지는 탐색 흐름',
+      mediaTitle: 'Experience Finder 구현 화면',
     },
     exhibitionExperience: {
       eyebrow: '02 / EXHIBITION EXPERIENCE',

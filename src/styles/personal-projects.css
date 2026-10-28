@@ -250,6 +250,7 @@
   padding-bottom: 9px;
   font-size: 9px;
   font-weight: 500;
+  line-height: 1.3;
   letter-spacing: .08em;
   opacity: .72;
   text-transform: uppercase;
@@ -325,7 +326,7 @@
   .personal-project__layer--heritage, .personal-project__layer--campaign { left: 0; top: 34%; }
   .personal-project__layer--craft, .personal-project__layer--detail { left: 76%; top: 7%; width: 23%; }
   .personal-project__layer--runway { left: 82%; top: 51%; width: 16%; }
-  .personal-project__visual-caption { font-size: 8px; }
+  .personal-project__visual-caption { font-size: 9px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
