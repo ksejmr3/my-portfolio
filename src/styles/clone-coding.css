@@ -25,7 +25,7 @@
 }
 .clone-coding__eyebrow { width: min(100%, 720px); margin: 0 auto clamp(20px, 2.5vh, 32px); display: flex; justify-content: space-between; gap: 22px; color: #60605b; font: 600 10px/1 var(--font-latin); letter-spacing: .13em; }
 .clone-coding__scene-title h2 { font: 500 clamp(72px, 9vw, 154px)/.86 var(--font-latin); letter-spacing: -.085em; }
-.clone-coding__scene-title em { display: block; margin-top: 6px; font: italic clamp(50px, 6.8vw, 112px)/.9 var(--font-serif); letter-spacing: -.07em; }
+.clone-coding__scene-title em { display: block; margin-top: 6px; font-family: var(--font-korean); font-style: normal; font-weight: 400; letter-spacing: -.07em; }
 .clone-coding__scene-title > p { max-width: 570px; margin: clamp(24px, 3vh, 38px) auto 0; color: #5c5c56; font-size: clamp(15px, 1.05vw, 18px); line-height: 1.75; word-break: keep-all; }
 
 .clone-coding__projects { position: absolute; z-index: 2; inset: 0; pointer-events: none; }

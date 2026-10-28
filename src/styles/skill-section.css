@@ -96,8 +96,8 @@
   .skill-section__header h2 { font-size: clamp(76px, 20vw, 100px); }
   .skill-section__description { max-width: 330px; margin: 16px auto 0; font-size: 14px; }
   .skill-section__categories { width: min(100%, 350px); margin-top: 24px; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: none; column-gap: 20px; row-gap: 24px; }
-  .skill-section__category h3 { margin-bottom: 7px; font-size: 9px; }
-  .skill-section__category ul { gap: 3px; font-size: 12px; line-height: 1.3; }
+  .skill-section__category h3 { margin-bottom: 7px; font-size: 10px; }
+  .skill-section__category ul { gap: 3px; font-size: 14px; line-height: 1.3; }
   .skill-section__icon-field,
   .skill-section__footnote { display: none; }
 }

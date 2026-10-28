@@ -10,7 +10,7 @@
 .ai-showcase__intro h2 em { font-family: var(--font-accent); font-style: italic; font-weight: 400; }
 .ai-showcase__intent { max-width: 390px; margin: 26px 0 0; font-size: clamp(14px, .92vw, 16px); line-height: 1.65; letter-spacing: -.02em; word-break: keep-all; }
 .ai-showcase__role { margin-top: 23px; padding-top: 15px; border-top: 1px solid #f2f1ed42; }
-.ai-showcase__role p { margin: 7px 0 0; color: #cbc9c3; font-size: 12px; line-height: 1.55; white-space: nowrap; }
+.ai-showcase__role p { margin: 7px 0 0; color: #cbc9c3; font-size: 12px; line-height: 1.55; }
 .ai-showcase__film-copy { margin-top: 14px; }
 .ai-showcase__film-copy h3 { margin: 7px 0 0; font: 500 clamp(17px, 1.35vw, 22px)/1.08 var(--font-latin); letter-spacing: -.045em; overflow-wrap: anywhere; }
 .ai-showcase__film-copy > p:last-of-type { min-height: 3em; margin: 9px 0 0; color: #cbc9c3; font-size: 12px; line-height: 1.55; word-break: keep-all; }
