@@ -77,3 +77,41 @@ export 방식: Figma MCP `get_screenshot`의 개별 노드 PNG 캡처. 원본 �
 ### 후속 확인이 필요한 Figma 위치
 
 실제 화면이 별도 Figma 페이지 또는 다른 파일에 있다면, 해당 페이지 또는 프레임의 node ID가 필요하다. 그 위치가 제공되면 화면별 원본 프레임만 PNG로 export해 이 표에 파일명·노드 ID·프레임명·용도·해상도·개인정보 여부를 추가한다.
+
+## 웹 목업용 WebP 타일 — 2026-11-01 확인
+
+기존 Figma 조사와 원본 이미지는 유지하고, Hyundai Selected Works 미리보기에서 사용할 웹 렌더링용 WebP 타일 15개를 별도 경로에서 확인했다.
+
+### 데스크톱 타일 7개
+
+참조 디렉터리: `public/images/hyundai/selected-works/web/desktop/`
+
+- `desktop-01.webp`
+- `desktop-02.webp`
+- `desktop-03.webp`
+- `desktop-04.webp`
+- `desktop-05.webp`
+- `desktop-06.webp`
+- `desktop-07.webp`
+
+### 모바일 타일 8개
+
+참조 디렉터리: `public/images/hyundai/selected-works/web/mobile/`
+
+- `mobile-01.webp`
+- `mobile-02.webp`
+- `mobile-03.webp`
+- `mobile-04.webp`
+- `mobile-05.webp`
+- `mobile-06.webp`
+- `mobile-07.webp`
+- `mobile-08.webp`
+
+### 참조 및 로딩 구조
+
+`src/components/HyundaiProjectPreview.jsx`에 각 타일의 URL, 원본 기준 너비·높이, 순서가 배열로 선언되어 있다. 데스크톱 미리보기는 7개, 모바일 미리보기는 8개를 사용한다. 타일은 이미지 요소의 크기를 미리 예약해 레이아웃을 유지하고, `AutoScrollScreen`의 IntersectionObserver가 목업 표시 여부를 감지한다. 화면에 들어오면 필요한 인접 타일을 `img.decode()`로 준비하고 순서대로 추가 로딩하며, 화면에서 나가면 자동 스크롤 RAF를 중지한다.
+
+### 원본 및 Git 상태
+
+- 작업 디렉터리에서 기존 원본 PNG 6개(`hyundai-main-desktop-figma.png`, `hyundai-main-mobile-figma.png`, `exhibition-desktop-figma.png`, `exhibition-mobile-figma.png`, `vehicle-exhibition-desktop-figma.png`, `vehicle-exhibition-mobile-figma.png`)가 WebP와 별도로 보존되어 있음을 확인했다. 원본은 변경하지 않았다.
+- 확인 당시 WebP 15개는 파일 시스템에 존재하고 코드에서 참조되지만 Git 미추적 상태였다. 최종 배포 시 이 15개를 명시적으로 Git에 포함해야 한다. 이 문서 기록은 스테이징이나 배포를 수행하지 않는다.

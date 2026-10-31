@@ -63,8 +63,8 @@ export default function AIVideoContents() {
         <header className="ai-showcase__intro">
           <p className="ai-showcase__eyebrow">MOVING IMAGE / 02 FILMS</p>
           <h2 id="ai-video-title">AI VIDEO<br /><em>CONTENTS</em></h2>
-          <p className="ai-showcase__intent">비비안 웨스트우드의 강렬한 브랜드 분위기와 상징적인 오브제를 서로 다른 영상 언어로 구성했습니다.</p>
-          <div className="ai-showcase__role"><span>MY ROLE</span><p>AI 비주얼을 바탕으로 패션 영상의 장면 흐름과 화면 구성을 설계했습니다.</p></div>
+          <p className="ai-showcase__intent">생성형 AI를 활용해 브랜드 광고부터 숏폼 콘텐츠까지 다양한 영상의 콘셉트와 장면을 기획하고 제작했습니다.</p>
+          <div className="ai-showcase__role"><span>MY ROLE</span><p>AI 영상의 콘셉트 기획부터 프롬프트 설계, 장면 생성, 편집 및 후반 작업까지 전 과정을 진행했습니다.</p></div>
         </header>
         <Film project={aiVideoProjects[0]} index={0} videoRef={(node) => { videoRefs.current[0] = node }} activeSound={activeSound} onToggleSound={toggleSound} />
         <Film project={aiVideoProjects[1]} index={1} videoRef={(node) => { videoRefs.current[1] = node }} activeSound={activeSound} onToggleSound={toggleSound} />

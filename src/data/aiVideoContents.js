@@ -34,9 +34,9 @@ export const aiVideoProjects = [
   },
   {
     number: '02',
-    title: 'VIVIENNE WESTWOOD NECKLACE CAMPAIGN',
+    title: 'VIVIENNE WESTWOOD / AI VIDEO CONCEPT',
     concept: '비비안 웨스트우드 목걸이 광고 영상입니다.',
-    description: '목걸이의 실루엣과 금속 디테일을 세로 화면에 집중시켜 제품 중심의 광고 장면으로 구성했습니다.',
+    description: '비비안 웨스트우드 목걸이를 소재로 한 개인 AI 광고 콘셉트 영상입니다. 목걸이의 실루엣과 금속 디테일을 세로 화면에 집중시켜 제품 중심의 광고 장면으로 구성했습니다.',
     video: '/videos/ai-contents/vivienne-westwood-video-02.mp4',
     aspectRatio: '9 / 16',
     formatLabel: '9:16',

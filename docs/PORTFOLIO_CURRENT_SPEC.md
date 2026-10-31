@@ -134,15 +134,15 @@ Playfair Display는 현재 일부 구현에서 사용되지만, 이후 공통 �
 | Hyundai PROCESS 01–06 | GSAP pin·scrub·가로 패널·도로 SVG·자동차 이동 | 유지 및 보호 |
 | Hyundai Selected Works | 영상 재생, 목업 내부 자동 스크롤 | 유지 |
 | VIVIENNE / COS | 목업 내부 Figma 자동 스크롤 | 유지 |
-| AI VIDEO CONTENTS | 음소거·인라인·반복 재생, 화면 진입 시 재생 및 이탈 시 pause, reduced-motion에서는 자동재생 제외 | 유지 |
+| AI VIDEO CONTENTS | muted·inline·loop 영상 2개, 섹션 진입 시 재생 요청 및 이탈 시 pause, 영상별 SOUND 버튼 | 유지 |
 | CLONE CODING | 일반 세로 스크롤, 카드 reveal | 유지 |
-| SKILL | sticky + GSAP scrub 기반 로고 카드 회전·하강 | 유지 |
-| ABOUT | 전체 Q&A 노출, 읽기 중심 세로 흐름 | 유지 |
+| SKILL | 데스크톱 CSS 3D 타원 궤도와 GSAP ScrollTrigger scrub, 모바일 정적 기술 목록 | 유지 |
+| ABOUT | 상단 소개와 5색 아코디언, 카드별 사진 무한 필름스트립 | 유지 |
 | CONTACT | 일반 세로 흐름, 실제 링크, Back to Top | 유지 |
 | Portfolio Assistant | 고정 마스코트, 부유 애니메이션, 추천 질문 | 유지 |
 
 - **확정**: INTRO pin의 길이는 현재 상태로 유지한 뒤 실제 사용 환경에서 체류 시간을 측정한다.
-- **확정**: SKILL의 `250svh` 길이는 현재 상태로 유지한 뒤 실제 사용 환경에서 체류 시간을 측정한다.
+- **확정**: SKILL은 기본 `400svh`, 900px 이하 `390svh`이며 700px 이하와 reduced-motion에서는 일반 흐름으로 표시한다. CSS 값을 기준으로 기록한다.
 - **확정**: 현대 PROCESS 01–06의 기존 GSAP, 레이아웃, 도로, 자동차, 패널 구조는 변경하지 않는다.
 - **확정**: 목업 내부 자동 스크롤의 속도·선형 이동·양 끝 대기와 영상 재생 정책을 보존한다.
 
@@ -206,7 +206,9 @@ Playfair Display는 현재 일부 구현에서 사용되지만, 이후 공통 �
 이 변경은 전체 섹션에 같은 높이를 강제하지 않는다. INTRO/WORK INTRO/Personal Work/SKILL처럼 연출 또는 pin 길이가 구조에 포함된 구간은 기존 계산을 유지하고, Hyundai의 일반 콘텐츠 구간은 콘텐츠 높이에 따라 확장한다. 실제 기기·브라우저 렌더링 확인은 별도 검증이 필요하다.
 
 
-### 6.2 2026-10-21 전체 화면 레이아웃 재검수
+### 6.2 2026-10-21 전체 화면 레이아웃 재검수 기록
+
+아래 내용은 해당 날짜의 작업·검수 기록이며 현재 브라우저 검수 상태를 뜻하지 않는다.
 
 - 불필요한 `EXPLORE WORK`, `SCROLL TO EXPLORE`, `KIM JIYOUNG / PORTFOLIO` UI 문구와 연결된 클릭·타임라인 대상을 제거했다. 코드 내 정확한 문자열 검색 결과가 남지 않아야 한다.
 - INTRO와 WORK 도입부의 안내 문구는 자연스러운 문장 흐름으로 정리했다. Hyundai 본문은 자연 줄바꿈을 사용하고, 공통 본문에는 `word-break: keep-all`, `overflow-wrap: break-word`, 16–18px 및 약 1.72 행간을 적용했다.
@@ -226,7 +228,7 @@ Playfair Display는 현재 일부 구현에서 사용되지만, 이후 공통 �
 
 1. Playfair Display를 전역에서 Lora Italic으로 통합할지 여부
 2. INTRO pin의 실제 체류 시간이 적절한지 여부
-3. SKILL `250svh`가 전체 페이지 흐름에서 적절한지 여부
+3. SKILL의 `400svh` / `390svh` 스크롤 체류 길이가 전체 흐름에서 적절한지 여부
 4. VIVIENNE → COS를 가로 전환으로 연결할지 여부
 5. 공통 색상 토큰을 실제 CSS에 적용할 시점과 범위
 6. 기존 초기 기획 문서를 최신 단일 페이지 구조에 맞게 갱신할지 여부
@@ -274,8 +276,35 @@ Playfair Display는 현재 일부 구현에서 사용되지만, 이후 공통 �
 - LIVE WEBSITE는 `https://mbc-teamproject-wheat.vercel.app/`, PROJECT DECK은 공개 프로토타입 URL을 사용한다. 두 링크 모두 새 탭에서 열리며 `noopener noreferrer`, 키보드 포커스 표시를 적용한다.
 - 데스크톱에서는 두 링크를 나란히 두고, 700px 이하에서는 세로로 배치한다. PROJECT REFLECTION의 기존 IntersectionObserver와 순차 페이드인은 해당 영역만 계속 제어한다.
 
-## 12. AI VIDEO CONTENTS 스크롤 흐름
+## 12. 현재 구현 상세 및 검증 상태
 
-- 데스크톱 AI VIDEO CONTENTS는 Lenis의 휠 보정과 GSAP ScrollTrigger를 함께 사용한다. pin 구간은 인트로, 첫 번째 영상, 두 번째 영상, 이탈 여유를 충분히 확보하는 다섯 화면 높이로 구성한다.
-- ScrollTrigger는 별도 지연 scrub을 두지 않고 스크롤 위치에 직접 동기화한다. 빠른 휠 입력에서도 장면 상태와 재생 대상이 뒤늦게 따라오지 않게 한다.
-- 인트로 콜라주는 실제 MP4에서 추출한 런웨이 전신(3.0초), 세로형 모델(2.0초), 세로 영상 마지막 텍스트 장면(17.5초)을 사용한다. 900px 이하와 reduced-motion 환경에서는 기존 세로 흐름을 유지한다.
+### SKILL
+
+- `src/styles/skill-section.css` 기준 섹션 최소 높이는 기본 `400svh`, 900px 이하 `390svh`다. 700px 이하 및 `prefers-reduced-motion: reduce`에서는 sticky 궤도 대신 자연 높이의 정적 목록으로 전환한다.
+- `src/components/SkillSection.jsx`는 701px 이상이며 reduced-motion이 아닌 환경에서 ScrollTrigger scrub을 사용한다. `src/data/skillTools.js`에 로고 카드 14개가 등록되어 있고 progress에 따라 각도 기반 타원 좌표와 깊이·원근을 계산한다. 회전 범위는 1.35회전이다.
+- Figma는 SVG viewBox crop 및 `logoScale: 68` 보정이 적용되어 있다. 일부 로고가 기술 목록과 겹치는 시각 효과는 사용자가 확인하고 수용했다.
+
+### ABOUT
+
+- `src/components/AboutSection.jsx`, `src/styles/about-section.css`, `src/data/aboutPhotos.js`가 소개와 5색 카드 아코디언 및 사진 필름스트립을 구성한다.
+- 데스크톱은 ScrollTrigger pin 진행률로 5개 카드가 순차 전환되고 역방향도 진행률에 따라 복원된다. 직접 선택 시 해당 진행 구간으로 스크롤을 맞춘다.
+- 카드별 필름스트립은 사진 배열을 반복해 오른쪽에서 왼쪽으로 이동한다. 활성 카드가 화면에 보이고 사진 로드가 끝난 경우에만 RAF가 동작하며, 드래그·스와이프 뒤 3초 정지 후 현재 위치에서 재개한다.
+- 700px 이하와 reduced-motion 설정에서는 자동 스크롤 인터랙션 대신 접근 가능한 정적/수동 구성을 사용한다. `aboutPhotos.js`는 `public/images/about/web/`의 WebP 39개를 참조하며, `originals/`의 JPG 39개는 보존 원본이다.
+
+### AI VIDEO CONTENTS
+
+- 최종 확정 레이아웃은 소개 + 가로 영상 + 세로 영상의 3열 구성이다. `src/styles/ai-video-contents.css`에서 800px 이하 단일 열로 전환한다.
+- `src/data/aiVideoContents.js`의 영상 비율은 각각 16:9와 9:16이다. `src/components/AIVideoContents.jsx`가 autoplay, muted, loop, playsInline, metadata preload로 표시한다. 섹션 IntersectionObserver가 진입 시 재생을 요청하고 이탈 시 음소거·정지한다. SOUND 버튼은 선택 영상의 음소거를 해제한다. 현재 구현에는 reduced-motion에 따른 영상 자동재생 제외 분기가 없다.
+- 현재 확정 디자인에는 pin·scrub 기반 영상 전환이나 하단 진행선이 없다.
+
+### HYUNDAI 목업 자산
+
+- `src/components/HyundaiProjectPreview.jsx`는 `public/images/hyundai/selected-works/web/desktop/`의 WebP 7개와 `.../mobile/`의 WebP 8개를 순서대로 표시한다. 원본 PNG는 별도 경로에 보존되어 있다.
+- 목업의 타일 로딩은 노출된 이미지의 진행에 맞춰 다음 타일을 decode하는 구조다. 확인 당시 WebP 15개는 로컬 미추적 상태였으며 실제 런타임 참조이므로 최종 배포 커밋에 포함되어야 한다.
+
+### 검증 현황 및 한계
+
+- 앞선 확인 기록상 프로덕션 빌드는 성공했고 기존 Vite 500kB 초과 청크 경고가 남아 있다. 이 문서 갱신 중에는 빌드를 실행하지 않았다.
+- 전체 화면 Chrome 자동 검수는 Chrome 실행 오류로 완료되지 않았다. 따라서 반응형 뷰포트 전체와 전체 스크롤 흐름을 검증 완료로 표시하지 않는다.
+- 스크롤 위치 복원은 사용자가 현재 정상 동작을 확인했다고 보고했다. 이는 사용자 확인이며 이번 작업에서 별도 실측하지 않았다.
+- 아래 구현·상태 설명은 이번 문서 갱신 당시 로컬 파일과 제공된 검수 기록을 기준으로 하며 이후 변경 시 재확인이 필요하다.

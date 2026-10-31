@@ -53,7 +53,7 @@ export const portfolioQuestions = [
   {
     id: 'contact',
     prompt: '연락하려면 어떻게 해야 하나요?',
-    answer: '이메일 ksejmr3@gmail.com 또는 CONTACT에 공개된 전화번호로 연락할 수 있습니다. GitHub 프로필도 CONTACT에서 확인할 수 있으며, 이력서는 현재 준비 중입니다.',
+    answer: '이메일 ksejmr3@gmail.com 또는 CONTACT에 공개된 전화번호로 연락할 수 있습니다. GitHub 프로필도 CONTACT에서 확인할 수 있습니다. 이력서는 준비되어 있으며, 현재 포트폴리오의 다운로드 링크를 연결하는 중입니다. 링크 연결 전에는 CONTACT에 안내된 이메일을 통해 문의해 주세요.',
     links: [{ label: 'CONTACT 보기', href: '#contact' }],
   },
 ]

@@ -13,7 +13,7 @@ import {
 } from 'simple-icons'
 
 const figmaIcon = {
-  title: 'Figma', viewBox: '0 0 1024 1280',
+  title: 'Figma', viewBox: '312 340 400 600',
   paths: [
     { d: 'M312 840C312 784.772 356.772 740 412 740H512V840C512 895.228 467.228 940 412 940C356.772 940 312 895.228 312 840Z', fill: '#24CB71' },
     { d: 'M512 340V540H612C667.228 540 712 495.228 712 440C712 384.772 667.228 340 612 340H512Z', fill: '#FF7237' },
@@ -51,7 +51,7 @@ export const skillGroups = [
 
 // Motion values form one continuous, staggered 3D stream rather than a logo shelf.
 export const skillIconCards = [
-  { name: 'Figma', icon: figmaIcon, x: 10, peakY: .57, passY: .72, size: 112, logoScale: 58, delay: .00, drift: 34, rx: 540, ry: 720, rz: 48 },
+  { name: 'Figma', icon: figmaIcon, x: 10, peakY: .57, passY: .72, size: 112, logoScale: 68, delay: .00, drift: 34, rx: 540, ry: 720, rz: 48 },
   { name: 'HTML5', icon: siHtml5, x: 22, peakY: .69, passY: .79, size: 88, logoScale: 56, delay: .03, drift: -30, rx: -720, ry: 540, rz: -42 },
   { name: 'CSS3', icon: css3Icon, x: 36, peakY: .54, passY: .7, size: 104, logoScale: 57, delay: .06, drift: 31, rx: 540, ry: -720, rz: 36 },
   { name: 'SCSS', icon: siSass, x: 50, peakY: .71, passY: .82, size: 80, logoScale: 58, delay: .09, drift: -35, rx: -540, ry: 720, rz: -48 },

@@ -148,7 +148,8 @@ a:focus-visible { outline: 2px solid currentColor; outline-offset: 5px; }
 .hyundai-project-preview__desktop { position: absolute; top: 4%; left: 0; width: 91%; aspect-ratio: 1483 / 1061; }
 .hyundai-project-preview__imac-frame { position: absolute; z-index: 2; inset: 0; width: 100%; height: 100%; object-fit: contain; pointer-events: none; }
 .hyundai-project-preview__screen { position: absolute; overflow: hidden; background: #f4f4f0; }
-.hyundai-project-preview__screen img { width: 100%; max-width: none; height: auto; will-change: transform; }
+.hyundai-project-preview__screen-strip { width: 100%; will-change: transform; }
+.hyundai-project-preview__screen img { display: block; width: 100%; max-width: none; height: auto; }
 .hyundai-project-preview__screen--desktop { z-index: 1; top: calc(13.76% - 1px); left: calc(17.06% - 1px); width: calc(65.74% + 2px); height: calc(51.18% + 2px); }
 .hyundai-project-preview__phone { position: absolute; z-index: 4; right: 10%; bottom: 8%; width: 18%; aspect-ratio: 9 / 19; padding: clamp(3px, .35vw, 5px); overflow: hidden; border: clamp(3px, .4vw, 6px) solid #111; border-radius: clamp(18px, 2.2vw, 30px); background: #111; box-shadow: var(--hyundai-device-shadow, 0 16px 18px #1113); }
 .hyundai-project-preview__screen--phone { z-index: 1; inset: clamp(3px, .35vw, 5px); border-radius: clamp(13px, 1.7vw, 24px); }

@@ -6,6 +6,9 @@ dist/
 /about-photo-review/
 .tmp-profile-audit/
 .tmp-*.mjs
+.tmp-skill-video-1.5.png
+.tmp-skill-video-3.5.png
+.tmp-skill-video-6.png
 *.log
 npm-debug.log*
 yarn-debug.log*

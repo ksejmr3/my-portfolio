@@ -30,14 +30,13 @@ export default function SkillSection() {
         const renderOrbit = () => {
           const progress = orbitState.progress
           const field = iconFieldRef.current
+          if (!field) return
           const width = field.clientWidth
           const height = field.clientHeight
           const radiusX = Math.min(width * .245, 420)
           const radiusY = Math.min(height * .19, 205)
           const radiusZ = 220
           const centerX = width * .5
-          // Perspective projection shifts the orbit's visual centroid downward;
-          // place its source center slightly above the viewport midpoint.
           const centerY = height * .48
           const enter = smoothstep(progress / .12)
           const enterOffset = (1 - enter) * height * .08
