@@ -22,6 +22,14 @@ export default function SmoothScroll() {
       refreshFrame = requestAnimationFrame(() => ScrollTrigger.refresh())
     }
 
+    // Local controls can align the document and any outstanding Lenis target.
+    const handleImmediateScroll = (event) => {
+      if (!lenis || !Number.isFinite(event.detail?.top)) return
+      event.preventDefault()
+      lenis.scrollTo(event.detail.top, { immediate: true, force: true })
+    }
+    window.addEventListener('portfolio:scroll-immediate', handleImmediateScroll)
+
     const handleAnchor = (event) => {
       if (!lenis || event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return
       const link = event.target.closest('a[href^="#"]')
@@ -65,6 +73,7 @@ export default function SmoothScroll() {
     media.addEventListener('change', onMediaChange)
 
     return () => {
+      window.removeEventListener('portfolio:scroll-immediate', handleImmediateScroll)
       media.removeEventListener('change', onMediaChange)
       stop()
       cancelAnimationFrame(refreshFrame)

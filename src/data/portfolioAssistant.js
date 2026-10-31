@@ -20,7 +20,7 @@ export const portfolioQuestions = [
   {
     id: 'hyundai',
     prompt: '현대 모터스튜디오 프로젝트에서 어떤 역할을 했나요?',
-    answer: '4인 팀에서 시장·자사·경쟁 서비스 분석과 UX 구조 정리에 참여했습니다. Experience Finder의 STEP 1–3 선택 흐름과 추천 결과, 전시 서브페이지를 디자인·구현했고, 팀 메인페이지의 Vehicle Exhibition UI를 디자인했습니다. 담당 화면의 반응형과 시각 요소도 검수했습니다.',
+    answer: '4인 팀에서 시장·자사·경쟁 서비스 분석과 UX 구조 정리에 참여했습니다. Experience Finder의 STEP 1–3 선택 흐름과 추천 결과, 전시 서브페이지를 디자인·구현했고, 팀 메인페이지의 Vehicle Exhibition UI를 디자인했습니다. 지점별 소개와 공지·로그인·회원가입은 초기 기본 레이아웃을 구현한 뒤 팀원과 세부 UI를 보완했으며, 담당 화면의 반응형과 시각 요소도 검수했습니다.',
     links: [{ label: 'HYUNDAI MOTORSTUDIO 보기', href: '#hyundai-case-study' }],
   },
   {

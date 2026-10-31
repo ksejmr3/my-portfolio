@@ -3,6 +3,7 @@ dist/
 .env*
 !.env.example
 .review/
+/about-photo-review/
 .tmp-profile-audit/
 .tmp-*.mjs
 *.log

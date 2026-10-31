@@ -1,0 +1,66 @@
+export const aboutPhotos = [
+  {
+    label: '나의 모습',
+    photos: [
+      { src: '/images/about/web/about-me/about-me-01.webp', width: 1000, height: 1000 },
+      { src: '/images/about/web/about-me/about-me-02.webp', width: 871, height: 1000 },
+      { src: '/images/about/web/about-me/about-me-03.webp', width: 1000, height: 1000 },
+      { src: '/images/about/web/about-me/about-me-04.webp', width: 841, height: 1000 },
+      { src: '/images/about/web/about-me/about-me-05.webp', width: 800, height: 1000 },
+      { src: '/images/about/web/about-me/about-me-06.webp', width: 750, height: 1000 },
+      { src: '/images/about/web/about-me/about-me-07.webp', width: 1335, height: 1000 },
+      { src: '/images/about/web/about-me/about-me-08.webp', width: 750, height: 1000 },
+    ],
+  },
+  {
+    label: '취향과 일상',
+    photos: [
+      { src: '/images/about/web/my-values/my-values-01.webp', width: 800, height: 1000 },
+      { src: '/images/about/web/my-values/my-values-02.webp', width: 906, height: 1000 },
+      { src: '/images/about/web/my-values/my-values-03.webp', width: 883, height: 1000 },
+      { src: '/images/about/web/my-values/my-values-04.webp', width: 909, height: 1000 },
+      { src: '/images/about/web/my-values/my-values-05.webp', width: 750, height: 1000 },
+      { src: '/images/about/web/my-values/my-values-06.webp', width: 849, height: 1000 },
+      { src: '/images/about/web/my-values/my-values-07.webp', width: 800, height: 1000 },
+      { src: '/images/about/web/my-values/my-values-08.webp', width: 810, height: 1000 },
+    ],
+  },
+  {
+    label: '사람들과의 순간',
+    photos: [
+      { src: '/images/about/web/communication/communication-01.webp', width: 1001, height: 1000 },
+      { src: '/images/about/web/communication/communication-02.webp', width: 1333, height: 1000 },
+      { src: '/images/about/web/communication/communication-03.webp', width: 1000, height: 1000 },
+      { src: '/images/about/web/communication/communication-04.webp', width: 800, height: 1000 },
+      { src: '/images/about/web/communication/communication-05.webp', width: 1333, height: 1000 },
+      { src: '/images/about/web/communication/communication-06.webp', width: 750, height: 1000 },
+      { src: '/images/about/web/communication/communication-07.webp', width: 750, height: 1000 },
+      { src: '/images/about/web/communication/communication-08.webp', width: 935, height: 1000 },
+    ],
+  },
+  {
+    label: '여행과 발견',
+    photos: [
+      { src: '/images/about/web/curiosity/curiosity-01.webp', width: 1000, height: 1000 },
+      { src: '/images/about/web/curiosity/curiosity-02.webp', width: 750, height: 1000 },
+      { src: '/images/about/web/curiosity/curiosity-03.webp', width: 750, height: 1000 },
+      { src: '/images/about/web/curiosity/curiosity-04.webp', width: 1000, height: 1000 },
+      { src: '/images/about/web/curiosity/curiosity-05.webp', width: 750, height: 1000 },
+      { src: '/images/about/web/curiosity/curiosity-06.webp', width: 1434, height: 1000 },
+      { src: '/images/about/web/curiosity/curiosity-07.webp', width: 749, height: 1000 },
+    ],
+  },
+  {
+    label: '기억에 남는 장면',
+    photos: [
+      { src: '/images/about/web/next-step/next-step-01.webp', width: 924, height: 1000 },
+      { src: '/images/about/web/next-step/next-step-02.webp', width: 750, height: 1000 },
+      { src: '/images/about/web/next-step/next-step-03.webp', width: 750, height: 1000 },
+      { src: '/images/about/web/next-step/next-step-04.webp', width: 820, height: 1000 },
+      { src: '/images/about/web/next-step/next-step-05.webp', width: 750, height: 1000 },
+      { src: '/images/about/web/next-step/next-step-06.webp', width: 800, height: 1000 },
+      { src: '/images/about/web/next-step/next-step-07.webp', width: 1000, height: 1000 },
+      { src: '/images/about/web/next-step/next-step-08.webp', width: 1333, height: 1000 },
+    ],
+  },
+]
