@@ -33,33 +33,35 @@ export default function SkillSection() {
           if (!field) return
           const width = field.clientWidth
           const height = field.clientHeight
-          const radiusX = Math.min(width * .245, 420)
-          const radiusY = Math.min(height * .19, 205)
+          const radiusX = Math.min(width * .275, 480)
+          const radiusY = Math.min(height * .025, 24)
           const radiusZ = 220
           const centerX = width * .5
-          const centerY = height * .48
-          const enter = smoothstep(progress / .12)
-          const enterOffset = (1 - enter) * height * .08
+          const centerY = height * (.70 + .04 * clamp((950 - height) / 50))
           const rotation = progress * Math.PI * 2 * 1.35
           const perspective = 1100
 
           cards.forEach((card, index) => {
+            const enter = smoothstep((progress - index * .0045) / .12)
+            const enterOffset = (1 - enter) * height * .08
             const angle = index / cards.length * Math.PI * 2 + rotation
             const depth = (Math.sin(angle) + 1) / 2
-            const x = centerX + Math.cos(angle) * radiusX
+            const orbitX = centerX + Math.cos(angle) * radiusX
             const orbitY = centerY + Math.sin(angle) * radiusY + enterOffset
-            const z = (depth - .5) * radiusZ * 2
-            const perspectiveScaleCorrection = (perspective - z) / perspective
-            const scale = perspectiveScaleCorrection
+            const z = (depth - .5) * radiusZ * 2 - (1 - enter) * 120
+            // Compensate for CSS perspective once, then set the intended on-screen size.
+            const projectionCorrection = (perspective - z) / perspective
+            const scale = .87 * (.78 + enter * .22) * (.6 + Math.pow(depth, 3) * 1.8) * projectionCorrection
             const exitStart = .62 + index * .0185
             const exitProgress = smoothstep((progress - exitStart) / .135)
-            const y = orbitY + height * .46 * exitProgress
+            const targetY = orbitY + height * .46 * exitProgress
             gsap.set(card, {
-              x,
-              y,
+              x: centerX + (orbitX - centerX) * projectionCorrection,
+              y: height * .5 + (targetY - height * .5) * projectionCorrection,
               z,
               scale,
-              autoAlpha: enter * (1 - exitProgress),
+              rotationY: Math.cos(angle) * -25,
+              autoAlpha: enter * (1 - exitProgress) * (.6 + depth * .4),
               zIndex: Math.round(depth * 100),
             })
           })
