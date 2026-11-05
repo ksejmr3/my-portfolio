@@ -1,6 +1,7 @@
 .clone-coding {
   position: relative;
-  min-height: 500svh;
+  /* Original scene scroll speed; only the removed card interval is subtracted. */
+  min-height: calc(100svh + var(--clone-duration, 1) * 400svh);
   background: var(--color-bg-light);
   color: #111;
 }
@@ -23,27 +24,22 @@
   transform: translate(-50%, -50%);
   transform-origin: center;
 }
-.clone-coding__eyebrow { width: min(100%, 720px); margin: 0 auto clamp(20px, 2.5vh, 32px); display: flex; justify-content: space-between; gap: 22px; color: #60605b; font: 600 10px/1 var(--font-latin); letter-spacing: .13em; }
+.clone-coding__eyebrow { width: min(100%, 720px); margin: 0 auto clamp(20px, 2.5vh, 32px); text-align: center; color: #60605b; font: 600 var(--type-label)/1.5 var(--font-latin); letter-spacing: .13em; }
 .clone-coding__scene-title h2 { font: 500 clamp(72px, 9vw, 154px)/.86 var(--font-latin); letter-spacing: -.085em; }
-.clone-coding__scene-title em { display: block; margin-top: 6px; font-family: var(--font-korean); font-style: normal; font-weight: 400; letter-spacing: -.07em; }
-.clone-coding__scene-title > p { max-width: 570px; margin: clamp(24px, 3vh, 38px) auto 0; color: #5c5c56; font-size: clamp(15px, 1.05vw, 18px); line-height: 1.75; word-break: keep-all; }
+.clone-coding__scene-title > p:not(.clone-coding__eyebrow) { max-width: 570px; margin: clamp(24px, 3vh, 38px) auto 0; color: #5c5c56; font-size: clamp(15px, 1.05vw, 18px); line-height: 1.75; word-break: keep-all; }
 
 .clone-coding__projects { position: absolute; z-index: 2; inset: 0; pointer-events: none; }
 .clone-coding__project { position: absolute; width: min(43vw, 760px); min-width: 0; pointer-events: auto; will-change: transform, opacity; }
-.clone-coding__project:nth-child(1) { left: 7vw; top: 19vh; }
-.clone-coding__project:nth-child(2) { right: 6vw; top: 24vh; }
-.clone-coding__project:nth-child(3) { left: 17vw; top: 29vh; }
-.clone-coding__project:nth-child(4) { right: 11vw; top: 26vh; }
+.clone-coding__project[data-clone-project="kyungdong"] { right: 6vw; top: 24vh; }
+.clone-coding__project[data-clone-project="lotteworld"] { left: 17vw; top: 29vh; }
+.clone-coding__project[data-clone-project="musign"] { right: 11vw; top: 26vh; }
 
 .clone-coding__preview { position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; display: block; border: 0; border-radius: clamp(18px, 2vw, 34px); background: #191919; color: #fff; cursor: pointer; text-align: left; text-decoration: none; box-shadow: 0 28px 70px #00000024; }
 .clone-coding__preview img { width: 100%; height: 100%; display: block; object-fit: cover; transition: transform .55s cubic-bezier(.2,.7,.2,1); }
 .clone-coding__preview-shade { position: absolute; inset: 0; background: linear-gradient(180deg, #00000032 0%, transparent 42%, #0000009c 100%); pointer-events: none; }
-.clone-coding__preview-index,
 .clone-coding__preview-note,
 .clone-coding__preview-status,
-.clone-coding__project-heading > span,
 .clone-coding__source { font-family: var(--font-latin); font-size: 9px; font-weight: 600; letter-spacing: .12em; }
-.clone-coding__preview-index { position: absolute; top: 22px; left: 24px; }
 .clone-coding__preview-note { position: absolute; top: 22px; right: 24px; padding: 7px 9px; border: 1px solid #ffffff66; border-radius: 999px; background: #101010a8; }
 .clone-coding__preview-status { position: absolute; right: 24px; bottom: 21px; left: 24px; display: flex; justify-content: space-between; gap: 18px; }
 .clone-coding__preview-status i { font-style: normal; font-size: 14px; }
@@ -52,12 +48,10 @@
 .clone-coding__preview:focus-visible { outline: 3px solid #111; outline-offset: 5px; }
 
 .clone-coding__project-meta { width: min(100%, 590px); padding: 24px 3px 0; }
-.clone-coding__project:nth-child(2) .clone-coding__project-meta { padding-top: 8vh; }
-.clone-coding__project:nth-child(3) .clone-coding__project-meta { padding-top: 50px; }
-.clone-coding__project:nth-child(4) .clone-coding__project-meta { padding-top: 60px; }
-.clone-coding__project-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 18px; }
-.clone-coding__project-heading h3 { font: 500 clamp(26px, 2.5vw, 42px)/1 var(--font-latin); letter-spacing: -.06em; }
-.clone-coding__project-heading > span { color: #676761; white-space: nowrap; }
+.clone-coding__project[data-clone-project="kyungdong"] .clone-coding__project-meta { padding-top: 8vh; }
+.clone-coding__project[data-clone-project="lotteworld"] .clone-coding__project-meta { padding-top: 50px; }
+.clone-coding__project[data-clone-project="musign"] .clone-coding__project-meta { padding-top: 60px; }
+.clone-coding__project-meta h3 { font: 500 clamp(26px, 2.5vw, 42px)/1 var(--font-latin); letter-spacing: -.06em; }
 .clone-coding__project-meta p { max-width: 510px; margin-top: 10px; color: #55554f; font-size: 14px; line-height: 1.62; word-break: keep-all; }
 .clone-coding__source { width: max-content; margin-top: 14px; padding-bottom: 4px; display: inline-flex; gap: 7px; border-bottom: 1px solid; color: inherit; text-decoration: none; }
 .clone-coding__notice { position: fixed; z-index: 80; right: clamp(18px, 3vw, 48px); bottom: clamp(18px, 3vw, 42px); padding: 13px 17px; border: 1px solid #ffffff42; background: #181817e8; color: #f4f4f0; font-size: 13px; opacity: 0; pointer-events: none; transform: translateY(8px); transition: opacity .2s ease, transform .2s ease; }
@@ -65,8 +59,8 @@
 
 @media (max-width: 1100px) and (min-width: 901px) {
   .clone-coding__project { width: min(48vw, 650px); }
-  .clone-coding__project:nth-child(1), .clone-coding__project:nth-child(3) { left: 3vw; }
-  .clone-coding__project:nth-child(2), .clone-coding__project:nth-child(4) { right: 3vw; }
+  .clone-coding__project[data-clone-project="lotteworld"] { left: 3vw; }
+  .clone-coding__project[data-clone-project="kyungdong"], .clone-coding__project[data-clone-project="musign"] { right: 3vw; }
 }
 
 @media (max-width: 900px), (prefers-reduced-motion: reduce) {
@@ -74,16 +68,14 @@
   .clone-coding__stage { position: relative; top: auto; height: auto; overflow: visible; background-image: none; }
   .clone-coding__scene-title { position: relative; top: auto; left: auto; width: min(100%, 900px); margin: 0 auto 70px; transform: none !important; opacity: 1 !important; }
   .clone-coding__scene-title h2 { font-size: clamp(68px, 11vw, 112px); }
-  .clone-coding__scene-title em { font-size: clamp(45px, 8vw, 78px); }
   .clone-coding__projects { position: relative; inset: auto; width: min(100%, 1180px); margin: 0 auto; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 54px 20px; pointer-events: auto; }
   .clone-coding__project,
   .clone-coding__project:nth-child(n) { position: relative; inset: auto; width: 100%; opacity: 1 !important; transform: none !important; }
   .clone-coding__project-meta,
-  .clone-coding__project:nth-child(2) .clone-coding__project-meta,
-  .clone-coding__project:nth-child(3) .clone-coding__project-meta,
-  .clone-coding__project:nth-child(4) .clone-coding__project-meta { padding-top: 16px; }
+  .clone-coding__project[data-clone-project="kyungdong"] .clone-coding__project-meta,
+  .clone-coding__project[data-clone-project="lotteworld"] .clone-coding__project-meta,
+  .clone-coding__project[data-clone-project="musign"] .clone-coding__project-meta { padding-top: 16px; }
   .clone-coding__preview { border-radius: 18px; }
-  .clone-coding__project-heading { align-items: flex-start; flex-direction: column; gap: 7px; }
 }
 
 @media (max-width: 700px) {
@@ -91,15 +83,12 @@
   .clone-coding__scene-title { margin-bottom: 48px; text-align: left; }
   .clone-coding__eyebrow { margin-bottom: 24px; }
   .clone-coding__scene-title h2 { font-size: clamp(54px, 16vw, 74px); line-height: .9; }
-  .clone-coding__scene-title em { margin-top: 8px; font-size: clamp(42px, 13vw, 62px); }
-  .clone-coding__scene-title > p { margin-top: 25px; font-size: 15px; }
+  .clone-coding__scene-title > p:not(.clone-coding__eyebrow) { margin-top: 25px; font-size: 15px; }
   .clone-coding__projects { grid-template-columns: 1fr; gap: 44px; }
   .clone-coding__preview { border-radius: 14px; }
-  .clone-coding__preview-index { top: 15px; left: 16px; }
   .clone-coding__preview-note { top: 14px; right: 15px; max-width: 52%; font-size: 7px; }
   .clone-coding__preview-status { right: 16px; bottom: 15px; left: 16px; font-size: 8px; }
-  .clone-coding__project-heading { flex-direction: row; align-items: baseline; }
-  .clone-coding__project-heading h3 { font-size: 26px; }
+  .clone-coding__project-meta h3 { font-size: 26px; }
   .clone-coding__project-meta p { font-size: 14px; }
 }
 

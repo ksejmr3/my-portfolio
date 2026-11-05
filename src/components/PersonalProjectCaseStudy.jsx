@@ -32,11 +32,8 @@ const projectContent = {
     designAlt: 'Vivienne Westwood 최신 Figma 랜딩페이지 미리보기',
     liveUrl: 'https://vivienne-westwood-portfolio.vercel.app/',
     theme: 'vivienne',
-    projectType: '개인 웹사이트 리디자인',
-    concept: 'BRITISH HERITAGE × REBELLION',
     summary: '영국 테일러링과 펑크 문화의 대비를 대형 타이포그래피와 비대칭 이미지, 스크롤 흐름으로 재해석한 에디토리얼 웹사이트입니다.',
     role: '정보 구조와 UI를 설계하고 React로 구현했습니다.',
-    contentTags: ['BRITISH HERITAGE', 'PUNK REBELLION', 'EDITORIAL EXPERIENCE'],
     visualCaption: 'FASHION LANDING PAGE REDESIGN',
     layers: [
       { src: '/images/personal-projects/vivienne-westwood-latest/15-heritage-layer.png', alt: 'Vivienne Westwood 헤리티지 이미지', className: 'heritage' },
@@ -61,11 +58,8 @@ const projectContent = {
     designAlt: 'COS Korea 랜딩페이지 디자인 미리보기',
     liveUrl: 'https://cos-portfolio-kjy7.vercel.app/',
     theme: 'cos',
-    projectType: 'COS Korea 공식 사이트 기반 개인 랜딩페이지 리디자인',
-    concept: 'SCANDINAVIAN MINIMALISM × TIMELESS DESIGN',
     summary: 'COS의 절제된 형태와 소재 표현을 바탕으로, 캠페인에서 제품과 브랜드 스토리로 이어지는 흐름을 여백과 뉴트럴 이미지로 구성했습니다.',
     role: 'Figma 화면을 설계하고 React 기반 랜딩페이지로 구현했습니다.',
-    contentTags: ['CAMPAIGN / SS26', 'TIMELESS DESIGN', 'NEW ARRIVALS'],
     visualCaption: 'MINIMAL FASHION LANDING PAGE REDESIGN',
     layers: [
       { src: cosHero, alt: 'COS Korea 메인 캠페인 이미지', className: 'campaign' },
@@ -391,18 +385,15 @@ export default function PersonalProjectCaseStudy() {
   return <section className="personal-work" aria-label="PERSONAL WORK" ref={sectionRef}>
     <div className="personal-work__viewport" ref={viewportRef}>
       <div className="personal-work__track" ref={trackRef}>
-        {projects.map(([projectId, project], index) => <article className={`personal-project personal-project--${project.theme}`} id={projectId} key={projectId} aria-labelledby={`${projectId}-title`}>
+        {projects.map(([projectId, project]) => <article className={`personal-project personal-project--${project.theme}`} id={projectId} key={projectId} aria-labelledby={`${projectId}-title`}>
           <div className="personal-project__inner">
-            <header className="personal-work__topline">
-              <p className="personal-work__eyebrow">PERSONAL WORK <span>{String(index + 1).padStart(2, '0')} / 02</span></p>
-            </header>
             <div className="personal-project__layout">
               <header className="personal-project__heading">
-                <p className="personal-project__meta"><span>{String(index + 1).padStart(2, '0')}</span><span>{project.projectType}</span></p>
+                <div className="personal-work__topline">
+                  <p className="personal-work__eyebrow">PERSONAL WORK</p>
+                </div>
                 <h2 id={`${projectId}-title`}>{project.name}</h2>
-                <p className="personal-project__concept">{project.concept}</p>
                 <p className="personal-project__summary">{project.summary}</p>
-                {project.contentTags && <ul className="personal-project__tags" aria-label={`${project.name} 핵심 키워드`}>{project.contentTags.map((tag) => <li key={tag}>{tag}</li>)}</ul>}
                 <div className="personal-project__details">
                   <p><span>MY WORK</span>{project.role}</p>
                   <a className="personal-project__live-link" href={project.liveUrl} target="_blank" rel="noreferrer noopener" aria-label={`${project.name} 실제 사이트를 새 창에서 열기`}>

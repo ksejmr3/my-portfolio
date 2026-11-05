@@ -283,10 +283,8 @@ export default function AboutSection() {
     <section className="about-section" id="about" aria-labelledby="about-title" ref={sectionRef}>
       <div className="about-section__inner">
         <header className="about-section__intro">
-          <p className="about-section__eyebrow">WORKING NOTES / 2026</p>
           <h2 id="about-title">ABOUT</h2>
           <p className="about-section__summary">자세히 보고, 생각을 정리하고, 필요한 말을 분명히 전하려고 합니다.</p>
-          <p className="about-section__signature">OBSERVE · THINK · COMMUNICATE · GROW</p>
         </header>
         <div className="about-section__stage" ref={stageRef}>
           <p className="about-section__position" aria-label="현재 카드">{pad(Math.max(0, openIndex) + 1)} / 05</p>

@@ -90,7 +90,6 @@ export default function IntroSection() {
           <p className="intro__summary intro__summary--transition">정보의 우선순위를 정리하고, 설계 의도를 작동하는 화면으로 연결합니다.</p>
         </div>
         <div className="intro__bottom intro__bottom--transition">
-          <div className="intro__index intro__index--transition"><span>01 / 03</span><span>SELECTED PROJECTS</span></div>
           <figure className="intro__preview intro__preview--transition"><img key={introPreviews[previewIndex].src} src={introPreviews[previewIndex].src} alt={introPreviews[previewIndex].alt} /><figcaption>WORK PREVIEW / {String(previewIndex + 1).padStart(2, '0')}—03 · {introPreviews[previewIndex].label}</figcaption></figure>
         </div>
         <div className="intro__transition-plane" aria-hidden="true" />

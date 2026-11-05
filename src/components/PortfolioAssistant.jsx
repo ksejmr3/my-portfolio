@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { portfolioQuestions } from '../data/portfolioAssistant.js'
 import '../styles/portfolio-assistant.css'
 
@@ -29,17 +29,176 @@ function MessageLinks({ links, onNavigate }) {
 export default function PortfolioAssistant() {
   const [isOpen, setIsOpen] = useState(false)
   const [isContactVisible, setIsContactVisible] = useState(false)
+  const [isMobileOccluded, setIsMobileOccluded] = useState(false)
   const [messages, setMessages] = useState([welcomeMessage])
   const [hintIndex, setHintIndex] = useState(0)
   const [isHintVisible, setIsHintVisible] = useState(false)
+  const [isHintSafe, setIsHintSafe] = useState(false)
   const [isHintDismissed, setIsHintDismissed] = useState(() => sessionStorage.getItem('portfolio-assistant-hint-dismissed') === 'true')
   const launcherRef = useRef(null)
   const panelRef = useRef(null)
   const closeButtonRef = useRef(null)
   const historyRef = useRef(null)
   const wasOpenRef = useRef(false)
+  const hintSafeRef = useRef(false)
+  const hintCycleRef = useRef({ skipped: true, position: null })
 
   const closePanel = () => setIsOpen(false)
+
+  useLayoutEffect(() => {
+    const mobile = window.matchMedia('(max-width: 900px)')
+    const main = document.querySelector('main')
+    const launcher = launcherRef.current
+    const assistant = launcher?.parentElement
+    if (!main || !assistant) return undefined
+    const hint = assistant.querySelector('.portfolio-assistant__hint')
+    const imageGroups = '.intro__preview,.hyundai-project-preview,.case-selected-works__mockup,.case-selected-works__device-stage,.personal-project__stage,.case-process__media,.case-contribution__media,.about-section__carousel'
+    const atomic = `a,button,video,img,canvas,input,select,textarea,${imageGroups}`
+    const selector = `h1,h2,h3,h4,p,li,span,small,figcaption,${atomic}`
+    let frame = 0
+    let revealTimer = 0
+    let clearSince = 0
+    let disposed = false
+    let dirty = true
+    let targets = []
+    let hasVisibleTargets = false
+    let previousScroll = window.scrollY
+    const visibleTargets = new Set()
+    const intersects = (a, b) => a.left < b.right && a.right > b.left && a.top < b.bottom && a.bottom > b.top
+    const setSafe = (safe) => {
+      if (hintSafeRef.current !== safe) {
+        hintSafeRef.current = safe
+        setIsHintSafe(safe)
+      }
+    }
+    const viewportObserver = new IntersectionObserver((entries) => {
+      hasVisibleTargets = true
+      entries.forEach(({ target, isIntersecting }) => isIntersecting ? visibleTargets.add(target) : visibleTargets.delete(target))
+      schedule()
+    }, { rootMargin: '100% 0px' })
+    const collect = () => {
+      viewportObserver.disconnect()
+      visibleTargets.clear()
+      hasVisibleTargets = false
+      targets = [...main.querySelectorAll(selector)].filter(element => !assistant.contains(element))
+      targets.forEach(element => viewportObserver.observe(element))
+      dirty = false
+    }
+    const checkOverlap = () => {
+      frame = 0
+      if (dirty) collect()
+      const visibility = new WeakMap()
+      const isVisible = (element) => {
+        if (!element || element === main) return true
+        if (visibility.has(element)) return visibility.get(element)
+        const style = getComputedStyle(element)
+        const result = style.display !== 'none' && style.visibility === 'visible' && style.opacity !== '0'
+          && !element.matches('[inert], [aria-hidden="true"]') && isVisible(element.parentElement)
+        visibility.set(element, result)
+        return result
+      }
+      // Cache selectors; only nearby observed content is measured during normal scrolling.
+      const nearby = !hasVisibleTargets || Math.abs(window.scrollY - previousScroll) > window.innerHeight ? targets : visibleTargets
+      previousScroll = window.scrollY
+      const blocks = (areas, protectImages) => {
+        for (const element of nearby) {
+          if (!element.isConnected || !protectImages && element.matches(`img,canvas,${imageGroups}`)) continue
+          const rect = element.getBoundingClientRect()
+          if (!rect.width || !rect.height || !areas.some(area => intersects(area, rect)) || !isVisible(element)) continue
+          if (element.matches(atomic)) return true
+          const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT)
+          const range = document.createRange()
+          let node
+          while ((node = walker.nextNode())) {
+            if (!node.textContent.trim() || !isVisible(node.parentElement)) continue
+            range.selectNodeContents(node)
+            if ([...range.getClientRects()].some(line => areas.some(area => intersects(area, line)))) return true
+          }
+        }
+        return false
+      }
+      const cycle = hintCycleRef.current
+      if (!isOpen && isHintVisible && hint && !cycle.skipped) {
+        const root = assistant.getBoundingClientRect()
+        const size = hint.getBoundingClientRect()
+        // Reserve the tail, entrance movement and the full shared float range.
+        const floatRoom = mobile.matches ? 4 : 12
+        const rectangle = ([right, bottom]) => ({ left: root.right - right - size.width - 6, right: root.right - right + 6, top: root.bottom - bottom - size.height - floatRoom - 6, bottom: root.bottom - bottom + floatRoom + 20 })
+        const safe = (position) => {
+          const rect = rectangle(position)
+          return rect.left >= 8 && rect.right <= document.documentElement.clientWidth - 8 && rect.top >= 8 && rect.bottom <= window.innerHeight - 8 && !blocks([rect], true)
+        }
+        if (!cycle.position) {
+          const positions = mobile.matches ? [[8, 59], [16, 59], [0, 59], [12, 59]] : [[26, 91], [18, 91], [-8, 91], [34, 91]]
+          cycle.position = positions.find(safe)
+          if (cycle.position) {
+            assistant.style.setProperty('--assistant-hint-right', `${cycle.position[0]}px`)
+            assistant.style.setProperty('--assistant-hint-bottom', `${cycle.position[1]}px`)
+            assistant.style.setProperty('--assistant-hint-tail-right', `${root.width / 2 - cycle.position[0] - (mobile.matches ? 5 : 6)}px`)
+          } else cycle.skipped = true
+        } else if (!safe(cycle.position)) cycle.skipped = true
+        // Once a cycle becomes unsafe it stays skipped; never reappear mid-cycle.
+        setSafe(!cycle.skipped)
+      } else setSafe(false)
+      if (!mobile.matches || isOpen) {
+        window.clearTimeout(revealTimer)
+        revealTimer = 0
+        clearSince = 0
+        setIsMobileOccluded(false)
+        return
+      }
+      const rect = launcher.getBoundingClientRect()
+      const blocked = blocks([{ left: rect.left - 6, right: rect.right + 6, top: rect.top - 6, bottom: rect.bottom + 6 }], false)
+      if (blocked) {
+        if (isHintVisible) { cycle.skipped = true; setSafe(false) }
+        window.clearTimeout(revealTimer)
+        revealTimer = 0
+        clearSince = 0
+        setIsMobileOccluded(true)
+      } else {
+        if (!clearSince) clearSince = performance.now()
+        const remaining = 220 - (performance.now() - clearSince)
+        if (remaining <= 0) {
+          window.clearTimeout(revealTimer)
+          revealTimer = 0
+          setIsMobileOccluded(false)
+        } else if (!revealTimer) {
+          revealTimer = window.setTimeout(() => { revealTimer = 0; schedule() }, remaining)
+        }
+      }
+    }
+    const schedule = () => {
+      if (!disposed && !frame) frame = requestAnimationFrame(checkOverlap)
+    }
+    const changes = new MutationObserver(records => {
+      if (records.some(record => !assistant.contains(record.target) && !record.target.closest?.('.intro__preview'))) {
+        dirty = true
+        schedule()
+      }
+    })
+    changes.observe(main, { childList: true, subtree: true })
+    window.addEventListener('scroll', schedule, { passive: true })
+    window.addEventListener('resize', schedule)
+    document.addEventListener('transitionend', schedule)
+    mobile.addEventListener('change', schedule)
+    const observer = new ResizeObserver(schedule)
+    observer.observe(main)
+    document.fonts?.ready.then(schedule)
+    checkOverlap()
+    return () => {
+      disposed = true
+      cancelAnimationFrame(frame)
+      window.clearTimeout(revealTimer)
+      viewportObserver.disconnect()
+      changes.disconnect()
+      observer.disconnect()
+      window.removeEventListener('scroll', schedule)
+      window.removeEventListener('resize', schedule)
+      document.removeEventListener('transitionend', schedule)
+      mobile.removeEventListener('change', schedule)
+    }
+  }, [isOpen, isHintVisible, hintIndex, isContactVisible, isHintDismissed])
+
 
   useEffect(() => {
     if (!isOpen) return undefined
@@ -87,6 +246,9 @@ export default function PortfolioAssistant() {
     let hideTimer
     let interval
     const showHint = () => {
+      hintCycleRef.current = { skipped: false, position: null }
+      hintSafeRef.current = false
+      setIsHintSafe(false)
       setIsHintVisible(true)
       hideTimer = window.setTimeout(() => setIsHintVisible(false), 3000)
       setHintIndex((current) => (current + 1) % hintMessages.length)
@@ -125,14 +287,16 @@ export default function PortfolioAssistant() {
 
   const navigateToSection = () => closePanel()
 
+  const canShowHint = isHintVisible && isHintSafe && !isOpen && !isHintDismissed
+
   return (
-    <div className={`portfolio-assistant${isContactVisible ? ' portfolio-assistant--contact' : ''}${isOpen ? ' is-open' : ''}`}>
-      {!isOpen && !isHintDismissed && (
-        <div className={`portfolio-assistant__hint${isHintVisible ? ' is-visible' : ''}`} aria-hidden={!isHintVisible}>
-          <button className="portfolio-assistant__hint-message" type="button" tabIndex={isHintVisible ? 0 : -1} onClick={() => setIsOpen(true)}>{hintMessages[(hintIndex + hintMessages.length - 1) % hintMessages.length]}</button>
-          <button className="portfolio-assistant__hint-close" type="button" tabIndex={isHintVisible ? 0 : -1} aria-label="안내 말풍선 닫기" onClick={dismissHint}>×</button>
+    <div data-hint-state={canShowHint ? 'visible' : (isHintVisible ? 'skipped' : 'idle')} className={`portfolio-assistant${isContactVisible ? ' portfolio-assistant--contact' : ''}${isOpen ? ' is-open' : ''}${isMobileOccluded && !isOpen ? ' is-mobile-occluded' : ''}`}>
+      <div className="portfolio-assistant__hint-anchor">
+        <div className={`portfolio-assistant__hint${canShowHint ? ' is-visible' : ''}`} aria-hidden={!canShowHint}>
+          <button className="portfolio-assistant__hint-message" type="button" tabIndex={canShowHint ? 0 : -1} onClick={() => setIsOpen(true)}>{hintMessages[(hintIndex + hintMessages.length - 1) % hintMessages.length]}</button>
+          <button className="portfolio-assistant__hint-close" type="button" tabIndex={canShowHint ? 0 : -1} aria-label="안내 말풍선 닫기" onClick={dismissHint}>×</button>
         </div>
-      )}
+      </div>
       <button
         ref={launcherRef}
         className="portfolio-assistant__launcher"

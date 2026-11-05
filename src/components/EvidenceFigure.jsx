@@ -4,7 +4,7 @@ export default function EvidenceFigure({ image, onOpen, className = '' }) {
       <img src={image.src} alt={image.alt} loading="lazy" decoding="async" />
       <span className="evidence-figure__expand" aria-hidden="true">VIEW ORIGINAL ↗</span>
     </button>
-    <figcaption><span>{image.label}</span><span>{image.title}</span></figcaption>
+    <figcaption><span>{image.label}</span>{image.title && <span>{image.title}</span>}</figcaption>
     {image.summary && <p className="evidence-figure__summary">{image.summary}</p>}
   </figure>
 }

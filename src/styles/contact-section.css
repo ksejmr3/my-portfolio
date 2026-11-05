@@ -15,13 +15,11 @@
 }
 
 .contact-section__header { max-width: 1320px; }
-.contact-section__eyebrow,
 .contact-section__column-title,
 .contact-section__footer {
-  font: 500 10px/1.4 var(--font-latin);
+  font: 500 var(--type-label)/1.5 var(--font-latin);
   letter-spacing: .13em;
 }
-.contact-section__eyebrow { margin-bottom: clamp(24px, 3vw, 42px); color: #a7a7a0; }
 .contact-section__header h2 {
   font: 500 clamp(56px, 10vw, 184px)/.91 var(--font-latin);
   letter-spacing: -.085em;
@@ -139,13 +137,12 @@
 }
 
 @media (max-width: 700px) {
-  .contact-section { min-height: 0; padding: 48px 22px 36px; }
+  .contact-section { min-height: 0; padding: 64px 22px; }
   .contact-section__inner { min-height: 0; }
-  .contact-section__eyebrow { margin-bottom: 26px; font-size: 9px; }
   .contact-section__header h2 { max-width: 100%; font-size: clamp(44px, 12.2vw, 66px); line-height: .98; letter-spacing: -.08em; }
-  .contact-section__message { margin-top: 18px; font-size: 14px; }
+  .contact-section__message { margin-top: 24px; font-size: var(--type-body); }
   .contact-section__links { width: 100%; margin-top: 42px; grid-template-columns: 1fr; gap: 36px; }
-  .contact-section__column-title { margin-bottom: 14px; font-size: 9px; }
+  .contact-section__column-title { margin-bottom: 16px; }
   .contact-section__explore ul { gap: 3px; }
   .contact-section__explore a { font-size: clamp(27px, 8vw, 34px); }
   .contact-section__details ul { gap: 17px; }
@@ -153,7 +150,7 @@
   .contact-section__resume { grid-template-columns: 24px minmax(0, 1fr); gap: 14px; font-size: clamp(19px, 5.2vw, 22px); }
   .contact-section__details li > a > svg,
   .contact-section__resume > svg { width: 22px; height: 22px; }
-  .contact-section__footer { margin-top: 44px; padding-top: 0; font-size: 8px; letter-spacing: .08em; }
+  .contact-section__footer { margin-top: 44px; padding-top: 0; font-size: var(--type-label); letter-spacing: .04em; }
   .contact-section__top { flex: 0 0 36px; }
 }
 

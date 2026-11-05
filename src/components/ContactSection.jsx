@@ -87,7 +87,6 @@ export default function ContactSection() {
     >
       <div className="contact-section__inner">
         <header className="contact-section__header">
-          <p className="contact-section__eyebrow">CONTACT / KIM JIYOUNG</p>
           <h2 id="contact-title">LET&apos;S CONNECT.</h2>
           <p className="contact-section__message">작업에 대한 이야기부터 새로운 협업의 기회까지, 편하게 연락해 주세요.</p>
         </header>

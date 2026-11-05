@@ -6,12 +6,20 @@ import '../styles/clone-coding.css'
 
 if (!gsap.plugins.ScrollTrigger) gsap.registerPlugin(ScrollTrigger)
 
+// Removing one scene removes only its .215 timeline interval. The remaining
+// cards keep their original paths, easing, durations and scroll distance.
+const SCENE_STEP = .215
+const SCENE_START = .06
+const SCENE_DURATION = .29
+const END_HOLD = .005
+const cloneDuration = SCENE_START + (cloneCodingProjects.length - 1) * SCENE_STEP + SCENE_DURATION + END_HOLD
+const cloneTotal = String(cloneCodingProjects.length).padStart(2, '0')
+
 function ClonePreview({ project, onPending }) {
   const content = (
     <>
       <img src={project.image} alt={project.imageAlt} loading="lazy" decoding="async" />
       <span className="clone-coding__preview-shade" />
-      <span className="clone-coding__preview-index">{project.label}</span>
       {project.previewNote && <span className="clone-coding__preview-note">{project.previewNote}</span>}
       <span className="clone-coding__preview-status">{project.liveUrl ? 'VIEW WEBSITE' : 'DEPLOYMENT PENDING'} <i>↗</i></span>
     </>
@@ -64,12 +72,11 @@ export default function CloneCodingSection() {
       const media = gsap.matchMedia()
       media.add('(min-width: 901px) and (prefers-reduced-motion: no-preference)', () => {
         const projects = gsap.utils.toArray('.clone-coding__project', stage)
-        const paths = [
-          { start: .06, enterX: -.055, restX: 0, exitX: -.025, rotate: -2 },
-          { start: .275, enterX: .05, restX: -.01, exitX: -.035, rotate: 2 },
-          { start: .49, enterX: -.025, restX: .015, exitX: .055, rotate: -1.5 },
-          { start: .705, enterX: .06, restX: -.015, exitX: -.045, rotate: 1.5 },
-        ]
+        const paths = {
+          kyungdong: { enterX: .05, restX: -.01, exitX: -.035, rotate: 2 },
+          lotteworld: { enterX: -.025, restX: .015, exitX: .055, rotate: -1.5 },
+          musign: { enterX: .06, restX: -.015, exitX: -.045, rotate: 1.5 },
+        }
         const timeline = gsap.timeline({
           scrollTrigger: {
             id: 'clone-coding-scenes',
@@ -83,7 +90,8 @@ export default function CloneCodingSection() {
 
         gsap.set(projects, { autoAlpha: 0 })
         projects.forEach((project, index) => {
-          const path = paths[index]
+          const path = paths[project.dataset.cloneProject]
+          const start = SCENE_START + index * SCENE_STEP
           const belowStage = () => stage.clientHeight - project.offsetTop + 56
           const aboveStage = () => -project.offsetTop - project.offsetHeight - 56
           timeline.fromTo(project, {
@@ -98,14 +106,14 @@ export default function CloneCodingSection() {
             rotate: 0,
             ease: 'power1.out',
             duration: .1,
-          }, path.start)
-          timeline.to(project, { autoAlpha: 1, ease: 'none', duration: .025 }, path.start)
+          }, start)
+          timeline.to(project, { autoAlpha: 1, ease: 'none', duration: .025 }, start)
           timeline.to(project, {
             x: () => stage.clientWidth * (path.restX + path.exitX) / 2,
             y: () => -stage.clientHeight * .065,
             ease: 'none',
             duration: .1,
-          }, path.start + .1)
+          }, start + .1)
           timeline.to(project, {
             x: () => stage.clientWidth * path.exitX,
             y: aboveStage,
@@ -113,10 +121,10 @@ export default function CloneCodingSection() {
             rotate: -path.rotate * .5,
             ease: 'power1.in',
             duration: .09,
-          }, path.start + .2)
-          timeline.to(project, { autoAlpha: 0, ease: 'none', duration: .025 }, path.start + .265)
+          }, start + .2)
+          timeline.to(project, { autoAlpha: 0, ease: 'none', duration: .025 }, start + .265)
         })
-        timeline.to({}, { duration: .005 }, .995)
+        timeline.to({}, { duration: END_HOLD }, cloneDuration - END_HOLD)
         return () => timeline.kill()
       })
       return () => media.revert()
@@ -131,23 +139,19 @@ export default function CloneCodingSection() {
   }
 
   return (
-    <section className={`clone-coding${isVisible ? ' is-visible' : ''}`} id="clone-coding" aria-labelledby="clone-coding-title" ref={sectionRef}>
+    <section className={`clone-coding${isVisible ? ' is-visible' : ''}`} id="clone-coding" aria-labelledby="clone-coding-title" ref={sectionRef} style={{ '--clone-duration': cloneDuration }}>
       <div className="clone-coding__stage" ref={stageRef}>
         <header className="clone-coding__scene-title">
-          <p className="clone-coding__eyebrow"><span>04 / 04 · CLONE CODING</span><span>01 — 04</span></p>
+          <p className="clone-coding__eyebrow">{cloneTotal} PROJECTS</p>
           <h2 id="clone-coding-title">CLONE CODING</h2>
-          <em>through practice</em>
           <p>웹사이트의 구조와 시각적 흐름을 분석하고 직접 화면으로 구현한<br />클론 코딩 작업입니다.</p>
         </header>
         <div className="clone-coding__projects">
-          {cloneCodingProjects.map((project, index) => (
-            <article className="clone-coding__project" key={project.id} style={{ '--clone-index': index }}>
+          {cloneCodingProjects.map((project) => (
+            <article className="clone-coding__project" key={project.id} data-clone-project={project.id}>
               <ClonePreview project={project} onPending={showPendingNotice} />
               <div className="clone-coding__project-meta">
-                <div className="clone-coding__project-heading">
-                  <h3>{project.name}</h3>
-                  <span>{project.label}</span>
-                </div>
+                <h3>{project.name}</h3>
                 <p>{project.description}</p>
                 <a className="clone-coding__source" href={project.sourceUrl} target="_blank" rel="noreferrer">SOURCE CODE <span aria-hidden="true">↗</span></a>
               </div>

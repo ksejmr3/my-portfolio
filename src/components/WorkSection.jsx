@@ -12,9 +12,9 @@ export function WorkOpening() {
   return (
     <section className="work work--transition" id="work" aria-labelledby="work-title">
       <div className="work__opening">
-        <div className="work__topline work__topline--transition"><span>01 — 03</span><span>UX/UI · WEB REDESIGN</span></div>
+        <div className="work__topline work__topline--transition"><span>UX/UI · WEB REDESIGN</span></div>
         <h2 id="work-title"><span className="work__title-word work__title-word--selected">selected</span>{' '}<em className="work__title-word work__title-word--works">works</em></h2>
-        <div className="work__opening-bottom"><p className="work__description--transition">팀 웹사이트 리뉴얼과 두 브랜드의 개인 리디자인에서 조사·설계·구현 과정을 보여드립니다.</p></div>
+        <div className="work__opening-bottom"><p className="work__description--transition">팀 프로젝트와 두 개의 개인 리디자인 작업을 통해 웹 경험을 설계하고 구현한 결과물을 소개합니다.</p></div>
       </div>
     </section>
   )

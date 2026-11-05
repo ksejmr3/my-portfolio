@@ -264,10 +264,10 @@ const imageDisplay = {
 }
 
 const contributionItems = [
-  { number: '01', eyebrow: 'UX PLANNING & DEVELOPMENT', title: <>흩어진 경험을 하나의 <em>탐색 흐름으로 정리하다.</em></>, body: '시장·브랜드와 경쟁 서비스를 조사하고 STEP 1–3의 선택 기준을 구체화했습니다. 선택에 따른 추천 결과를 구현하고, 상세·예약 데이터 연결 구조와 화면 이동을 검토했습니다.' },
-  { number: '02', eyebrow: 'UI DESIGN', title: <>기획 의도를 실제 <em>화면으로 구체화하다.</em></>, body: '전시 서브페이지의 와이어프레임부터 이미지 구성, 타이포그래피, 시각적 위계까지 설계하고 브랜드 경험에 맞는 화면으로 발전시켰습니다.', images: [{ src: '/images/hyundai/contribution/exhibition-work-01.jpg.jpg', alt: '현대 모터스튜디오 전시 서브페이지 작업 화면을 검토하는 모습' }, { src: '/images/hyundai/contribution/exhibition-work-02.jpg.jpg', alt: '현대 모터스튜디오 전시 서브페이지 작업 사진' }] },
-  { number: '03', eyebrow: 'VEHICLE EXHIBITION DESIGN', title: <>차량 콘텐츠의 <em>시각적 위계를 설계하다.</em></>, body: '메인페이지 Vehicle Exhibition의 UI 디자인을 담당해 차량 이미지와 차종명, 원형 비주얼의 구성 및 정보 위계를 설계했습니다. 공식 프로젝트 종료 후에는 차량 이미지·배경과 노출 순서를 조정하고 구현 화면을 검수했습니다.' },
-  { number: '04', eyebrow: 'COLLABORATION', title: <>서로 다른 작업을 하나의 <em>결과로 연결하다.</em></>, body: '지점별 소개 페이지의 초기 레이아웃과 공지·회원가입·로그인의 기본 레이아웃 구조를 구현했습니다. 이후 팀원과 세부 UI를 수정·보완하고, 컴포넌트 통합·Git 협업·반응형 검수를 진행했습니다.', images: [{ src: '/images/hyundai/teamwork/team-work-process.jpg.jpg', alt: '현대 모터스튜디오 팀이 디자인과 구현 화면을 함께 작업하는 모습' }, { src: '/images/hyundai/teamwork/team-review-01.jpg.jpg', alt: '현대 모터스튜디오 팀 프로젝트 화면 검토 사진' }, { src: '/images/hyundai/teamwork/team-meeting-02.jpg.jpg', alt: '현대 모터스튜디오 팀 회의 사진' }, { src: '/images/hyundai/teamwork/team-final-presentation-02.jpg.jpg', alt: '현대 모터스튜디오 팀 프로젝트 최종 발표 사진' }] },
+  { number: '01', eyebrow: 'UX PLANNING & DEVELOPMENT', title: <>흩어진 경험을 하나의 <em>탐색 흐름으로 정리하다.</em></>, body: ['시장·브랜드와 경쟁 서비스를 조사하고 STEP 1–3의 선택 기준을 구체화했습니다.', '선택에 따른 추천 결과를 구현하고, 상세·예약 데이터 연결 구조와 화면 이동을 검토했습니다.'] },
+  { number: '02', eyebrow: 'UI DESIGN', title: <>기획 의도를 실제 <em>화면으로 구체화하다.</em></>, body: ['전시 서브페이지의 와이어프레임부터 이미지 구성, 타이포그래피, 시각적 위계까지 설계하고 브랜드 경험에 맞는 화면으로 발전시켰습니다.'], images: [{ src: '/images/hyundai/contribution/exhibition-work-01.jpg.jpg', width: 4284, height: 5712, alt: '현대 모터스튜디오 전시 서브페이지 작업 화면을 검토하는 모습' }, { src: '/images/hyundai/contribution/exhibition-work-02.jpg.jpg', width: 4284, height: 5712, alt: '현대 모터스튜디오 전시 서브페이지 작업 사진' }] },
+  { number: '03', eyebrow: 'VEHICLE EXHIBITION DESIGN', title: <>차량 콘텐츠의 <em>시각적 위계를 설계하다.</em></>, body: ['메인페이지 Vehicle Exhibition의 UI 디자인을 담당해 차량 이미지와 차종명, 원형 비주얼의 구성 및 정보 위계를 설계했습니다.', '공식 프로젝트 종료 후에는 차량 이미지·배경과 노출 순서를 조정하고 구현 화면을 검수했습니다.'] },
+  { number: '04', eyebrow: 'COLLABORATION', title: <>서로 다른 작업을 하나의 <em>결과로 연결하다.</em></>, body: ['지점별 소개 페이지의 초기 레이아웃과 공지·회원가입·로그인의 기본 레이아웃 구조를 구현했습니다.', '이후 팀원과 세부 UI를 수정·보완하고, 컴포넌트 통합·Git 협업·반응형 검수를 진행했습니다.'], images: [{ src: '/images/hyundai/teamwork/team-work-process.jpg.jpg', width: 4000, height: 3000, alt: '현대 모터스튜디오 팀이 디자인과 구현 화면을 함께 작업하는 모습' }, { src: '/images/hyundai/teamwork/team-review-01.jpg.jpg', width: 4284, height: 5712, alt: '현대 모터스튜디오 팀 프로젝트 화면 검토 사진' }, { src: '/images/hyundai/teamwork/team-meeting-02.jpg.jpg', width: 4284, height: 5712, alt: '현대 모터스튜디오 팀 회의 사진' }, { src: '/images/hyundai/teamwork/team-final-presentation-02.jpg.jpg', width: 1400, height: 1050, alt: '현대 모터스튜디오 팀 프로젝트 최종 발표 사진' }] },
 ]
 
 function CaseDetails({ eyebrow, heading, summary, role, details, titleId }) {
@@ -326,7 +326,7 @@ function ProcessStage({ stage, isActive, isLightboxOpen, onOpen }) {
   return <article className={`case-process__stage${isActive ? ' is-active' : ''}`}>
     <div className="case-process__media-column">
       <button className="case-process__media" type="button" onClick={() => onOpen({ ...activeImage, label: `${stage.subtitle} / ${activeImage.label}`, title: stage.title }, stage.number)} aria-label={`${activeImage.label} 원본 이미지 확대`}>
-        <img className="is-current" src={activeImage.src} alt={activeImage.alt} style={{ objectFit: display.fit, objectPosition: display.position }} />
+        <img className="is-current" src={activeImage.src} alt={activeImage.alt} loading="lazy" decoding="async" style={{ objectFit: display.fit, objectPosition: display.position }} />
         {outgoingImage && <img className="is-outgoing" src={outgoingImage.src} alt="" aria-hidden="true" style={{ objectFit: imageDisplay[outgoingImage.src]?.fit ?? 'contain', objectPosition: imageDisplay[outgoingImage.src]?.position ?? 'center center' }} />}
       </button>
       {stage.images.length > 1 && <div className="case-process__controls" ref={controlsRef} aria-label={`${stage.title} 이미지 선택`} onFocusCapture={() => setControlsFocused(true)} onBlurCapture={handleControlsBlur}>
@@ -375,7 +375,7 @@ export default function HyundaiCaseStudy() {
     if (lightboxProcess) setVisibleProcess(lightboxProcess)
     setLightboxProcess(null)
   }
-  const heroImage = { ...project.hero, label: 'FIGMA / WIREFRAME & UI DESIGN', title: 'FIGMA UI DESIGN BOARD' }
+  const heroImage = { ...project.hero, label: 'FIGMA / WIREFRAME & UI DESIGN' }
   const { experienceFinder, exhibitionExperience, vehicleExhibition } = project.selectedWorks
 
   useEffect(() => {
@@ -598,9 +598,10 @@ export default function HyundaiCaseStudy() {
 
   return <section className="case-study case-study--hyundai" id="hyundai-case-study" aria-label="Hyundai Motorstudio project case study">
     <section className="case-hero" aria-labelledby="hyundai-title">
-      <div className="case-hero__meta"><p>{project.type}</p><p>PERIOD / {project.period}</p><p>4 PERSON TEAM PROJECT</p></div>
-      <h1 id="hyundai-title">HYUNDAI<br /><em>MOTORSTUDIO</em></h1>
-      <div className="case-hero__bottom"><p>{project.overview}</p><p className="case-hero__contribution">{project.contributionSummary}</p></div>
+      <div className="case-hero__copy">
+        <h1 id="hyundai-title">HYUNDAI<br /><em>MOTORSTUDIO</em></h1>
+        <div className="case-hero__bottom"><p>{project.overview}</p><p className="case-hero__contribution">{project.contributionSummary}</p></div>
+      </div>
       <EvidenceFigure image={heroImage} onOpen={openImage} className="case-hero__figure" />
     </section>
 
@@ -684,14 +685,13 @@ export default function HyundaiCaseStudy() {
 
     <section className="case-section case-contribution" aria-label="My Contribution">
       <SectionIntro index="04" eyebrow="MY CONTRIBUTION" title={<>THE WORK<br /><em>I CONNECTED.</em></>} body="프로젝트 전반의 기획 참여, 직접 맡은 디자인·구현, 협업 지원 범위를 구분했습니다." className="case-section__intro--editorial" />
-      <div className="case-contribution__period"><span>OFFICIAL TEAM PROJECT / 2026.09.01–09.30</span><span>PERSONAL FOLLOW-UP / 2026.10.01–10.12</span></div>
       <div className="case-contribution__items" ref={contributionRef}>
         {contributionItems.map((item) => <article className="case-contribution__item" key={item.number}>
-          <div className="case-contribution__meta"><span>{item.number}</span><p>{item.eyebrow}</p></div>
+          <div className="case-contribution__meta"><p>{item.eyebrow}</p></div>
           <h3>{item.title}</h3>
-          <p>{item.body}</p>
+          <p>{item.body.map((sentence) => <span className="case-copy__sentence" key={sentence}>{sentence}</span>)}</p>
           {item.images && <div className={`case-contribution__media case-contribution__media--${item.number}`}>
-            {item.images.map((image) => <figure key={image.src}><img src={image.src} alt={image.alt} loading="lazy" decoding="async" /></figure>)}
+            {item.images.map((image) => <figure key={image.src}><img src={image.src} width={image.width} height={image.height} alt={image.alt} loading="lazy" decoding="async" /></figure>)}
           </div>}
         </article>)}
       </div>

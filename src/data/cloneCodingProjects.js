@@ -1,20 +1,7 @@
 export const cloneCodingProjects = [
   {
-    id: 'join',
-    name: 'JOIN',
-    label: 'WEB CLONE / 01',
-    description: '원본 웹사이트의 정보 구조와 화면 구성을 분석해 재구성한 클론 코딩 작업입니다.',
-    visual: 'join',
-    image: '/images/clone-coding/join-live.png',
-    imageAlt: 'JOIN 회원가입 폼 실제 배포 화면',
-    previewNote: null,
-    liveUrl: 'https://clonecoding-join.vercel.app/',
-    sourceUrl: 'https://github.com/ksejmr3/CloneCoding/tree/main/join',
-  },
-  {
     id: 'kyungdong',
     name: 'KYUNGDONG',
-    label: 'WEB CLONE / 02',
     description: '기업 사이트의 콘텐츠 계층과 섹션 흐름을 중심으로 구현한 클론 코딩 작업입니다.',
     visual: 'kyungdong',
     image: '/images/clone-coding/kyungdong-live.png',
@@ -26,7 +13,6 @@ export const cloneCodingProjects = [
   {
     id: 'lotteworld',
     name: 'LOTTE WORLD',
-    label: 'WEB CLONE / 03',
     description: '다양한 콘텐츠 블록과 시각 요소의 배치를 재현한 클론 코딩 작업입니다.',
     visual: 'lotteworld',
     image: '/images/clone-coding/lotteworld-live.png',
@@ -38,7 +24,6 @@ export const cloneCodingProjects = [
   {
     id: 'musign',
     name: 'MUSIGN',
-    label: 'WEB CLONE / 04',
     description: '큰 타이포그래피와 이미지 중심 레이아웃의 반응형 구성을 연습한 작업입니다.',
     visual: 'musign',
     image: '/images/clone-coding/musign-hero-live.png',
