@@ -1,6 +1,6 @@
 # THE WORKING EDITION — 현재 프로젝트 명세
 
-기준일: 2026-11-05. 대상: `C:\Users\ksejm\Desktop\ㄱㅈㅇ\포트폴리오\my-portfolio`의 메인 React/Vite 개인 포트폴리오. 별도 Vivienne Westwood/COS 리디자인 저장소와 구분한다.
+기준일: 2026-11-06. 대상: `C:\Users\ksejm\Desktop\ㄱㅈㅇ\포트폴리오\my-portfolio`의 메인 React/Vite 개인 포트폴리오. 별도 Vivienne Westwood/COS 리디자인 저장소와 구분한다.
 
 먼저 [문서 목차](README.md)와 [최종 검수 요약](FINAL_QA_SUMMARY.md)을 읽는다. 이 문서는 **현재 유지할 동작과 보호 범위**, 검수 요약은 **변경 결과·증거·한계**를 설명한다. 과거 명세 전체는 [명세 이력](archive/PORTFOLIO_SPEC_HISTORY.md)에 보존했다. 과거의 유지/미검증/제안 표현을 현재 지시로 복원하지 않는다.
 
@@ -8,11 +8,11 @@
 
 단일 페이지 `/`의 순서:
 
-1. INTRO — 3개 프로젝트 자동 프리뷰와 내비게이션.
-2. PROFILE — 자기소개/인물 이미지, desktop 스크롤 말림 효과.
+1. INTRO — 3개 프로젝트 자동 프리뷰와 내비게이션. HYUNDAI 프리뷰는 검증된 INTRO 전용 960×540 WebP를 사용하며 3842×2160 원본 PNG는 보존한다.
+2. PROFILE — 자기소개/인물 이미지, desktop 스크롤 말림 효과. HTML과 Three.js가 동일한 1600×2058 WebP URL을 공유하며 원본 JPG는 보존한다.
 3. WORK INTRO — selected works 제목과 결과물 소개.
 4. HYUNDAI MOTORSTUDIO — 진입 목업/결과물 링크, 소개, CHALLENGE, SELECTED SOLUTIONS, PROCESS, MY CONTRIBUTION, PROJECT REFLECTION.
-5. VIVIENNE WESTWOOD — PERSONAL WORK, 소개/MY WORK/WEBSITE와 노트북 목업.
+5. VIVIENNE WESTWOOD — PERSONAL WORK, 소개/MY WORK/SITE VIEW와 노트북 목업.
 6. COS — 같은 역할의 개인 작업 구성, 고유한 색상·비주얼 유지.
 7. AI VIDEO CONTENTS — 기존 영상4편과 설명·MY ROLE.
 8. CLONE CODING — KYUNGDONG → LOTTE WORLD → MUSIGN,3개.
@@ -42,7 +42,7 @@
 
 사진6개의 원본 width/height 속성으로 로딩 공간을 예약한다. CSS width:100%/height:auto/object-fit:contain, lazy/async를 유지한다. 원본 압축·크기·색상·참조 경로를 임의로 변경하지 않는다. 새 자산의 출처·개인 기여·조사 사실/가설·공개 범위를 구분한다.
 
-초기 로딩 최적화(11-05): PROFILE의 HTML 사진은 `crossOrigin="anonymous"`로 기존 Three.js TextureLoader와 요청 모드를 맞춰 동일 원본의 중복 다운로드를 방지한다. 사진·텍스처는 계속 초기 준비하며 셰이더/타임라인은 그대로다. PROCESS의 현재 이미지에만 `loading="lazy" decoding="async"`를 적용한다. 기존 고정 미디어 박스·원본 경로·object-fit·확대 보기·교체 애니메이션은 유지한다.
+초기 로딩 최적화(11-05/11-06): PROFILE의 HTML 사진은 `crossOrigin="anonymous"`로 기존 Three.js TextureLoader와 요청 모드를 맞춰 중복 다운로드를 방지한다. 검증된 `profile-1600.webp`(1600×2058/542,668bytes)를 HTML과 TextureLoader가 같은 URL로 1회 요청하며 원본 `profile-portrait.jpg.jpg`(2837×3649/4,951,045bytes)는 보존한다. 사진·텍스처는 계속 초기 준비하고 색 공간·필터·UV·셰이더·타임라인은 그대로다. PROCESS의 현재 이미지에는 `loading="lazy" decoding="async"`를 적용한다. 기존 고정 미디어 박스·object-fit·확대 보기·교체 애니메이션은 유지한다.
 
 ## 4. 유지할 인터랙션과 반응형
 

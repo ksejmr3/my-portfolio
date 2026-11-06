@@ -125,7 +125,7 @@ export default function ProfileIntro() {
     <section className="profile-intro" aria-labelledby="profile-intro-title">
       <div className="profile-intro__layout">
         <figure className={`profile-intro__portrait${webglReady ? ' is-webgl-ready' : ''}`} ref={portraitRef}>
-          <img src="/images/profile/profile-portrait.jpg.jpg" crossOrigin="anonymous" alt="김지영 프로필 사진" />
+          <img src="/images/profile/profile-1600.webp" crossOrigin="anonymous" alt="김지영 프로필 사진" />
         </figure>
         <div className="profile-intro__content">
           <p className="profile-intro__meta">PROFILE INTRO / 2026</p>

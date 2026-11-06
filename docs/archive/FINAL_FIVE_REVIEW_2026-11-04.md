@@ -2,7 +2,7 @@
 
 2026-11-04 · 로컬 `master` · `C:\Users\ksejm\Desktop\ㄱㅈㅇ\포트폴리오\my-portfolio`.
 
-[직전 편집 디자인 보고서](../EDITORIAL_DESIGN_REVIEW_2026-11-04.md) 이후 지정된 5개만 수정했다. 작업 시작 당시 실제 파일을 별도로 보관하고 SHA-256으로 대조했다. Git HEAD와의 전체 diff에는 이전 작업도 포함되므로 이번 변경 범위와 구분한다. 기존 미커밋 변경·untracked 문서·JOIN 이미지 삭제 상태는 보존했다.
+[직전 편집 디자인 보고서](EDITORIAL_DESIGN_REVIEW_2026-11-04.md) 이후 지정된 5개만 수정했다. 작업 시작 당시 실제 파일을 별도로 보관하고 SHA-256으로 대조했다. Git HEAD와의 전체 diff에는 이전 작업도 포함되므로 이번 변경 범위와 구분한다. 기존 미커밋 변경·untracked 문서·JOIN 이미지 삭제 상태는 보존했다.
 
 ## 1. 실제 변경 파일
 

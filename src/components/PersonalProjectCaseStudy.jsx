@@ -397,7 +397,7 @@ export default function PersonalProjectCaseStudy() {
                 <div className="personal-project__details">
                   <p><span>MY WORK</span>{project.role}</p>
                   <a className="personal-project__live-link" href={project.liveUrl} target="_blank" rel="noreferrer noopener" aria-label={`${project.name} 실제 사이트를 새 창에서 열기`}>
-                    <span>WEBSITE</span><span aria-hidden="true">↗</span>
+                    <span>SITE VIEW</span><span aria-hidden="true">↗</span>
                   </a>
                 </div>
               </header>

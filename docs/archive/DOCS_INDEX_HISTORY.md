@@ -6,10 +6,10 @@
 
 | 문서 | 용도 |
 |---|---|
-| [CHATBOT_SPEECH_BUBBLE_REVIEW_2026-11-05.md](../CHATBOT_SPEECH_BUBBLE_REVIEW_2026-11-05.md) | 자동 말풍선의 최신 UX 기준: 꼬리·공유 부유·자연스러운 충돌 퇴장. 아래 11-04 보고서의 챗봇 위치/즉시 숨김 설명을 대체한다. |
+| [CHATBOT_SPEECH_BUBBLE_REVIEW_2026-11-05.md](CHATBOT_SPEECH_BUBBLE_REVIEW_2026-11-05.md) | 자동 말풍선의 최신 UX 기준: 꼬리·공유 부유·자연스러운 충돌 퇴장. 아래 11-04 보고서의 챗봇 위치/즉시 숨김 설명을 대체한다. |
 | [PORTFOLIO_CURRENT_SPEC.md](../PORTFOLIO_CURRENT_SPEC.md) | 확정 방향과 후속 변경의 우선순위. 날짜별 기록을 함께 읽는다. |
-| [FINAL_OPTIMIZATION_REVIEW_2026-11-04.md](../FINAL_OPTIMIZATION_REVIEW_2026-11-04.md) | 챗봇 충돌 수정, 이미지 공간 예약, 재개 검증, 성능·파일 감사의 최종 결과. |
-| [ASSET_AUDIT_2026-11-04.csv](../ASSET_AUDIT_2026-11-04.csv) | public/src 미디어 251개 전체 목록. 실제 참조와 보존·검토 후보를 구분하며 삭제 목록이 아니다. |
+| [FINAL_OPTIMIZATION_REVIEW_2026-11-04.md](FINAL_OPTIMIZATION_REVIEW_2026-11-04.md) | 챗봇 충돌 수정, 이미지 공간 예약, 재개 검증, 성능·파일 감사의 최종 결과. |
+| [ASSET_AUDIT_2026-11-04.csv](ASSET_AUDIT_2026-11-04.csv) | public/src 미디어 251개 전체 목록. 실제 참조와 보존·검토 후보를 구분하며 삭제 목록이 아니다. |
 
 ## B. 유지할 기획·설계 근거
 
@@ -23,9 +23,9 @@
 
 | 문서 | 기록 범위 |
 |---|---|
-| [RECORDING_BALANCE_REVIEW_2026-11-04.md](../RECORDING_BALANCE_REVIEW_2026-11-04.md) | WORK 설명 위치·기여 항목 정렬·사진 비율. 말풍선 위치 계산은 이번 최종 보고서가 대체한다. |
+| [RECORDING_BALANCE_REVIEW_2026-11-04.md](RECORDING_BALANCE_REVIEW_2026-11-04.md) | WORK 설명 위치·기여 항목 정렬·사진 비율. 말풍선 위치 계산은 이번 최종 보고서가 대체한다. |
 | [FINAL_FIVE_REVIEW_2026-11-04.md](FINAL_FIVE_REVIEW_2026-11-04.md) | HYUNDAI/PROCESS/PROFILE 줄바꿈, SKILL 보조 라벨 삭제, CLONE 총개수 라벨. |
-| [EDITORIAL_DESIGN_REVIEW_2026-11-04.md](../EDITORIAL_DESIGN_REVIEW_2026-11-04.md) | 디자인 위계·정렬·여백 검수. |
+| [EDITORIAL_DESIGN_REVIEW_2026-11-04.md](EDITORIAL_DESIGN_REVIEW_2026-11-04.md) | 디자인 위계·정렬·여백 검수. |
 | [RESUMED_FINAL_REVIEW_2026-11-04.md](RESUMED_FINAL_REVIEW_2026-11-04.md) | 이전 번호·모바일 작업 중단 후 검증 재개 기록. |
 | [NUMBER_MOBILE_FINAL_2026-11-03.md](NUMBER_MOBILE_FINAL_2026-11-03.md) | 장식 번호·캡션·모바일 마스코트. |
 | [TEXT_NUMBER_REVIEW_2026-11-03.md](TEXT_NUMBER_REVIEW_2026-11-03.md) | 불필요한 문구 및 번호 검토. |

@@ -2,7 +2,7 @@
 
 2026-11-04 · 로컬 `master` · `C:\Users\ksejm\Desktop\ㄱㅈㅇ\포트폴리오\my-portfolio`.
 
-기준 문서: [현재 명세](PORTFOLIO_CURRENT_SPEC.md), [편집 디자인 보고서](EDITORIAL_DESIGN_REVIEW_2026-11-04.md), [잔여 5개 보고서](archive/FINAL_FIVE_REVIEW_2026-11-04.md). 이번 지시가 추가로 허용한 세 영역만 보완했다. 기존 미커밋 변경·untracked 문서·JOIN 이미지 삭제 상태는 보존했다.
+기준 문서: [현재 명세](../PORTFOLIO_CURRENT_SPEC.md), [편집 디자인 보고서](EDITORIAL_DESIGN_REVIEW_2026-11-04.md), [잔여 5개 보고서](FINAL_FIVE_REVIEW_2026-11-04.md). 이번 지시가 추가로 허용한 세 영역만 보완했다. 기존 미커밋 변경·untracked 문서·JOIN 이미지 삭제 상태는 보존했다.
 
 ## 1. 이번 수정 파일과 녹화 확인
 
@@ -163,7 +163,7 @@ ABOUT의 배경 등장·콘텐츠 지연·타임라인·속도·01–05 디자�
 - Commit / Push / Vercel 배포 / reset / clean / 다른 저장소 수정 없음.
 - 이번 전용 Chrome(9346)·Vite(5175)는 검증 후 종료했다. 사용자 브라우저·다른 서버는 종료하지 않았다.
 
-자료는 [`.review/recording-balance-20261104/`](../.review/recording-balance-20261104/)에 있으며 제품 import에서 분리된 기존 Git ignore 대상이다.
+자료는 [`.review/recording-balance-20261104/`](../../.review/recording-balance-20261104/)에 있으며 제품 import에서 분리된 기존 Git ignore 대상이다.
 
 | 자료 | 역할 |
 |---|---|
@@ -230,7 +230,7 @@ ABOUT의 배경 등장·콘텐츠 지연·타임라인·속도·01–05 디자�
 
 자연 퇴장은 fully revealed article 하단이 viewport 상단을 통과하는 좌표다. 별도의 fade-out 타임라인 수치가 아니다.
 
-실제 현재 화면: [1번](../.review/recording-balance-20261104/after-1920-item-1.png), [2번](../.review/recording-balance-20261104/after-1920-item-2.png), [3번](../.review/recording-balance-20261104/after-1920-item-3.png), [4번](../.review/recording-balance-20261104/after-1920-item-4.png). 같은 이름의 before 사진과 대조했다.
+실제 현재 화면: [1번](../../.review/recording-balance-20261104/after-1920-item-1.png), [2번](../../.review/recording-balance-20261104/after-1920-item-2.png), [3번](../../.review/recording-balance-20261104/after-1920-item-3.png), [4번](../../.review/recording-balance-20261104/after-1920-item-4.png). 같은 이름의 before 사진과 대조했다.
 
 ### 1440×900
 
@@ -271,7 +271,7 @@ ABOUT의 배경 등장·콘텐츠 지연·타임라인·속도·01–05 디자�
 
 자연 퇴장은 fully revealed article 하단이 viewport 상단을 통과하는 좌표다. 별도의 fade-out 타임라인 수치가 아니다.
 
-실제 현재 화면: [1번](../.review/recording-balance-20261104/after-1440-item-1.png), [2번](../.review/recording-balance-20261104/after-1440-item-2.png), [3번](../.review/recording-balance-20261104/after-1440-item-3.png), [4번](../.review/recording-balance-20261104/after-1440-item-4.png). 같은 이름의 before 사진과 대조했다.
+실제 현재 화면: [1번](../../.review/recording-balance-20261104/after-1440-item-1.png), [2번](../../.review/recording-balance-20261104/after-1440-item-2.png), [3번](../../.review/recording-balance-20261104/after-1440-item-3.png), [4번](../../.review/recording-balance-20261104/after-1440-item-4.png). 같은 이름의 before 사진과 대조했다.
 
 ### 1024×768
 
@@ -312,7 +312,7 @@ ABOUT의 배경 등장·콘텐츠 지연·타임라인·속도·01–05 디자�
 
 자연 퇴장은 fully revealed article 하단이 viewport 상단을 통과하는 좌표다. 별도의 fade-out 타임라인 수치가 아니다.
 
-실제 현재 화면: [1번](../.review/recording-balance-20261104/after-1024-item-1.png), [2번](../.review/recording-balance-20261104/after-1024-item-2.png), [3번](../.review/recording-balance-20261104/after-1024-item-3.png), [4번](../.review/recording-balance-20261104/after-1024-item-4.png). 같은 이름의 before 사진과 대조했다.
+실제 현재 화면: [1번](../../.review/recording-balance-20261104/after-1024-item-1.png), [2번](../../.review/recording-balance-20261104/after-1024-item-2.png), [3번](../../.review/recording-balance-20261104/after-1024-item-3.png), [4번](../../.review/recording-balance-20261104/after-1024-item-4.png). 같은 이름의 before 사진과 대조했다.
 
 ### 768×1024
 
@@ -353,7 +353,7 @@ ABOUT의 배경 등장·콘텐츠 지연·타임라인·속도·01–05 디자�
 
 자연 퇴장은 fully revealed article 하단이 viewport 상단을 통과하는 좌표다. 별도의 fade-out 타임라인 수치가 아니다.
 
-실제 현재 화면: [1번](../.review/recording-balance-20261104/after-768-item-1.png), [2번](../.review/recording-balance-20261104/after-768-item-2.png), [3번](../.review/recording-balance-20261104/after-768-item-3.png), [4번](../.review/recording-balance-20261104/after-768-item-4.png). 같은 이름의 before 사진과 대조했다.
+실제 현재 화면: [1번](../../.review/recording-balance-20261104/after-768-item-1.png), [2번](../../.review/recording-balance-20261104/after-768-item-2.png), [3번](../../.review/recording-balance-20261104/after-768-item-3.png), [4번](../../.review/recording-balance-20261104/after-768-item-4.png). 같은 이름의 before 사진과 대조했다.
 
 ### 390×844
 
@@ -394,7 +394,7 @@ ABOUT의 배경 등장·콘텐츠 지연·타임라인·속도·01–05 디자�
 
 자연 퇴장은 fully revealed article 하단이 viewport 상단을 통과하는 좌표다. 별도의 fade-out 타임라인 수치가 아니다.
 
-실제 현재 화면: [1번](../.review/recording-balance-20261104/after-390-item-1.png), [2번](../.review/recording-balance-20261104/after-390-item-2.png), [3번](../.review/recording-balance-20261104/after-390-item-3.png), [4번](../.review/recording-balance-20261104/after-390-item-4.png). 같은 이름의 before 사진과 대조했다.
+실제 현재 화면: [1번](../../.review/recording-balance-20261104/after-390-item-1.png), [2번](../../.review/recording-balance-20261104/after-390-item-2.png), [3번](../../.review/recording-balance-20261104/after-390-item-3.png), [4번](../../.review/recording-balance-20261104/after-390-item-4.png). 같은 이름의 before 사진과 대조했다.
 
 ## 부록 B. INTRO 실제 말풍선·프리뷰 좌표
 

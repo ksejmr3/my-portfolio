@@ -18,12 +18,12 @@ INTRO → PROFILE → WORK INTRO → HYUNDAI MOTORSTUDIO(소개/CHALLENGE/SELECT
 | [11-03 2차](archive/FEEDBACK_REVIEW_2026-11-03.md) | 개인 태그·클론 카드 번호·SKILL 하단·ABOUT 서명 제거,AI 안내4편 정정 | 당시 콘셉트 부제목·SKILL 상단 라벨 유지는 이후 삭제로 대체 |
 | [11-03 최종 피드백](archive/FEEDBACK_REVIEW_FINAL_2026-11-03.md) | 개인 메타/콘셉트·기여 기간 UI·보드 오른쪽 캡션·ABOUT/CONTACT 상단 보조 문구 제거 | 당시9px로 맞춘 편집 가능 캡션은 이후11px,through practice 유지도 이후 삭제 |
 | [텍스트·번호](archive/TEXT_NUMBER_REVIEW_2026-11-03.md),[번호·모바일](archive/NUMBER_MOBILE_FINAL_2026-11-03.md),[재개 검증](archive/RESUMED_FINAL_REVIEW_2026-11-04.md) | 고정 INTRO 번호·WORK 범위 번호·개인/기여 장식 번호·through practice 삭제,모바일 마스코트 충돌/재등장 안정화 | 보호 HYUNDAI 카드 번호를 당시 유지했으나 다음 편집 작업에서 명시적으로 삭제 |
-| [11-04 편집 디자인](EDITORIAL_DESIGN_REVIEW_2026-11-04.md) | HYUNDAI 카드01/03·SELECTED WORK 삭제,프로젝트 유형/개인 CTA 축·여백 정리,GPU 활성 검증 | 당시 남은3개 줄바꿈·SKILL/CLONE 중복 라벨은 아래 잔여5개 작업에서 해결 |
+| [11-04 편집 디자인](archive/EDITORIAL_DESIGN_REVIEW_2026-11-04.md) | HYUNDAI 카드01/03·SELECTED WORK 삭제,프로젝트 유형/개인 CTA 축·여백 정리,GPU 활성 검증 | 당시 남은3개 줄바꿈·SKILL/CLONE 중복 라벨은 아래 잔여5개 작업에서 해결 |
 | [11-04 잔여5개](archive/FINAL_FIVE_REVIEW_2026-11-04.md) | HYUNDAI/PROCESS/PROFILE 줄바꿈,SKILL 상단 삭제,CLONE 상단03 PROJECTS | 모든 한글 줄바꿈이 이상 없다는 이전 일괄 판단 대신 구체적 대상·해상도 검증 |
-| [녹화 균형](RECORDING_BALANCE_REVIEW_2026-11-04.md) | WORK 설명40–64px 이동,MY CONTRIBUTION 기준선·폭·사진 정리 | INTRO 말풍선을 프리뷰 위로 올리던 계산은 이후 폐기 |
-| [최적화·재개 완료](FINAL_OPTIMIZATION_REVIEW_2026-11-04.md),실제 완료11-05 | 근거리 후보/회차 생략,사진 공간 예약으로 CLS 개선,폴더·자산·폰트·영상 감사 | 즉시 숨김/정적 말풍선 위치는 다음 UX 검수로 대체 |
-| [11-05 말풍선 UX](CHATBOT_SPEECH_BUBBLE_REVIEW_2026-11-05.md) | 작은 꼬리·공유 부유,등장220ms/퇴장160ms,DOM 유지 fade-out/click-through | 기본bottom102/66px·박스 기준7px 간격은 최종 정렬값으로 대체 |
-| [11-05 최종 정렬](CHATBOT_BUBBLE_ALIGNMENT_FINAL_2026-11-05.md) | 실제 PNG 윤곽 기준desktop9.23px/mobile7.66px,기본bottom91/59px,같은 높이의 가까운 후보만 사용 | 투명 박스7px을 실제 캐릭터까지의 거리로 간주하지 않음 |
+| [녹화 균형](archive/RECORDING_BALANCE_REVIEW_2026-11-04.md) | WORK 설명40–64px 이동,MY CONTRIBUTION 기준선·폭·사진 정리 | INTRO 말풍선을 프리뷰 위로 올리던 계산은 이후 폐기 |
+| [최적화·재개 완료](archive/FINAL_OPTIMIZATION_REVIEW_2026-11-04.md),실제 완료11-05 | 근거리 후보/회차 생략,사진 공간 예약으로 CLS 개선,폴더·자산·폰트·영상 감사 | 즉시 숨김/정적 말풍선 위치는 다음 UX 검수로 대체 |
+| [11-05 말풍선 UX](archive/CHATBOT_SPEECH_BUBBLE_REVIEW_2026-11-05.md) | 작은 꼬리·공유 부유,등장220ms/퇴장160ms,DOM 유지 fade-out/click-through | 기본bottom102/66px·박스 기준7px 간격은 최종 정렬값으로 대체 |
+| [11-05 최종 정렬](archive/CHATBOT_BUBBLE_ALIGNMENT_FINAL_2026-11-05.md) | 실제 PNG 윤곽 기준desktop9.23px/mobile7.66px,기본bottom91/59px,같은 높이의 가까운 후보만 사용 | 투명 박스7px을 실제 캐릭터까지의 거리로 간주하지 않음 |
 
 ## 3. 삭제·유지한 텍스트와 번호
 
@@ -34,7 +34,7 @@ INTRO → PROFILE → WORK INTRO → HYUNDAI MOTORSTUDIO(소개/CHALLENGE/SELECT
 | HYUNDAI 검정 소개 | UX/UI WEBSITE RENEWAL·TEAM PROJECT/PERIOD/4 PERSON TEAM PROJECT 독립 메타 | 프로젝트 설명·4인 팀의 실제 기여 설명 |
 | HYUNDAI 진입 카드 | 01/03·SELECTED WORK | 유형 라벨·제목·CTA·목업 |
 | MY CONTRIBUTION | 장식 번호4개,OFFICIAL TEAM PROJECT/PERSONAL FOLLOW-UP의 기간 UI와 날짜 | 수행 설명·기여 항목명·내부 key/class·실제 이력 데이터 |
-| 개인 프로젝트 | 태그6개,독립 유형 메타2개,콘셉트 부제목2개,01/02·02/02 | PERSONAL WORK·제목·소개·MY WORK·WEBSITE·목업 캡션 |
+| 개인 프로젝트 | 태그6개,독립 유형 메타2개,콘셉트 부제목2개,01/02·02/02 | PERSONAL WORK·제목·소개·MY WORK·SITE VIEW·목업 캡션 |
 | HYUNDAI 보드 | 오른쪽FIGMA UI DESIGN BOARD | 왼쪽FIGMA / WIREFRAME & UI DESIGN |
 | CLONE | JOIN·카드 번호·오른쪽범위·through practice·상단 중복 CLONE CODING | 중앙03 PROJECTS·큰 제목·3개 카드 |
 | SKILL | 회전 로고/긴 체류,하단SELECTED TOOLS / PRACTICE-BASED WORKFLOW,상단TOOLS / METHODS / PRACTICE | SKILL·설명·6개 도구 그룹 |
@@ -72,7 +72,7 @@ INTRO → PROFILE → WORK INTRO → HYUNDAI MOTORSTUDIO(소개/CHALLENGE/SELECT
 
 이후 사진 응답을 잠시 지연시켜 실제 레이아웃 이동인지 재현했다.1440×900 UI DESIGN 항목은 크기 속성이 없으면 사진 decode 전214.84375px→후581.859375px,**367.015625px 증가**,해당 CLS 증가0.087761이었다.원본 비율 width/height를6개 img에 추가한 뒤 **높이 변화0px/해당 CLS 증가0**이었다.이미 로드된 사진의 표시 크기·배치·순서와 GSAP는 그대로다.사이트 전체 CLS가 항상0이라는 뜻은 아니다.
 
-근거: [기여 정렬](RECORDING_BALANCE_REVIEW_2026-11-04.md),[재현/성능 측정](FINAL_OPTIMIZATION_REVIEW_2026-11-04.md).
+근거: [기여 정렬](archive/RECORDING_BALANCE_REVIEW_2026-11-04.md),[재현/성능 측정](archive/FINAL_OPTIMIZATION_REVIEW_2026-11-04.md).
 
 ## 6. 챗봇의 최종 상태와 검증
 
@@ -90,7 +90,7 @@ INTRO → PROFILE → WORK INTRO → HYUNDAI MOTORSTUDIO(소개/CHALLENGE/SELECT
 
 최종 위치 조정은5개 뷰포트에서 실제 alpha16/128 윤곽,INTRO/기여 사진 충돌,정상/X/충돌 퇴장·회차 잠금·수동 패널을 검증했다.초기 사진 paint 부하로 CSS 전환 시간보다 프레임 관측이 길 수 있으며,다양한 기기에서 항상160ms 내 완전히 그려진다고 보장하지 않는다.
 
-근거: [UX](CHATBOT_SPEECH_BUBBLE_REVIEW_2026-11-05.md),[최종 위치](CHATBOT_BUBBLE_ALIGNMENT_FINAL_2026-11-05.md).
+근거: [UX](archive/CHATBOT_SPEECH_BUBBLE_REVIEW_2026-11-05.md),[최종 위치](archive/CHATBOT_BUBBLE_ALIGNMENT_FINAL_2026-11-05.md).
 
 ## 7. GSAP·주요 인터랙션 검증 근거
 
@@ -130,6 +130,22 @@ INTRO → PROFILE → WORK INTRO → HYUNDAI MOTORSTUDIO(소개/CHALLENGE/SELECT
 
 CSS/GSAP/챗봇/폰트/영상/의존성/Vite 설정은 변경하지 않았다. 원본 교체·삭제·새 포맷 변환도 없다. [시작 SHA256 목록](../.review/loading-performance-20261105/start-hashes.json)과 최종 보존 검사로 이번 변경을 기존 작업과 구분한다. 문서는 이 요약과 명세의 로딩 규칙만 갱신했으며 새 날짜별 Markdown 보고서는 만들지 않았다.
 
+### 11-06 HYUNDAI INTRO Hero WebP 적용
+
+별도 분석에서 실제 슬롯 최대305 CSS px/DPR3 필요 폭915px를 확인한 뒤, 검증 후보 `960×540 WebP quality .95`를 `public/images/hyundai/intro-home-hero-960.webp`로 추가하고 `src/components/IntroSection.jsx`의 HYUNDAI INTRO 경로 한 줄만 변경했다. 후보와 제품 파일 SHA256은 `EA5B287CFBE7D419F2274860464A1486555901B3FCE283544C8328CEB49F288B`로 동일하며 원본 `intro-home-hero.png`(3842×2160/7,344,057bytes)는 수정·삭제하지 않았다. CSS·JSX 구조·2.5초 상태 로직·GSAP·다른 자산은 변경하지 않았다.
+
+동일 production preview/Chrome/1440×900/DPR1/cache disabled/첫8초 조건에서 기존 3회 표본과 적용 후 3회를 비교했다. 이미지 encoded는 **18.077807MB → 10.850719MB**(7.227088MB/39.98% 감소), 전체 encoded 중앙값은 **19.078946MB → 11.851890MB**(7.227056MB/37.88% 감소), 요청 수는64/64/64로 동일했다. HYUNDAI 요청은 PNG7,344,328 encoded bytes에서 WebP117,240bytes로 바뀌었다. LCP는 기존1040/916/916ms(중앙916) 대비1020/940/916ms(중앙940)로 범위가 겹치므로 개선으로 단정하지 않는다. CLS 범위도 양쪽 모두0.000442–0.000881로 동일하다. JS encoded는275,392→275,397bytes, production JS는972,118→972,123bytes로 경로 문자열5bytes만 증가했고 CSS119,438bytes는 동일하다.
+
+5개 viewport에서 이미지 layout은 기존 PNG와 동일한305×172/242×136/194×109/194×109/140×79px,가로 넘침0,로드 중 관측 CLS0이었다.1920/390 DPR3에서 필요한915/420px를 자연 폭960px가 충족했다.자동 프리뷰는0/2526/5026ms에01 HYUNDAI→02 VIVIENNE→03 COS로 이미지·캡션이 동기화됐다.PROFILE WebGL ready/canvas,INTRO GSAP 정·역방향,PROCESS native lazy(초기 미요청→진입 시 현재 패널 준비),AI4편 metadata/muted/loop/playsInline,챗봇 수동 패널,ABOUT5카드 전환을 확인했다.런타임 예외·HTTP4xx/5xx·이미지404는0이다. 근거는 [분석/적용 폴더](../.review/hyundai-hero-optimization-20261106/)의 `REPORT.md`,`perf-applied.json`,`regression-applied.json`,`process-applied.json`이다.빌드는72 modules/exit0이며500kB 경고는 유지했다.이 로컬 적용은 아직 Commit/Push/Vercel 배포하지 않았다.
+
+### 11-06 PROFILE WebP 적용
+
+사전 분석에서 desktop 최대 표시410×527px/DPR3 필요량1230×1583px를 확인한 뒤, 검증 후보 `1600×2058 WebP quality .95`를 `public/images/profile/profile-1600.webp`로 추가하고 `src/components/ProfileIntro.jsx`의 HTML `img` 경로 한 줄만 변경했다. 후보와 제품 파일 SHA256은 `DC9D0FB69570DFC6879343177929713CBA3B78AFCA0314BAD8310B410E283067`로 동일하다. 원본 `profile-portrait.jpg.jpg`(2837×3649/4,951,045bytes/SHA256 `2AD2EE95365CDDAB8975D291B745E553FE0F92512ACB9A6F228AA0DD93340FA3`)는 수정·삭제하지 않았다. `crossOrigin="anonymous"`, `currentSrc || src` TextureLoader 공유, sRGB·LinearFilter·mipmap 비활성, UV·셰이더·GSAP·CSS는 변경하지 않았다.
+
+동일 production preview/Chrome/1440×900/DPR1/cache disabled/첫8초 조건에서 HYUNDAI 최적화 후 기준3회와 PROFILE 적용 후3회를 비교했다. 이미지 encoded는 **10.850719MB → 6.442340MB**(4.408379MB/40.63% 감소), 전체 encoded 중앙값은 **11.851890MB → 7.443475MB**(4.408415MB/37.20% 감소)였다. PROFILE 요청은 1회/542,990 encoded bytes이며 파일 payload는542,668bytes다. 요청 수는 기존64/64/64에서65/64/64로 첫 회의 비본질적 요청 1개 변동이 있었다. LCP는 기존1020/940/916ms(중앙940) 대비936/836/836ms(중앙836)였지만 각3회·로컬 headless 표본이므로 통계적 개선으로 단정하지 않는다. CLS는 양쪽 모두0.000442–0.000881 범위이고 JS encoded는275,397→275,399bytes로 실질적으로 동일하다.
+
+5개 viewport에서 PROFILE layout은 기존 JPG와 동일한410×527/410×527/316.92×407.63/360×463.03/252×324.13px이고, WebGL ready·GL error0·단일 요청·CLS0·가로 넘침0을 확인했다.1920/390의 DPR2·3에서 필요한 최대1230×1582/756×972px를 자연 크기1600×2058이 충족했다. reduced-motion 1440/390도 정적 WebGL 표시와 단일 요청을 유지했다. 격리된 curl 3회 왕복360프레임은 평균16.63ms/최대16.8ms/25ms 초과0이었으나 Chrome headless/제한 없음 환경의 결과이며 저사양 실기기 성능을 뜻하지 않는다. 5폭 전체 사이트에서 GPU context, AI4편, ABOUT5카드, 주요 섹션 잘림·가로 넘침을 재검증했고 1440에서 CLONE3카드 정·역방향, 개인 작업/INTRO 왕복도 통과했다. 근거는 [PROFILE 분석/적용 폴더](../.review/profile-image-optimization-20261106/)의 `REPORT.md`, `profile-regression-applied.json`, `site-review-applied.json`, `motion-applied.json`, `perf-profile-applied.json`, `timing-applied.json`이다. 로컬 적용은 아직 Commit/Push/Vercel 배포하지 않았다.
+
 ### 같은 조건의 전후 측정
 
 로컬 **production Vite preview**,Chrome headless,1440×900,DPR1,HTTP cache disabled,CPU/네트워크 제한 없음,스크롤 없이 최초8초. 동일 브라우저/재사용 프로필에서 전후 각3회 측정했다. 별도 상세 표본은 DOM 가시성 120ms 샘플러를 포함하므로 주 비교 수치에서 제외했다. 공개 배포·실사용자·실제 모바일 결과가 아니다.
@@ -150,7 +166,7 @@ CSS/GSAP/챗봇/폰트/영상/의존성/Vite 설정은 변경하지 않았다. �
 | TaskDuration 중앙값 | 1.451185s | 1.485147s | 약34ms 증가,전체 메인 스레드 개선 미입증 |
 | ScriptDuration 중앙값 | 0.347646s | 0.323426s | 편차가 있어 JS 실행 개선으로 단정하지 않음 |
 
-근거: [전후 집계](../.review/loading-performance-20261105/comparison.json),[before](../.review/loading-performance-20261105/perf-before.json),[after](../.review/loading-performance-20261105/perf-after.json),[상세 before](../.review/loading-performance-20261105/perf-before-detail.json),[상세 after](../.review/loading-performance-20261105/perf-after-detail.json). 과거 [최적화 보고서](FINAL_OPTIMIZATION_REVIEW_2026-11-04.md)의26.58MB/25.58MB/LCP972ms는 역사적 단일 표본이며 이번 반복 표본으로 대체한다. 기존 MY CONTRIBUTION 사진 공간 예약에 의한 CLS 개선은 별개로 유지한다.
+근거: [전후 집계](../.review/loading-performance-20261105/comparison.json),[before](../.review/loading-performance-20261105/perf-before.json),[after](../.review/loading-performance-20261105/perf-after.json),[상세 before](../.review/loading-performance-20261105/perf-before-detail.json),[상세 after](../.review/loading-performance-20261105/perf-after-detail.json). 과거 [최적화 보고서](archive/FINAL_OPTIMIZATION_REVIEW_2026-11-04.md)의26.58MB/25.58MB/LCP972ms는 역사적 단일 표본이며 이번 반복 표본으로 대체한다. 기존 MY CONTRIBUTION 사진 공간 예약에 의한 CLS 개선은 별개로 유지한다.
 
 ### 이미지·폰트·영상 요청 분석
 
@@ -158,9 +174,9 @@ CSS/GSAP/챗봇/폰트/영상/의존성/Vite 설정은 변경하지 않았다. �
 
 | 구분 | 발견·판단 |
 |---|---|
-| INTRO 실제 초기 표시 | HYUNDAI hero7.34MB/3842×2160,VIVIENNE0.50MB,COS0.83MB.3개 순환·원본·요청 정책 유지.현재 프리뷰 슬롯은 약253×157px(1440폭 표본),큰 hero는 파생본 검토 우선 후보 |
+| INTRO 실제 초기 표시 | HYUNDAI는 INTRO 전용 WebP0.117MB/960×540로 적용하고3842×2160 원본 PNG는 보존.VIVIENNE0.50MB,COS0.83MB와3개 순환·요청 정책 유지.현재 프리뷰 슬롯은 약253×157px(1440폭 표본),최대305px/DPR3까지 검증 |
 | INTRO 준비 시각 | 상세 표본에서 첫 HYUNDAI 준비 약701→704ms,VIVIENNE3135→3082ms,COS5663→5602ms.후속 두 프리뷰는 최초 가시 표본에서 준비됨.120ms 샘플 오차가 있어 프레임 단위 무지연을 보장하는 값은 아님 |
-| PROFILE | 최초 스크롤 대비 초기 사진/텍스처 준비 유지.410×527px 표시/2837×3649 원본.같은 URL의 두 요청 모드 차이만 제거.초기 img 가시성 null은 숨겨진 PROFILE/캔버스 대체를 포함하므로 미사용 판정이 아님 |
+| PROFILE | 최초 스크롤 대비 초기 사진/텍스처 준비 유지.410×527px 최대 표시,1600×2058 WebP를 HTML/TextureLoader가 같은 URL로 1회 요청.2837×3649 원본 JPG는 보존.초기 img 가시성 null은 숨겨진 PROFILE/캔버스 대체를 포함하므로 미사용 판정이 아님 |
 | PROCESS 6장 | 시장 조사·회의 기록·페르소나·설문·마인드맵·와이어프레임.각각 약0.10/0.56/1.33/0.30/0.12/0.14MB.초기 offscreen,전후 첫8초 요청6→0.접근/가로 이동 시 브라우저 native lazy가 로드 |
 | 기타 선행 이미지 | HYUNDAI 첫 데스크톱/모바일 타일,프레임·동영상 poster,개인 노트북 프레임1.03MB,ABOUT 필름스트립 사진,마스코트0.83MB 요청은 유지.즉시 초기 화면에 모두 필요한 것은 아니며 다음 단계의 선행 준비/회전·재생 정책과 연결됨 |
 | CSS background/preload | main의 computed background 표본은 CLONE gradient3개이며 추가 URL 배경 이미지가 없었음.index.html에 이미지 preload 없음.컴포넌트의 src/decode/동영상 poster가 선행 요청 원인 |
@@ -211,7 +227,7 @@ simple-icons는 설치되어 있지만 이 실제 청크에는 포함되지 않�
 
 | 별도 승인 후 검토할 후보 | 유지할 검증 조건 |
 |---|---|
-| 우선순위1: INTRO HYUNDAI7.34MB,PROFILE4.95MB의 적정 크기/WebP·AVIF 파생본 | 남은18.08MB 이미지 전송의 큰 비중.원본 보존,원본 경로 교체/대량 변환 전 승인.목업 글자/인물·GPU 텍스처의 확대 선명도·색상 비교 필요.변환 표본을 만들지 않았으므로 절감량 추정치를 확정하지 않음 |
+| PROFILE WebP 실기기 확인 | 1600×2058 WebP 적용·Chrome 회귀 검증 완료.원본 JPG는 보존.실제 iOS Safari/Android·저사양 GPU·확대 환경의 인물 디테일과 context loss는 추가 확인 필요 |
 | 우선순위2: PROFILE Three.js/비초기 섹션 코드 분할 | 큰 초기 JS 비용 절감 가능하나 mount/레이아웃·pin/refresh/GPU·정역방향/모바일/reduced-motion 전체 재검증 필요.주요 구조 변경은 승인 대상.단지 청크 경고 기준을 올리지 않음 |
 | 우선순위3: eager 프레임·poster,ABOUT decode의 선행 로딩 세분화 | 목업/순환 준비를 늦출 수 있어 현재 유지.예상 이점은 요청 시점 조정이며 실제 절감은 추가 표본 필요.상태/observer 구조 변경을 동반하면 별도 검토 |
 | AI4편84.07MB 등 영상 재인코딩 | 원본/화질/음성/색·자동재생/controls 검증.이번까지 미실행 |
@@ -219,7 +235,7 @@ simple-icons는 설치되어 있지만 이 실제 청크에는 포함되지 않�
 | 미참조 simple-icons/패키지 변경 | 설치 용량과 실제 번들 효과를 구분.제거/업데이트 미실행 |
 | 외부 폰트·배포 업로드 경계 | Pretendard/Google Fonts swap 유지,가중치·외형 비교.QA 폴더 업로드 포함 여부는 실제 배포 방식 확인 후 판단 |
 
-자산251개 전수 목록은 [CSV](ASSET_AUDIT_2026-11-04.csv)에 있다.원본 JPG/WebP·제작 자산·미사용 가능성이 높은 파일·미확정 파일은 구분한다.
+자산251개 전수 목록은 [CSV](archive/ASSET_AUDIT_2026-11-04.csv)에 있다.원본 JPG/WebP·제작 자산·미사용 가능성이 높은 파일·미확정 파일은 구분한다.
 
 실물 iOS/Android·터치·Safari/Firefox·저사양 GPU·다양한 확대율/안전 영역·느린 회선·실사용자 INP는 미검증이다.5개 viewport 검증을 실제 휴대폰 검증으로 표현하지 않는다.긴 프레임·외부 폰트 의존과 큰 이미지/JS 부담은 남아 있다.
 

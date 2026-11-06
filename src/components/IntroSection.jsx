@@ -8,7 +8,7 @@ const workNavigation = [
 ]
 
 const introPreviews = [
-  { src: '/images/hyundai/intro-home-hero.png', alt: 'Hyundai Motorstudio Figma home hero preview', label: 'HYUNDAI MOTORSTUDIO' },
+  { src: '/images/hyundai/intro-home-hero-960.webp', alt: 'Hyundai Motorstudio Figma home hero preview', label: 'HYUNDAI MOTORSTUDIO' },
   { src: '/images/personal-projects/vivienne-westwood-latest/02-hero.png', alt: 'Vivienne Westwood Figma hero preview', label: 'VIVIENNE WESTWOOD' },
   { src: '/images/personal-projects/cos-sections/01-hero.webp', alt: 'COS Figma hero preview', label: 'COS' },
 ]

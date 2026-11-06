@@ -1,6 +1,6 @@
 # THE WORKING EDITION — 문서 목차
 
-갱신: 2026-11-05. 사이트 코드 변경 없이 기존19개 Markdown과CSV1개를 조사·통합했다. **현재 상태는 아래 세 문서로 파악하며 날짜별 보고서를 모두 읽을 필요가 없다.**
+갱신: 2026-11-06. 기존 문서와 감사 자료를 보존하면서 루트 문서를 세 개로 정리했다. **현재 상태는 아래 세 문서로 파악하며 날짜별 보고서를 모두 읽을 필요가 없다.**
 
 ## 가장 먼저 읽을 문서
 
@@ -10,7 +10,7 @@
 
 최신 사용자 지시→현재 명세/최종 검수 요약→분야별 최신 증거→이전 기록/초기 제안 순으로 판단한다.과거 보고서의'유지','미검증','제안'을 후속 결과와 대조하지 않고 현재 작업으로 복원하지 않는다.과거 원문은 보관하고 충돌·대체 결과는 최종 요약에 명시했다.
 
-## 현재 구조와 경로 호환 예외
+## 현재 구조
 
 ~~~text
 docs/
@@ -18,24 +18,10 @@ docs/
   PORTFOLIO_CURRENT_SPEC.md
   FINAL_QA_SUMMARY.md
   planning/                    # 기획·콘텐츠·디자인 근거5개
-  archive/                     # 이전 검수7개 + 정리 전 명세/목차 원문2개
-  ASSET_AUDIT_2026-11-04.csv     # 경로 고정 부록
-  (경로 고정 날짜별 보고서5개)  # 아래 표 참조,새 현재 명세가 아님
+  archive/                     # 이전 검수·챗봇·성능 보고서, 감사 CSV, 명세/목차 이력
 ~~~
 
-원본 보고서를 보존하면서12개 문서를 이동했다.기존 명세/목차는 이력 사본을 먼저 보관한 뒤 현재 내용으로 재작성했다.총 원문20개(CSV포함)가 이력/이동/유지 위치에서 보존된다.
-
-루트를 정확히 세 파일만 남기면 아래 도구의 직접 읽기/출력 경로가 바뀐다.이번에는 .review의 기존 스크립트를 수정하지 않기 위해 **보고서5개와CSV는 이동하지 않았다**.이 파일들은 경로 호환을 위한 예외이고 읽기 시작점은 위 세 문서다.
-
-| 루트에 유지한 증거 | 실제 내용·우선순위 | 경로를 참조하는 도구 |
-|---|---|---|
-| [CHATBOT_BUBBLE_ALIGNMENT_FINAL_2026-11-05.md](CHATBOT_BUBBLE_ALIGNMENT_FINAL_2026-11-05.md) | 최신 최종 검수 / 실제 alpha 윤곽·최종 위치 | .review/chatbot-alignment-20261105/report.mjs:112 (writeFile wx) |
-| [CHATBOT_SPEECH_BUBBLE_REVIEW_2026-11-05.md](CHATBOT_SPEECH_BUBBLE_REVIEW_2026-11-05.md) | 최신 UX 검수 / tail·220/160ms; 위치만 후속 정렬 문서가 대체 | .review/chatbot-speech-20261105/report.mjs:153 (writeFile wx) |
-| [EDITORIAL_DESIGN_REVIEW_2026-11-04.md](EDITORIAL_DESIGN_REVIEW_2026-11-04.md) | 이전 검수 / GPU 검증·정렬 근거 | .review/editorial-20261104/report-metrics.mjs:4 (readFile/writeFile) |
-| [FINAL_OPTIMIZATION_REVIEW_2026-11-04.md](FINAL_OPTIMIZATION_REVIEW_2026-11-04.md) | 분야별 최종 근거 / CLS·자산·성능, 실제 완료일11-05 | .review/final-optimization-20261104/write-report.mjs:254 (writeFile wx) |
-| [RECORDING_BALANCE_REVIEW_2026-11-04.md](RECORDING_BALANCE_REVIEW_2026-11-04.md) | 분야별 최종 근거 / 기여 정렬·사진; 챗봇은 후속 보고서가 대체 | .review/recording-balance-20261104/report-metrics.mjs:3 (readFile/writeFile) |
-
-[ASSET_AUDIT_2026-11-04.csv](ASSET_AUDIT_2026-11-04.csv)는 public/src 자산251개의 경로·해상도·참조·분류·SHA256이다. `.review/final-optimization-20261104/asset-report.mjs:25`가 이 경로에 직접 출력하므로 유지했다.정적 미발견/DOM 요청 확인/보존 원본/미확정을 구분하며 삭제 승인 목록이 아니다.
+기존 기획 문서는 `planning/`, 날짜별 검수·챗봇·성능 보고서와 감사 CSV는 `archive/`에 보존한다. 경로를 직접 사용하던 활성 QA 스크립트는 archive 경로로 갱신했다. 과거 JSON·로그·상태 스냅샷에 기록된 당시 경로는 역사적 증거이므로 변경하지 않는다.
 
 ## 기획·콘텐츠·디자인 자료
 
@@ -60,6 +46,12 @@ SITE_ARCHITECTURE의 개별 상세 URL,CONTENT_INVENTORY의 다른 작업 경로
 | [NUMBER_MOBILE_FINAL_2026-11-03.md](archive/NUMBER_MOBILE_FINAL_2026-11-03.md) | 장식 번호·캡션11px·모바일 가림 방지 |
 | [RESUMED_FINAL_REVIEW_2026-11-04.md](archive/RESUMED_FINAL_REVIEW_2026-11-04.md) | 중단 재개·모바일 표시 안정성 추가 검증 |
 | [TEXT_NUMBER_REVIEW_2026-11-03.md](archive/TEXT_NUMBER_REVIEW_2026-11-03.md) | 불필요 문구·고정 번호 정리 |
+| [EDITORIAL_DESIGN_REVIEW_2026-11-04.md](archive/EDITORIAL_DESIGN_REVIEW_2026-11-04.md) | 디자인 위계·정렬·여백 및 GPU 검증 |
+| [RECORDING_BALANCE_REVIEW_2026-11-04.md](archive/RECORDING_BALANCE_REVIEW_2026-11-04.md) | 녹화 기반 균형·MY CONTRIBUTION 정렬 |
+| [FINAL_OPTIMIZATION_REVIEW_2026-11-04.md](archive/FINAL_OPTIMIZATION_REVIEW_2026-11-04.md) | 챗봇 충돌·성능·파일 감사 최종 기록 |
+| [CHATBOT_SPEECH_BUBBLE_REVIEW_2026-11-05.md](archive/CHATBOT_SPEECH_BUBBLE_REVIEW_2026-11-05.md) | 자동 말풍선 UX와 충돌 퇴장 검증 |
+| [CHATBOT_BUBBLE_ALIGNMENT_FINAL_2026-11-05.md](archive/CHATBOT_BUBBLE_ALIGNMENT_FINAL_2026-11-05.md) | 실제 alpha 윤곽 기준 최종 위치 검증 |
+| [ASSET_AUDIT_2026-11-04.csv](archive/ASSET_AUDIT_2026-11-04.csv) | public/src 자산251개의 경로·용량·참조·SHA256 감사 |
 
 - [PORTFOLIO_SPEC_HISTORY.md](archive/PORTFOLIO_SPEC_HISTORY.md): 정리 전33KB 명세 원문.10월 기록·11월 수정 과정과 이제 해결된 미정 사항을 보존한 이력이며 현행 명세가 아니다.
 - [DOCS_INDEX_HISTORY.md](archive/DOCS_INDEX_HISTORY.md): 이동 전 분류/목차 원문.당시'이동하지 않는다'는 문구는 이번 사용자의 문서 이동 허용으로 대체됐다.
@@ -70,7 +62,7 @@ SITE_ARCHITECTURE의 개별 상세 URL,CONTENT_INVENTORY의 다른 작업 경로
 
 ## 남은 최적화 과제와 실제 기기 한계
 
-[최종 검수 요약](FINAL_QA_SUMMARY.md)의 성능/미검증 항목을 우선한다.단일 대형 JS 청크,초기 이미지약25.58MB,원본/영상 품질을 보존한 파생본·코드 분할·폰트/패키지·업로드 경계가 후보로 남아 있다.자산 삭제/대량 변환/재인코딩/패키지 변경/GSAP 구조 변경은 아직 실행하지 않았다.
+[최종 검수 요약](FINAL_QA_SUMMARY.md)의 성능/미검증 항목을 우선한다.HYUNDAI와 PROFILE WebP 적용 이후에도 단일 대형 JS 청크,영상 재인코딩,코드 분할·폰트/패키지·업로드 경계가 후보로 남아 있다.자산 삭제/대량 변환/패키지 변경/GSAP 구조 변경은 실행하지 않았다.
 
 실물 iOS/Android·터치·Safari/Firefox·저사양/느린 회선·실사용자 성능은 기존 viewport 검수와 구분한다.이번 문서 정리에서 사이트 디자인·빌드·브라우저 검사를 새로 통과했다고 기록하지 않는다.
 

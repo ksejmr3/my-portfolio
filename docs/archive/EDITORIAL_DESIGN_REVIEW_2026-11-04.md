@@ -18,7 +18,7 @@
 
 실제 제품 소스 변경은 **5개**다. 마스코트, PROFILE, HYUNDAI 상세, AI VIDEO, CLONE, SKILL, ABOUT, CONTACT 소스와 데이터는 이번에 수정하지 않았다. 과거부터 Git에 표시되는 변경 파일 수와 구분해야 한다.
 
-검증 전용 자료는 [`.review/editorial-20261104/`](../.review/editorial-20261104/)에 있다. `.review`는 기존 Git ignore 대상이며 제품의 import 경로에 연결하지 않았다. 사용자 파일이나 이전 검증 폴더를 삭제하지 않았다.
+검증 전용 자료는 [`.review/editorial-20261104/`](../../.review/editorial-20261104/)에 있다. `.review`는 기존 Git ignore 대상이며 제품의 import 경로에 연결하지 않았다. 사용자 파일이나 이전 검증 폴더를 삭제하지 않았다.
 
 | 자료 | 용도 |
 |---|---|
@@ -97,7 +97,7 @@ x는 각 프로젝트 article 기준이다. 실제 글리프의 side bearing은 
 | 768×1024 | 42 / 42 → 39 | 25.59 | 25.59 | 8 | 12 |
 | 390×844 | 40.44 / 40.44 → 37.44 | 18 | 21.09 | 8 | 12 |
 
-MY WORK의 CSS grid gap은 5px이며 표의 8–9px은 서체 여유를 포함한 실제 텍스트 Range 기준이다. 나머지 간격은 요소 박스 경계 기준이다. 자세한 좌표·그룹 높이·padding·서체는 부록 A와 [metrics.csv](../.review/editorial-20261104/metrics.csv)에 기록했다.
+MY WORK의 CSS grid gap은 5px이며 표의 8–9px은 서체 여유를 포함한 실제 텍스트 Range 기준이다. 나머지 간격은 요소 박스 경계 기준이다. 자세한 좌표·그룹 높이·padding·서체는 부록 A와 [metrics.csv](../../.review/editorial-20261104/metrics.csv)에 기록했다.
 
 ## 7. 전체 타이포그래피·여백 점검
 
