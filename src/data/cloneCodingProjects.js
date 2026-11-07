@@ -8,7 +8,6 @@ export const cloneCodingProjects = [
     imageAlt: 'KYUNGDONG 메인 페이지 실제 배포 화면',
     previewNote: null,
     liveUrl: 'https://clonecoding-kyungdong.vercel.app/',
-    sourceUrl: 'https://github.com/ksejmr3/CloneCoding/tree/main/kyungdong',
   },
   {
     id: 'lotteworld',
@@ -19,7 +18,6 @@ export const cloneCodingProjects = [
     imageAlt: 'LOTTE WORLD 민속박물관 메인 페이지 실제 배포 화면',
     previewNote: null,
     liveUrl: 'https://clonecoding-lotteworld.vercel.app/',
-    sourceUrl: 'https://github.com/ksejmr3/CloneCoding/tree/main/lotteworld',
   },
   {
     id: 'musign',
@@ -30,6 +28,5 @@ export const cloneCodingProjects = [
     imageAlt: 'MUSIGN 메인 페이지 실제 배포 화면',
     previewNote: null,
     liveUrl: 'https://clonecoding-musign.vercel.app/',
-    sourceUrl: 'https://github.com/ksejmr3/CloneCoding/tree/main/musign',
   },
 ]

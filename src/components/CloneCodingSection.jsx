@@ -21,7 +21,7 @@ function ClonePreview({ project, onPending }) {
       <img src={project.image} alt={project.imageAlt} loading="lazy" decoding="async" />
       <span className="clone-coding__preview-shade" />
       {project.previewNote && <span className="clone-coding__preview-note">{project.previewNote}</span>}
-      <span className="clone-coding__preview-status">{project.liveUrl ? 'VIEW WEBSITE' : 'DEPLOYMENT PENDING'} <i>↗</i></span>
+      <span className="clone-coding__preview-status">{project.liveUrl ? 'SITE VIEW' : 'DEPLOYMENT PENDING'} <i>↗</i></span>
     </>
   )
 
@@ -153,7 +153,6 @@ export default function CloneCodingSection() {
               <div className="clone-coding__project-meta">
                 <h3>{project.name}</h3>
                 <p>{project.description}</p>
-                <a className="clone-coding__source" href={project.sourceUrl} target="_blank" rel="noreferrer">SOURCE CODE <span aria-hidden="true">↗</span></a>
               </div>
             </article>
           ))}
