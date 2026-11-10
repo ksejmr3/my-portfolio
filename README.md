@@ -65,7 +65,7 @@ my-portfolio/
 
 - [HYUNDAI MOTORSTUDIO 구현 사이트](https://mbc-teamproject-wheat.vercel.app/)
 - [VIVIENNE WESTWOOD 개인 리디자인](https://vivienne-westwood-portfolio.vercel.app/)
-- [COS KOREA 개인 리디자인](https://cos-portfolio-kjy7.vercel.app/)
+- [COS KOREA 개인 리디자인](https://cos-portfolio-pied.vercel.app/)
 - [CLONE CODING 소스 저장소](https://github.com/ksejmr3/CloneCoding)
 
 포트폴리오의 CLONE CODING 섹션에는 KYUNGDONG, LOTTE WORLD, MUSIGN 총 3개의 구현 사이트와 소스 폴더 링크가 등록되어 있습니다. 위 배포 URL의 현재 응답 상태는 이 문서에서 보증하지 않습니다.

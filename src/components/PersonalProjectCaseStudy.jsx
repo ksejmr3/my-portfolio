@@ -56,7 +56,7 @@ const projectContent = {
       { src: '/images/personal-projects/cos-sections/10-footer.webp', width: 1920, height: 1080 },
     ],
     designAlt: 'COS Korea 랜딩페이지 디자인 미리보기',
-    liveUrl: 'https://cos-portfolio-kjy7.vercel.app/',
+    liveUrl: 'https://cos-portfolio-pied.vercel.app/',
     theme: 'cos',
     summary: 'COS의 절제된 형태와 소재 표현을 바탕으로, 캠페인에서 제품과 브랜드 스토리로 이어지는 흐름을 여백과 뉴트럴 이미지로 구성했습니다.',
     role: 'Figma 화면을 설계하고 React 기반 랜딩페이지로 구현했습니다.',
